@@ -6,6 +6,7 @@ from packages.attribute_upload import attributeUpload
 from packages.variation_upload import variationUpload, setActive, EANUpload
 from packages.stock_upload import stockUpload, priceUpload
 from packages.UploadGUI import UploadGUI
+from packages.amazon_data_upload import amazon_sku_upload
 
 
 def main():
@@ -22,13 +23,15 @@ def main():
     print("spreadsheet csv containing the flatfile : ", sheet)
     print("spreadsheet csv containing the intern numbers : ", intern_number)
     try:
-        itempath = itemUpload(sheet, intern_number)
+        print("Item Upload")
+        # itempath = itemUpload(sheet, intern_number)
     except Exception as exc:
         print(exc)
         print("Item Upload failed!")
 
     try:
-        variationpath = variationUpload(sheet, intern_number)
+        print("Variation Upload")
+        # variationpath = variationUpload(sheet, intern_number)
     except Exception as exc:
         print(exc)
         print("VariationUpload failed!")
@@ -43,9 +46,10 @@ def main():
         print("Something went wrong at the Export file import!")
     print("spreadsheet csv containing the export : ", export)
     try:
-        EANUpload(sheet, export)
-        setActive(sheet, export)
-        priceUpload(sheet, export)
+        print("EAN, Active & Price Upload")
+        # EANUpload(sheet, export)
+        # setActive(sheet, export)
+        # priceUpload(sheet, export)
     except FileNotFoundError as err:
         print(err)
         print("Missing Data, check if you have\n - a flatfile\n - a intern file table\n - export file from plentymarkets\n - a sheet with the stock numbers!\n")
@@ -53,18 +57,18 @@ def main():
     print("\nOpen your amazon storage report and save it as an csv.\n")
     stocklist = askopenfilename()
     print("spreadsheet csv containing the current stock : ", stocklist)
+    
+    # stockUpload(sheet, export, stocklist)
 
-    stockUpload(sheet, export, stocklist)
-    # try:
+    print("\nCreate a upload file for the SKU and Parent_SKU\nto connect existing items from amazon to plentyMarkets.\n")
 
+    amazon_sku_upload(sheet, export)
     # In case of new attributes uncomment and watch attribute_upload.py first
     # try:
-        # attributeUpload(sheet)
+    # attributeUpload(sheet)
     # except:
-        #print("Attribute Upload failed!")
+    #print("Attribute Upload failed!")
 
 
 if __name__ == '__main__':
     main()
-
-

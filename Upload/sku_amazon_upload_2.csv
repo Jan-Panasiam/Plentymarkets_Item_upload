@@ -1,0 +1,336 @@
+VariationID;MarketID;MarketAccountID;SKU;ParentSKU
+1639;4;0;AkaliLeggings 3/4 (1401) Black L;AkaliLeggings parent
+1640;4;0;AkaliLeggings 3/4 (1401) Black M;AkaliLeggings parent
+1641;4;0;AkaliLeggings 3/4 (1401) Black S;AkaliLeggings parent
+1642;4;0;AkaliLeggings 3/4 (1401) Brown L;AkaliLeggings parent
+1643;4;0;AkaliLeggings 3/4 (1401) Brown M;AkaliLeggings parent
+1644;4;0;AkaliLeggings 3/4 (1401) Brown S;AkaliLeggings parent
+1645;4;0;AkaliLeggings 3/4 (1401) Olive-green L;AkaliLeggings parent
+1646;4;0;AkaliLeggings 3/4 (1401) Olive-green M;AkaliLeggings parent
+1647;4;0;AkaliLeggings 3/4 (1401) Olive-green S;AkaliLeggings parent
+1635;4;0;AkaliLeggings parent;
+1592;4;0;BagSchultersackaLINIbeigeL;Schultersack2Size
+1605;4;0;BagSchultersackaLINIbeigeM;Schultersack2Size
+1595;4;0;BagSchultersackaLINIblueL;Schultersack2Size
+1608;4;0;BagSchultersackaLINIblueM;Schultersack2Size
+1594;4;0;BagSchultersackaLINIgrauL;Schultersack2Size
+1607;4;0;BagSchultersackaLINIgrauM;Schultersack2Size
+1590;4;0;BagSchultersackaLINIoliveL;Schultersack2Size
+1603;4;0;BagSchultersackaLINIoliveM;Schultersack2Size
+1588;4;0;BagSchultersackaLINIschwarzL;Schultersack2Size
+1601;4;0;BagSchultersackaLINIschwarzM;Schultersack2Size
+1636;4;0;LeggingsBatik1 parent;
+1637;4;0;LeggingsBatik2 parent;
+1638;4;0;LeggingsNparent;
+1418;4;0;Schultersack2Size;
+1419;4;0;Schultersack2Size2DesignElefant;
+1420;4;0;Schultersack2SizeEOwebmuster;
+1609;4;0;SchultersackD01AsanohaBlauL;Schultersack2SizeGeometrix
+1610;4;0;SchultersackD01AsanohaBraunL;Schultersack2SizeGeometrix
+1611;4;0;SchultersackD01AsanohaGreyL;Schultersack2SizeGeometrix
+1612;4;0;SchultersackD01AsanohaOrangeL;Schultersack2SizeGeometrix
+1613;4;0;SchultersackD01AsanohaSchwarzL;Schultersack2SizeGeometrix
+1614;4;0;SchultersackD01AsanohaVioleteL;Schultersack2SizeGeometrix
+1615;4;0;SchultersackD01AsanohaWhiteL;Schultersack2SizeGeometrix
+1616;4;0;SchultersackD02AsanohaBlauM;Schultersack2SizeGeometrix
+1617;4;0;SchultersackD02AsanohaBraunM;Schultersack2SizeGeometrix
+1618;4;0;SchultersackD02AsanohaGreyM;Schultersack2SizeGeometrix
+1619;4;0;SchultersackD02AsanohaOrangeM;Schultersack2SizeGeometrix
+1620;4;0;SchultersackD02AsanohaSchwarzM;Schultersack2SizeGeometrix
+1621;4;0;SchultersackD02AsanohaVioleteM;Schultersack2SizeGeometrix
+1622;4;0;SchultersackD02AsanohaWitheM;Schultersack2SizeGeometrix
+1623;4;0;SchultersackK01FlowerLifeGreyL;Schultersack2SizeGeometrix
+1624;4;0;SchultersackK01FlowerLifeOrangeL;Schultersack2SizeGeometrix
+1625;4;0;SchultersackK01FlowerLifeSchwarzL;Schultersack2SizeGeometrix
+1626;4;0;SchultersackK01FlowerLifeWhiteL;Schultersack2SizeGeometrix
+1627;4;0;SchultersackK02FlowerLifeGreyM;Schultersack2SizeGeometrix
+1628;4;0;SchultersackK02FlowerLifeOrangeM;Schultersack2SizeGeometrix
+1629;4;0;SchultersackK02FlowerLifeSchwarzM;Schultersack2SizeGeometrix
+1630;4;0;SchultersackK02FlowerLifeWitheM;Schultersack2SizeGeometrix
+1631;4;0;SchultersackPckBlauL;Schultersack2SizeGeometrix
+1632;4;0;SchultersackPckBlauM;Schultersack2SizeGeometrix
+1633;4;0;SchultersackPckSchwarzL;Schultersack2SizeGeometrix
+1634;4;0;SchultersackPckSchwarzM;Schultersack2SizeGeometrix
+1589;4;0;SchultersackUniBordeauxRotL;Schultersack2Size
+1602;4;0;SchultersackUniBordeauxRotM;Schultersack2Size
+1587;4;0;SchultersackUniDblauL;Schultersack2Size
+1600;4;0;SchultersackUniDblauM;Schultersack2Size
+1586;4;0;SchultersackUniGrauL;Schultersack2Size
+1599;4;0;SchultersackUniGrauM;Schultersack2Size
+1591;4;0;SchultersackUniOlivenGruenL;Schultersack2Size
+1604;4;0;SchultersackUniOlivenGruenM;Schultersack2Size
+1583;4;0;SchultersackUniRotL;Schultersack2Size
+1596;4;0;SchultersackUniRotM;Schultersack2Size
+1593;4;0;SchultersackUniSafronGelbL;Schultersack2Size
+1606;4;0;SchultersackUniSafronGelbM;Schultersack2Size
+1584;4;0;SchultersackUniSchwarzL;Schultersack2Size
+1597;4;0;SchultersackUniSchwarzM;Schultersack2Size
+1585;4;0;SchultersackUniWeissL;Schultersack2Size
+1454;4;0;SchultertascheFO1muster01L;SchultertascheFOwebmuster
+1455;4;0;SchultertascheFO1muster02L;SchultertascheFOwebmuster
+1456;4;0;SchultertascheFO1muster03L;SchultertascheFOwebmuster
+1457;4;0;SchultertascheFO1muster04L;SchultertascheFOwebmuster
+1458;4;0;SchultertascheFO1muster05L;SchultertascheFOwebmuster
+1459;4;0;SchultertascheFO1muster06L;SchultertascheFOwebmuster
+1460;4;0;SchultertascheFO1muster07L;SchultertascheFOwebmuster
+1461;4;0;SchultertascheFO1muster08L;SchultertascheFOwebmuster
+1422;4;0;SchultertascheFOwebmuster;
+1386;4;0;ShirtBen001BlackL;ShirtBen001parent
+1387;4;0;ShirtBen001BlackM;ShirtBen001parent
+1388;4;0;ShirtBen001BlackXL;ShirtBen001parent
+1389;4;0;ShirtBen001BlackXXL;ShirtBen001parent
+1390;4;0;ShirtBen001BlueL;ShirtBen001parent
+1391;4;0;ShirtBen001BlueM;ShirtBen001parent
+1392;4;0;ShirtBen001BlueXL;ShirtBen001parent
+1393;4;0;ShirtBen001BlueXXL;ShirtBen001parent
+1291;4;0;ShirtBen001HEMPparent;
+1326;4;0;ShirtBen001HempBlackL;ShirtBen001HEMPparent
+1327;4;0;ShirtBen001HempBlackL_Longsleeve;ShirtBen001HEMPparent
+1328;4;0;ShirtBen001HempBlackM;ShirtBen001HEMPparent
+1329;4;0;ShirtBen001HempBlackM_Longsleeve;ShirtBen001HEMPparent
+1330;4;0;ShirtBen001HempBlackXL;ShirtBen001HEMPparent
+1331;4;0;ShirtBen001HempBlackXL_Longsleeve;ShirtBen001HEMPparent
+1332;4;0;ShirtBen001HempBlackXXL;ShirtBen001HEMPparent
+1333;4;0;ShirtBen001HempBlackXXL_Longsleeve;ShirtBen001HEMPparent
+1334;4;0;ShirtBen001HempCreamWhiteL;ShirtBen001HEMPparent
+1335;4;0;ShirtBen001HempCreamWhiteL_Longsleeve;ShirtBen001HEMPparent
+1336;4;0;ShirtBen001HempCreamWhiteM;ShirtBen001HEMPparent
+1337;4;0;ShirtBen001HempCreamWhiteM_Longsleeve;ShirtBen001HEMPparent
+1338;4;0;ShirtBen001HempCreamWhiteXL;ShirtBen001HEMPparent
+1339;4;0;ShirtBen001HempCreamWhiteXL_Longsleeve;ShirtBen001HEMPparent
+1340;4;0;ShirtBen001HempCreamWhiteXXL;ShirtBen001HEMPparent
+1341;4;0;ShirtBen001HempCreamWhiteXXL_Longsleeve;ShirtBen001HEMPparent
+1342;4;0;ShirtBen001HempWeissL;ShirtBen001HEMPparent
+1343;4;0;ShirtBen001HempWeissL_Longsleeve;ShirtBen001HEMPparent
+1344;4;0;ShirtBen001HempWeissM;ShirtBen001HEMPparent
+1345;4;0;ShirtBen001HempWeissM_Longsleeve;ShirtBen001HEMPparent
+1346;4;0;ShirtBen001HempWeissXL;ShirtBen001HEMPparent
+1347;4;0;ShirtBen001HempWeissXL_Longsleeve;ShirtBen001HEMPparent
+1348;4;0;ShirtBen001HempWeissXXL;ShirtBen001HEMPparent
+1349;4;0;ShirtBen001HempWeissXXL_Longsleeve;ShirtBen001HEMPparent
+1394;4;0;ShirtBen001NaturL;ShirtBen001parent
+1395;4;0;ShirtBen001NaturM;ShirtBen001parent
+1396;4;0;ShirtBen001NaturXL;ShirtBen001parent
+1397;4;0;ShirtBen001NaturXXL;ShirtBen001parent
+1398;4;0;ShirtBen001WeissL;ShirtBen001parent
+1399;4;0;ShirtBen001WeissM;ShirtBen001parent
+1400;4;0;ShirtBen001WeissXL;ShirtBen001parent
+1401;4;0;ShirtBen001WeissXXL;ShirtBen001parent
+1292;4;0;ShirtBen001parent;
+1402;4;0;ShirtBen002BlackL_longsleeve;ShirtBen001parent
+1403;4;0;ShirtBen002BlackM_longsleeve;ShirtBen001parent
+1404;4;0;ShirtBen002BlackXL_longsleeve;ShirtBen001parent
+1405;4;0;ShirtBen002BlackXXL_longsleeve;ShirtBen001parent
+1406;4;0;ShirtBen002BlueL_longsleeve;ShirtBen001parent
+1407;4;0;ShirtBen002BlueM_longsleeve;ShirtBen001parent
+1408;4;0;ShirtBen002BlueXL_longsleeve;ShirtBen001parent
+1409;4;0;ShirtBen002BlueXXL_longsleeve;ShirtBen001parent
+1410;4;0;ShirtBen002NaturL_longsleeve;ShirtBen001parent
+1411;4;0;ShirtBen002NaturM_longsleeve;ShirtBen001parent
+1412;4;0;ShirtBen002NaturXL_longsleeve;ShirtBen001parent
+1413;4;0;ShirtBen002NaturXXL_longsleeve;ShirtBen001parent
+1414;4;0;ShirtBen002WeissL_longsleeve;ShirtBen001parent
+1415;4;0;ShirtBen002WeissM_longsleeve;ShirtBen001parent
+1416;4;0;ShirtBen002WeissXL_longsleeve;ShirtBen001parent
+1417;4;0;ShirtBen002WeissXXL_longsleeve;ShirtBen001parent
+1462;4;0;ShirtRZI01buttonBlackL;ShirtRZI01buttonParent
+1463;4;0;ShirtRZI01buttonBlackL_longsleeve;ShirtRZI01buttonParent
+1464;4;0;ShirtRZI01buttonBlackM;ShirtRZI01buttonParent
+1465;4;0;ShirtRZI01buttonBlackM_longsleeve;ShirtRZI01buttonParent
+1466;4;0;ShirtRZI01buttonBlackXL;ShirtRZI01buttonParent
+1467;4;0;ShirtRZI01buttonBlackXL_longsleeve;ShirtRZI01buttonParent
+1468;4;0;ShirtRZI01buttonBlackXXL;ShirtRZI01buttonParent
+1469;4;0;ShirtRZI01buttonBlackXXL_longsleeve;ShirtRZI01buttonParent
+1470;4;0;ShirtRZI01buttonBlackXXXL;ShirtRZI01buttonParent
+1471;4;0;ShirtRZI01buttonBlackXXXL_longsleeve;ShirtRZI01buttonParent
+1472;4;0;ShirtRZI01buttonNaturL;ShirtRZI01buttonParent
+1473;4;0;ShirtRZI01buttonNaturL_longsleeve;ShirtRZI01buttonParent
+1474;4;0;ShirtRZI01buttonNaturM;ShirtRZI01buttonParent
+1475;4;0;ShirtRZI01buttonNaturM_longsleeve;ShirtRZI01buttonParent
+1476;4;0;ShirtRZI01buttonNaturXL;ShirtRZI01buttonParent
+1477;4;0;ShirtRZI01buttonNaturXL_longsleeve;ShirtRZI01buttonParent
+1478;4;0;ShirtRZI01buttonNaturXXL;ShirtRZI01buttonParent
+1479;4;0;ShirtRZI01buttonNaturXXL_longsleeve;ShirtRZI01buttonParent
+1480;4;0;ShirtRZI01buttonNaturXXXL;ShirtRZI01buttonParent
+1481;4;0;ShirtRZI01buttonNaturXXXL_longsleeve;ShirtRZI01buttonParent
+1423;4;0;ShirtRZI01buttonParent;
+1482;4;0;ShirtRZI01buttonWeissL;ShirtRZI01buttonParent
+1483;4;0;ShirtRZI01buttonWeissL_longsleeve;ShirtRZI01buttonParent
+1484;4;0;ShirtRZI01buttonWeissM;ShirtRZI01buttonParent
+1485;4;0;ShirtRZI01buttonWeissM_longsleeve;ShirtRZI01buttonParent
+1486;4;0;ShirtRZI01buttonWeissXL;ShirtRZI01buttonParent
+1487;4;0;ShirtRZI01buttonWeissXL_longsleeve;ShirtRZI01buttonParent
+1488;4;0;ShirtRZI01buttonWeissXXL;ShirtRZI01buttonParent
+1489;4;0;ShirtRZI01buttonWeissXXL_longsleeve;ShirtRZI01buttonParent
+1490;4;0;ShirtRZI01buttonWeissXXXL;ShirtRZI01buttonParent
+1491;4;0;ShirtRZI01buttonWeissXXXL_longsleeve;ShirtRZI01buttonParent
+1492;4;0;ShirtRZI02ButtonfreeBlackL;ShirtRZI02ButtonfreeParent
+1493;4;0;ShirtRZI02ButtonfreeBlackM;ShirtRZI02ButtonfreeParent
+1494;4;0;ShirtRZI02ButtonfreeBlackXL;ShirtRZI02ButtonfreeParent
+1495;4;0;ShirtRZI02ButtonfreeBlackXXL;ShirtRZI02ButtonfreeParent
+1496;4;0;ShirtRZI02ButtonfreeBlackXXXL;ShirtRZI02ButtonfreeParent
+1424;4;0;ShirtRZI02ButtonfreeParent;
+1497;4;0;ShirtRZI02ButtonfreeWeissL;ShirtRZI02ButtonfreeParent
+1498;4;0;ShirtRZI02ButtonfreeWeissM;ShirtRZI02ButtonfreeParent
+1499;4;0;ShirtRZI02ButtonfreeWeissXL;ShirtRZI02ButtonfreeParent
+1500;4;0;ShirtRZI02ButtonfreeWeissXXL;ShirtRZI02ButtonfreeParent
+1501;4;0;ShirtRZI02ButtonfreeWeissXXXL;ShirtRZI02ButtonfreeParent
+1366;4;0;Shirt_H01_Beige_L;Shirt_H01_Parent
+1367;4;0;Shirt_H01_Beige_M;Shirt_H01_Parent
+1368;4;0;Shirt_H01_Beige_XL;Shirt_H01_Parent
+1369;4;0;Shirt_H01_Beige_XXL;Shirt_H01_Parent
+1370;4;0;Shirt_H01_Blue_L;Shirt_H01_Parent
+1371;4;0;Shirt_H01_Blue_M;Shirt_H01_Parent
+1372;4;0;Shirt_H01_Blue_XL;Shirt_H01_Parent
+1373;4;0;Shirt_H01_Blue_XXL;Shirt_H01_Parent
+1374;4;0;Shirt_H01_Grey_L;Shirt_H01_Parent
+1375;4;0;Shirt_H01_Grey_M;Shirt_H01_Parent
+1376;4;0;Shirt_H01_Grey_XL;Shirt_H01_Parent
+1377;4;0;Shirt_H01_Grey_XXL;Shirt_H01_Parent
+1378;4;0;Shirt_H01_Nature-white_L;Shirt_H01_Parent
+1379;4;0;Shirt_H01_Nature-white_M;Shirt_H01_Parent
+1380;4;0;Shirt_H01_Nature-white_XL;Shirt_H01_Parent
+1381;4;0;Shirt_H01_Nature-white_XXL;Shirt_H01_Parent
+1382;4;0;Shirt_H01_Olive-green_L;Shirt_H01_Parent
+1383;4;0;Shirt_H01_Olive-green_M;Shirt_H01_Parent
+1384;4;0;Shirt_H01_Olive-green_XL;Shirt_H01_Parent
+1385;4;0;Shirt_H01_Olive-green_XXL;Shirt_H01_Parent
+1293;4;0;Shirt_H01_Parent;
+1502;4;0;Shirt_T01_Black_L;Shirt_T01_parent
+1503;4;0;Shirt_T01_Black_M;Shirt_T01_parent
+1504;4;0;Shirt_T01_Black_XL;Shirt_T01_parent
+1505;4;0;Shirt_T01_Black_XXL;Shirt_T01_parent
+1506;4;0;Shirt_T01_Blue_L;Shirt_T01_parent
+1507;4;0;Shirt_T01_Blue_M;Shirt_T01_parent
+1508;4;0;Shirt_T01_Blue_XL;Shirt_T01_parent
+1509;4;0;Shirt_T01_Blue_XXL;Shirt_T01_parent
+1510;4;0;Shirt_T01_Brown_L;Shirt_T01_parent
+1511;4;0;Shirt_T01_Brown_M;Shirt_T01_parent
+1512;4;0;Shirt_T01_Brown_XL;Shirt_T01_parent
+1513;4;0;Shirt_T01_Brown_XXL;Shirt_T01_parent
+1514;4;0;Shirt_T01_Natural-white_L;Shirt_T01_parent
+1515;4;0;Shirt_T01_Natural-white_M;Shirt_T01_parent
+1516;4;0;Shirt_T01_Natural-white_XL;Shirt_T01_parent
+1517;4;0;Shirt_T01_Natural-white_XXL;Shirt_T01_parent
+1518;4;0;Shirt_T01_White_L;Shirt_T01_parent
+1519;4;0;Shirt_T01_White_M;Shirt_T01_parent
+1520;4;0;Shirt_T01_White_XL;Shirt_T01_parent
+1521;4;0;Shirt_T01_White_XXL;Shirt_T01_parent
+1425;4;0;Shirt_T01_parent;
+1522;4;0;ShoulderBagBO1elefantCreamL;Schultersack2Size2DesignElefant
+1523;4;0;ShoulderBagBO1elefantDblauL;Schultersack2Size2DesignElefant
+1524;4;0;ShoulderBagBO1elefantGoldgelbL;Schultersack2Size2DesignElefant
+1525;4;0;ShoulderBagBO1elefantGraublauL;Schultersack2Size2DesignElefant
+1526;4;0;ShoulderBagBO1elefantSchwarzL;Schultersack2Size2DesignElefant
+1527;4;0;ShoulderBagBO2elefantCreamM;Schultersack2Size2DesignElefant
+1528;4;0;ShoulderBagBO2elefantDblauM;Schultersack2Size2DesignElefant
+1529;4;0;ShoulderBagBO2elefantGoldgelbM;Schultersack2Size2DesignElefant
+1530;4;0;ShoulderBagBO2elefantGraublauM;Schultersack2Size2DesignElefant
+1531;4;0;ShoulderBagBO2elefantSchwarzM;Schultersack2Size2DesignElefant
+1532;4;0;ShoulderBagCO1elefantGrauL;Schultersack2Size2DesignElefant
+1533;4;0;ShoulderBagCO1elefantGraublaupinkL;Schultersack2Size2DesignElefant
+1534;4;0;ShoulderBagCO1elefantGreenL;Schultersack2Size2DesignElefant
+1535;4;0;ShoulderBagCO1elefantLightGreenL;Schultersack2Size2DesignElefant
+1536;4;0;ShoulderBagCO1elefantLilatonL;Schultersack2Size2DesignElefant
+1537;4;0;ShoulderBagCO1elefantOrange2L;Schultersack2Size2DesignElefant
+1538;4;0;ShoulderBagCO1elefantOrangeL;Schultersack2Size2DesignElefant
+1539;4;0;ShoulderBagCO1elefantWeinrotGrauL;Schultersack2Size2DesignElefant
+1540;4;0;ShoulderBagCO2elefantBeigeM;Schultersack2Size2DesignElefant
+1541;4;0;ShoulderBagCO2elefantGraublaupinkM;Schultersack2Size2DesignElefant
+1542;4;0;ShoulderBagCO2elefantGreenM;Schultersack2Size2DesignElefant
+1543;4;0;ShoulderBagCO2elefantLightGreenM;Schultersack2Size2DesignElefant
+1544;4;0;ShoulderBagCO2elefantLilaM;Schultersack2Size2DesignElefant
+1545;4;0;ShoulderBagCO2elefantOrange2M;Schultersack2Size2DesignElefant
+1546;4;0;ShoulderBagCO2elefantOrangeM;Schultersack2Size2DesignElefant
+1547;4;0;ShoulderBagCO2elefantWeinrotgrauM;Schultersack2Size2DesignElefant
+1548;4;0;ShoulderBagEO1muster01L;Schultersack2SizeEOwebmuster
+1549;4;0;ShoulderBagEO1muster02L;Schultersack2SizeEOwebmuster
+1550;4;0;ShoulderBagEO1muster03L;Schultersack2SizeEOwebmuster
+1551;4;0;ShoulderBagEO1muster04L;Schultersack2SizeEOwebmuster
+1552;4;0;ShoulderBagEO1muster05L;Schultersack2SizeEOwebmuster
+1553;4;0;ShoulderBagEO1muster06L;Schultersack2SizeEOwebmuster
+1554;4;0;ShoulderBagEO1muster07L;Schultersack2SizeEOwebmuster
+1555;4;0;ShoulderBagEO1muster09L;Schultersack2SizeEOwebmuster
+1556;4;0;ShoulderBagEO2muster01M;Schultersack2SizeEOwebmuster
+1557;4;0;ShoulderBagEO2muster02M;Schultersack2SizeEOwebmuster
+1558;4;0;ShoulderBagEO2muster03M;Schultersack2SizeEOwebmuster
+1559;4;0;ShoulderBagEO2muster04M;Schultersack2SizeEOwebmuster
+1560;4;0;ShoulderBagEO2muster05M;Schultersack2SizeEOwebmuster
+1561;4;0;ShoulderBagEO2muster06M;Schultersack2SizeEOwebmuster
+1562;4;0;ShoulderBagEO2muster07M;Schultersack2SizeEOwebmuster
+1563;4;0;ShoulderBagEO2muster09M;Schultersack2SizeEOwebmuster
+1564;4;0;ShoulderBagWOV22_L(E01);Schultersack2SizeEOwebmuster
+1565;4;0;ShoulderBagWOV22_M(E02);Schultersack2SizeEOwebmuster
+1566;4;0;ShoulderBagWOV23_L(E01);Schultersack2SizeEOwebmuster
+1567;4;0;ShoulderBagWOV23_M(E02);Schultersack2SizeEOwebmuster
+1568;4;0;ShoulderBagWOV24_L(E01);Schultersack2SizeEOwebmuster
+1569;4;0;ShoulderBagWOV24_M(E02);Schultersack2SizeEOwebmuster
+1570;4;0;ShoulderBagWOV25_L(E01);Schultersack2SizeEOwebmuster
+1571;4;0;ShoulderBagWOV25_M(E02);Schultersack2SizeEOwebmuster
+1572;4;0;ShoulderBagWOV26_L(E01);Schultersack2SizeEOwebmuster
+1573;4;0;ShoulderBagWOV26_M(E02);Schultersack2SizeEOwebmuster
+1574;4;0;ShoulderBagWOV27_L(E01);Schultersack2SizeEOwebmuster
+1575;4;0;ShoulderBagWOV27_M(E02);Schultersack2SizeEOwebmuster
+1576;4;0;ShoulderBagWOV28_L(E01);Schultersack2SizeEOwebmuster
+1577;4;0;ShoulderBagWOV28_M(E02);Schultersack2SizeEOwebmuster
+1578;4;0;ShoulderBagWOV29_L(E01);Schultersack2SizeEOwebmuster
+1579;4;0;ShoulderBagWOV29_M(E02);Schultersack2SizeEOwebmuster
+1580;4;0;ShoulderBagWOV30_L(E01);Schultersack2SizeEOwebmuster
+1581;4;0;ShoulderBagWOV31_L(E01);Schultersack2SizeEOwebmuster
+1582;4;0;ShoulderBagWOV32_M(E02);Schultersack2SizeEOwebmuster
+1648;4;0;TrLeggingsBatik2BuntTydy02;LeggingsBatik2 parent
+1649;4;0;TrLeggingsBatik2BuntTydy03;LeggingsBatik2 parent
+1650;4;0;TrLeggingsBatik2BuntTydyBlau;LeggingsBatik2 parent
+1651;4;0;TrLeggingsBatik2BuntTydyBraungelb;LeggingsBatik2 parent
+1652;4;0;TrLeggingsBatik2BuntTzdz;LeggingsBatik2 parent
+1653;4;0;TrLeggingsBatik2Buntlevel;LeggingsBatik2 parent
+1654;4;0;TrLeggingsBatik2Buntlevel02;LeggingsBatik2 parent
+1655;4;0;TrLeggingsBatik2Circle01Lilaton;LeggingsBatik2 parent
+1656;4;0;TrLeggingsBatik2Circle02Dlilaton;LeggingsBatik2 parent
+1657;4;0;TrLeggingsBatik2Circle03Blauton;LeggingsBatik2 parent
+1658;4;0;TrLeggingsBatik2Circle04Oliventon;LeggingsBatik2 parent
+1659;4;0;TrLeggingsBatik2Circle05BlackBrown;LeggingsBatik2 parent
+1660;4;0;TrLeggingsBatik2Dunkelgruen;LeggingsBatik2 parent
+1661;4;0;TrLeggingsBatik2MarmorWeiss;LeggingsBatik2 parent
+1662;4;0;TrLeggingsBatik2Pink;LeggingsBatik2 parent
+1663;4;0;TrLeggingsBatik2Tydy04green;LeggingsBatik2 parent
+1664;4;0;TrLeggingsBatik2Tydy05beige;LeggingsBatik2 parent
+1665;4;0;TrLeggingsBatik2Tydy06purple;LeggingsBatik2 parent
+1666;4;0;TrLeggingsBatik2Tydy07redbrown;LeggingsBatik2 parent
+1667;4;0;TrLeggingsBatik2Tydy10Lilaton;LeggingsBatik2 parent
+1668;4;0;TrLeggingsBatik2Tydy11Braunton;LeggingsBatik2 parent
+1669;4;0;TrLeggingsBatik2Tydy12Blauton;LeggingsBatik2 parent
+1670;4;0;TrLeggingsBatik2Tydy13Blaubunt;LeggingsBatik2 parent
+1671;4;0;TrLeggingsBatik2Tydy14olive;LeggingsBatik2 parent
+1672;4;0;TrLeggingsBatik2Tydy15purple;LeggingsBatik2 parent
+1673;4;0;TrLeggingsBatik2Tydy16blau;LeggingsBatik2 parent
+1674;4;0;TrLeggingsBatik2tzdz08turkis;LeggingsBatik2 parent
+1675;4;0;TrLeggingsBatik2tzdz09braunton;LeggingsBatik2 parent
+1676;4;0;TrLeggingsBatikCT01Gruenton;LeggingsBatik1 parent
+1677;4;0;TrLeggingsBatikCT02Lilaton;LeggingsBatik1 parent
+1678;4;0;TrLeggingsBatikCT03Blauton;LeggingsBatik1 parent
+1679;4;0;TrLeggingsBatikCT04Lilaton;LeggingsBatik1 parent
+1680;4;0;TrLeggingsBatikCT05Braunton;LeggingsBatik1 parent
+1681;4;0;TrLeggingsBatikDgruen;LeggingsBatik1 parent
+1682;4;0;TrLeggingsBatikJeansBlau;LeggingsBatik1 parent
+1683;4;0;TrLeggingsBatikLila;LeggingsBatik1 parent
+1684;4;0;TrLeggingsBatikLila2;LeggingsBatik1 parent
+1685;4;0;TrLeggingsBatikNavyBlau;LeggingsBatik1 parent
+1686;4;0;TrLeggingsBatikSchwarz;LeggingsBatik1 parent
+1687;4;0;TrLeggingsBatikTH01BlackPurple;LeggingsBatik1 parent
+1688;4;0;TrLeggingsBatikTH02Black;LeggingsBatik1 parent
+1689;4;0;TrLeggingsN001_Pants;LeggingsNparent
+1690;4;0;TrLeggingsN002_Pants;LeggingsNparent
+1691;4;0;TrLeggingsN003_Pants;LeggingsNparent
+1692;4;0;TrLeggingsN004_Pants_brown;LeggingsNparent
+1693;4;0;TrLeggingsN005_Pants;LeggingsNparent
+1694;4;0;TrLeggingsN006_Pants;LeggingsNparent
+1695;4;0;TrLeggingsN007_Pants;LeggingsNparent
+1696;4;0;TrLeggingsN008_Pants;LeggingsNparent
+1697;4;0;TrLeggingsN009_Pants;LeggingsNparent
+1698;4;0;TrLeggingsN010_Pants;LeggingsNparent
+1699;4;0;TrLeggingsN011_Pants;LeggingsNparent
+1700;4;0;TrLeggingsU001_Pants;LeggingsNparent
+1701;4;0;TrLeggingsU002_Pants;LeggingsNparent
+1702;4;0;TrLeggingsU003_Pants;LeggingsNparent
+1703;4;0;TrLeggingsU004_Pants;LeggingsNparent

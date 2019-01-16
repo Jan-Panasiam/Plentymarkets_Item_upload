@@ -6,7 +6,6 @@ try:
 except ImportError:
     print("the sortedcontainers module is required to run this program.")
     raise ImportError
-#from ..packages.category import determineCategory
 
 
 def itemUpload(filepath, intern_number):

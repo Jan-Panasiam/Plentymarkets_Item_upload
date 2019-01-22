@@ -6,7 +6,7 @@ from packages.item_upload import itemUpload
 from packages.variation_upload import variationUpload, setActive, EANUpload
 from packages.stock_upload import stockUpload, priceUpload
 from packages.UploadGUI import UploadGUI
-from packages.amazon_data_upload import amazonSkuUpload
+from packages.amazon_data_upload import amazonSkuUpload, amazonDataUpload
 from packages.image_upload import imageUpload
 
 
@@ -64,6 +64,10 @@ def main():
     print("\nCreate a upload file for the SKU and Parent_SKU\nto connect existing items from amazon to plentyMarkets.\n")
 
     amazonSkuUpload(sheet, export)
+
+    print("\nCreate a upload file for the additional Information to Amazon Products like bullet points, lifestyle etc.\n")
+
+    amazonDataUpload(sheet, export)
 
     print("\nCollect the imagelinks from the flatfile, sorts them and assigns the variation ID.\n")
     try:

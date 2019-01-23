@@ -3,10 +3,10 @@ from tkinter.filedialog import askopenfilename
 from sys import exit
 from packages.item_upload import itemUpload
 # from packages.attribute_upload import attributeUpload
-from packages.variation_upload import variationUpload, setActive, EANUpload
+from packages.variation_upload import variationUpload, setActive, EANUpload, marketConnection
 from packages.stock_upload import stockUpload, priceUpload
 from packages.UploadGUI import UploadGUI
-from packages.amazon_data_upload import amazonSkuUpload
+from packages.amazon_data_upload import amazonSkuUpload, amazonDataUpload
 from packages.image_upload import imageUpload
 
 
@@ -24,18 +24,23 @@ def main():
     print("spreadsheet csv containing the flatfile : ", sheet)
     print("spreadsheet csv containing the intern numbers : ", intern_number)
     try:
-        print("Item Upload")
+        print("\nItem Upload\n")
         itemUpload(sheet, intern_number)
     except Exception as exc:
         print(exc)
         print("Item Upload failed!")
 
     try:
-        print("Variation Upload")
+        print("\nVariation Upload\n")
         variationUpload(sheet, intern_number)
     except Exception as exc:
         print(exc)
         print("VariationUpload failed!")
+
+    print("###########################################################")
+    print("\nUpload the files in plentymarkets, make sure that the categories are set because they are necessary for the active Upload.\n")
+
+    moveon = input("Continue(ENTER)")
 
     print("\nGet a dataexport from the plentymarket site from the variation attributes, in order to access the current Variation ID.\n")
     try:
@@ -65,12 +70,24 @@ def main():
 
     amazonSkuUpload(sheet, export)
 
+    print("\nCreate a upload file for the additional Information to Amazon Products like bullet points, lifestyle etc.\n")
+
+    amazonDataUpload(sheet, export)
+
     print("\nCollect the imagelinks from the flatfile, sorts them and assigns the variation ID.\n")
     try:
         imageUpload(sheet, export)
     except Exception as err:
         print(err)
         print("Image Upload failed!")
+
+    print("\nActivate Marketconnection for Ebay & Amazon for all variation.\n")
+
+    try:
+        marketConnection(export, ebay=1, amazon=0)
+    except Exception as err:
+        print(err)
+        print("Market connection failed!")
 
     # In case of new attributes uncomment and watch attribute_upload.py first
     # try:

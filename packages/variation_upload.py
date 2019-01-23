@@ -98,27 +98,27 @@ def variationUpload(flatfile, intern_number):
 
 def setActive(flatfile, export):
     # because of a regulation of the plentyMarkets system the active status has to be delivered as an extra upload
-    column_names = ['Active', 'ItemID', 'VariationID', 'VariationNumber']
+    column_names = ['Active', 'VariationID']
     Data = {}
     # open the flatfile to get the sku names
     with open(flatfile, mode='r') as item:
         reader = DictReader(item, delimiter=';')
 
         for row in reader:
-            values = ['Y', '', '', row['item_sku']]
+            values = ['Y', '']
             Data[row['item_sku']] = dict(zip(column_names, values))
 
     with open(export, mode='r') as item:
         reader = DictReader(item, delimiter=';')
         for row in reader:
             if(row['VariationNumber'] in [*Data]):
-                Data[row['VariationNumber']]['ItemID'] = row['ItemID']
                 Data[row['VariationNumber']]['VariationID'] = row['VariationID']
     output_path = writeCSV(Data, 'active', column_names)
 
 
 def EANUpload(flatfile, export):
     # open the flatfile get the ean for an sku and save it into a dictionary with columnheaders of the plentymarket dataformat
+
     column_names = ['BarcodeID', 'BarcodeName', 'BarcodeType',
                     'Code', 'VariationID', 'VariationNumber']
     Data = {}
@@ -139,3 +139,24 @@ def EANUpload(flatfile, export):
                 Data[row['VariationNumber']]['VariationID'] = row['VariationID']
 
     output_path = writeCSV(Data, 'EAN', column_names)
+
+
+def marketConnection(export, ebay=0, amazon=0):
+    # Enable marketconnection of items and variations by entering 1 for True
+    # and 0 for False
+
+    column_names = ['VariationID', 'VariationCustomNumber',
+                    'webApi', 'AmazonGermany', 'Amazon', 'eBayGermany', 'Ebay']
+
+    Data = {}
+    with open(export, mode='r') as item:
+        reader = DictReader(item, delimiter=';')
+
+        for row in reader:
+            if row['VariationID'] and row['VariationNumber']:
+                values = [row['VariationID'], row['VariationNumber'],
+                          '1', amazon, amazon, ebay, ebay]
+                Data[row['VariationNumber']] = dict(zip(column_names, values))
+
+
+    output_path = writeCSV(Data, 'market_connect', column_names)

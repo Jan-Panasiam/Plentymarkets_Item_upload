@@ -1,82 +1,161 @@
-import tkinter
+import tkinter as tk
+from tkinter.filedialog import askopenfilename
+import re
 from os.path import isfile
 
-# class checkBoxes(tkinter.Frame):
-# def __init__(self, master,
+
+class ItemUpload():
+    def helloWorld(name="Greg"):
+        print("Hello ", name)
+
+    def byeWorld(name="Greg"):
+        print("Bye ", name)
 
 
-class UploadGUI(tkinter.Tk):
+class ImportArea(tk.Frame):
     def __init__(self, master):
-        tkinter.Tk.__init__(self, master)
+        tk.Frame.__init__(self, master)
+        self.flatfile = ''
+        self.intern = ''
+        self.export = ''
+        self.stock = ''
+        self.button = []
+        self.names = ['Flatfile', 'Intern Numbers',
+                      'Export from PlentyMarkets', 'Stockfile']
+        self.paths = [self.flatfile, self.intern, self.export, self.stock]
+        self.initialize()
+
+    def initialize(self):
+        self.grid()
+
+        for clm, name in enumerate(self.names):
+            self.button.append(tk.Button(self, text=name,
+                               command=lambda path = self.paths[clm]:self.getPath(path)))
+            self.button[-1].grid(sticky='WENS', row=0, column=clm, padx=1, pady=1)
+
+    def getPath(self, var):
+        var = askopenfilename()
+
+
+# inherits from the tkinter class Frame
+class CheckBoxArea(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        self.master = master
+        # initialize the variables from the checkbuttons
+        self.itembox = tk.IntVar()
+        self.variationbox = tk.IntVar()
+        self.barcodebox = tk.IntVar()
+        self.activebox = tk.IntVar()
+        self.pricebox = tk.IntVar()
+        self.stockbox = tk.IntVar()
+        self.amadatabox = tk.IntVar()
+        self.skubox = tk.IntVar()
+        self.imgbox = tk.IntVar()
+        self.desc = []
+        self.button = []
+        self.names = ["Item", "Variation", "Barcode",
+                      "Active", "Price", "Stock",
+                      "Amazon Data", "Sku", "Images"]
+        self.states = [self.itembox, self.variationbox, self.barcodebox,
+                       self.activebox, self.pricebox, self.stockbox,
+                       self.amadatabox, self.skubox, self.imgbox]
+        # create the gui elements
+        self.initialize()
+
+    def initialize(self):
+        # initialize the grid window packaging
+        self.grid()
+
+        for clm, name in enumerate(self.names):
+            self.desc.append(tk.Label(self, text=name))
+            self.desc[-1].grid(sticky='WENS', row=0, column=clm,
+                               padx=1, pady=1)
+
+        for clm, name in enumerate(self.states):
+            self.button.append(tk.Checkbutton(self, variable=name,
+                               state="disabled"))
+            self.button[-1].grid(sticky='WENS', row=1, column=clm,
+                                 padx=1, pady=1)
+
+
+class ExecutionArea(tk.Frame):
+    def __init__(self, master, itemvar, variationvar, barcodevar, activevar,
+                 pricevar, stockvar, amadatavar, skuvar, imgvar):
+        tk.Frame.__init__(self, master)
+        self.master = master
+        self.itemvar = itemvar
+        self.variationvar = variationvar
+        self.barcodevar = barcodevar
+        self.activevar = activevar
+        self.pricevar = pricevar
+        self.stockvar = stockvar
+        self.amadatavar = amadatavar
+        self.skuvar = skuvar
+        self.imgvar = imgvar
+        self.startScript = tk.BooleanVar()
+        self.startScript.set(False)
+        self.initialize()
+
+    def initialize(self):
+        self.grid()
+
+        self.runButton = tk.Button(self, text="Run all checked Scripts",
+                                   command=lambda itemvar=self.itemvar,
+                                   variationvar=self.variationvar:
+                                   self.hello(itemvar, variationvar))
+        self.runButton.grid(row=0, column=0, sticky="EW")
+
+    def hello(self, item, variation):
+        for n in [self.itemvar, self.variationvar, self.barcodevar,
+                  self.activevar, self.pricevar, self.stockvar,
+                  self.amadatavar, self.skuvar, self.imgvar]:
+            print(str(n) + ':' + str(n.get()))
+        self.runButton.configure(state="disabled")
+
+
+class UploadGUI(tk.Tk):
+    def __init__(self, master):
+        tk.Tk.__init__(self, master)
         self.master = master
         self.initialize()
 
     def initialize(self):
         self.grid()
 
-        self.bg = "chocolate1"
-        self.txtcolor = "black"
-        self.bordercolor = "red4"
-        if(isfile('/home/basti/Documents/PyProjects/CSV-Project/PlentyMarkets/packages/gfx/checkbox-unchecked.png')):
-            self.uncheckedimg = tkinter.PhotoImage(
-                file='/home/basti/Documents/PyProjects/CSV-Project/PlentyMarkets/packages/gfx/checkbox-unchecked.png')
-            print("OK img1")
-        if(isfile('/home/basti/Documents/PyProjects/CSV-Project/PlentyMarkets/packages/gfx/checkbox-checked.png')):
-            self.checkedimg = tkinter.PhotoImage(
-                file='/home/basti/Documents/PyProjects/CSV-Project/PlentyMarkets/packages/gfx/checkbox-checked.png')
-            print("OK img2")
+        self.importArea = ImportArea(master=self)
+        self.importArea.grid(row=0, column=0)
 
-        self.header = tkinter.Label(self, text="Choose which upload files you want to create and upload the required files.\n",
-                                    anchor="w", fg=self.txtcolor, bg=self.bg)
-        self.header.grid(column=0, row=0, columnspan=5, rowspan=2, sticky="EW")
+        self.checkArea = CheckBoxArea(master=self)
+        self.checkArea.grid(row=1, column=0)
 
-        self.itemup_desc = tkinter.Label(self, text="Item Upload(Parent)\t",
-                                         anchor="center", fg=self.txtcolor, bg=self.bg)
-        self.itemup_desc.grid(column=0, row=3, sticky="EW")
+        for num, button in enumerate(self.checkArea.button):
+            if(self.importArea.paths[0] and num < 2):
+                button.configure(state="normal")
+            if(self.importArea.paths[2] and ((num > 1 and num < 5) or num == 8)):
+                button.configure(state="normal")
+            if(self.importArea.paths[3] and (num > 3 and num < 8)):
+                button.configure(state="normal")
 
-        self.variationup_desc = tkinter.Label(
-            self, text="Variation Upload\t", anchor="center", fg=self.txtcolor, bg=self.bg)
-        self.variationup_desc.grid(column=1, row=3, sticky="EW")
+        self.exeArea = ExecutionArea(master=self,
+                                     itemvar=self.checkArea.itembox,
+                                     variationvar=self.checkArea.variationbox,
+                                     barcodevar=self.checkArea.barcodebox,
+                                     activevar=self.checkArea.activebox,
+                                     pricevar=self.checkArea.pricebox,
+                                     stockvar=self.checkArea.stockbox,
+                                     amadatavar=self.checkArea.amadatabox,
+                                     skuvar=self.checkArea.skubox,
+                                     imgvar=self.checkArea.imgbox,)
+        self.exeArea.grid(row=2, column=0)
 
-        self.activeup_desc = tkinter.Label(self, text="variation status to active\t",
-                                           anchor="center", fg=self.txtcolor, bg=self.bg)
-        self.activeup_desc.grid(column=2, row=3, sticky="EW")
 
-        self.barcodeup_desc = tkinter.Label(self, text="barcode Upload\t",
-                                            anchor="center", fg=self.txtcolor, bg=self.bg)
-        self.barcodeup_desc.grid(column=3, row=3, sticky="EW")
-
-        # Trying to use a canvas as a checkbox for cosmetic reasons
-        #=========================================================
-
-        # self.itemup_check = tkinter.Canvas(width=150,height=40,bg=self.bg
-        #, bd=0, highlightthickness=0)
-        #self.itemup_check.bind("<Button-1>", lambda event, item = self.itemup_check, check = self.item_state, image1 = self.uncheckedimg, image2 = self.checkedimg : self.switchImage(item, check, image1, image2))
-        # self.itemup_check.create_image(0,0,image=self.uncheckedimg,anchor="nw")
-        #self.itemup_check.grid(column=0, row=4,sticky="EW")
-
-        # self.variationup_check = tkinter.Canvas(width=150,height=40,bg=self.bg
-        #, bd=0, highlightthickness=0)
-        #self.variationup_check.bind("<Button-1>", )
-        # self.variationup_check.create_image(0,0,image=self.uncheckedimg,anchor="nw")
-        #self.variationup_check.grid(column=1, row=4,sticky="EW")
-
-        # self.active_check = tkinter.Canvas(width=150,height=40,bg=self.bg
-        #, bd=0, highlightthickness=0)
-        #self.active_check.bind("<Button-1>", )
-        # self.active_check.create_image(0,0,image=self.uncheckedimg,anchor="nw")
-        #self.active_check.grid(column=2, row=4,sticky="EW")
-
-        # self.barcodeup_check = tkinter.Canvas(width=150,height=40,bg=self.bg
-        #, bd=0, highlightthickness=0)
-        #self.barcodeup_check.bind("<Button-1>", )
-        # self.barcodeup_check.create_image(0,0,image=self.uncheckedimg,anchor="nw")
-        #self.barcodeup_check.grid(column=3, row=4,sticky="EW")
-
-    # def switchImage(self, element, check, image1, image2):
-        # for state in [self.item_state, self.variation_state, self.active_state, self.barcode_state]:
-        # if(id(check) == id(state)):
-        # if(state):
-        # element.create_image(0,0,image=image1,anchor="nw")
-        # else:
-        # element.create_image(0,0,image=image2,anchor="nw")
+# Set master(parent) to None because it is the root window
+app = UploadGUI(master=None)
+app.title = ("ONLY FOR TEST")
+if app.exeArea.startScript:
+    if app.exeArea.itemvar:
+        print("Item starting...")
+    elif app.exeArea.variationvar:
+        print("Variation starting...")
+app.mainloop()

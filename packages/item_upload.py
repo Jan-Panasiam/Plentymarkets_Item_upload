@@ -10,7 +10,20 @@ except ImportError:
 
 def itemUpload(filepath, intern_number):
     # The column headers for the output file as expected from the plentymarkets dataformat
-    column_names_output = ['CategoryLevel1Name', 'CategoryLevel2Name', 'CategoryLevel3Name', 'CategoryLevel4Name', 'CategoryLevel5Name', 'CategoryLevel6Name', 'ItemID', 'PrimaryVariationCustomNumber', 'PrimaryVariationLengthMM', 'PrimaryVariationWidthMM', 'PrimaryVariationHeightMM', 'PrimaryVariationWeightG', 'PrimaryVariationName', 'PrimaryVariationPurchasePrice', 'ItemImageURL', 'PrimaryVariationMainWarehouse', 'ItemOriginCountry', 'ItemProducer', 'ItemProducerID', 'ItemTextName', 'ItemTextDescription']
+    column_names_output = ['CategoryLevel1Name', 'CategoryLevel2Name',
+                           'CategoryLevel3Name', 'CategoryLevel4Name',
+                           'CategoryLevel5Name', 'CategoryLevel6Name',
+                           'ItemID', 'PrimaryVariationCustomNumber',
+                           'PrimaryVariationLengthMM',
+                           'PrimaryVariationWidthMM',
+                           'PrimaryVariationHeightMM',
+                           'PrimaryVariationWeightG',
+                           'PrimaryVariationName',
+                           'PrimaryVariationPurchasePrice', 'ItemImageURL',
+                           'PrimaryVariationMainWarehouse',
+                           'ItemOriginCountry', 'ItemProducer',
+                           'ItemProducerID', 'ItemTextName',
+                           'ItemTextDescription']
 
     # default values: CategoryLevel5Name : '' , CategoryLevel6Name : '', ItemOriginCountry : '62' , ItemProducer : 'PANASIAM', ItemProducerID : '3'
 
@@ -35,13 +48,23 @@ def itemUpload(filepath, intern_number):
                     row['package_width'] = int(float(row['package_width']))
                 except ValueError as err:
                     print(err)
-                    print("/nPlease copy the values for height, length, width and weight\nfrom the children to the parent variation in the flatfile.\n")
+                    print(
+                        "/nPlease copy the values for height, length, width and weight\nfrom the children to the parent variation in the flatfile.\n")
                     exit()
                 try:
-                    values = ['', '', '', '', '', '', '', row['item_sku'], row['package_length'] * 10, row['package_width'] * 10, row['package_height'] * 10, row['package_weight'], row['item_name'], row['standard_price'], row['main_image_url'], 'Badel', '62', 'PANASIAM', '3', '', row['product_description']]
+                    values = ['', '', '', '', '', '', '', row['item_sku'],
+                              row['package_length'] * 10,
+                              row['package_width'] * 10,
+                              row['package_height'] * 10,
+                              row['package_weight'],
+                              row['item_name'],
+                              row['standard_price'],
+                              '', 'Badel', '62', 'PANASIAM', '3',
+                              '', row['product_description']]
                 except Exception as err:
                     print(err)
-                Data[row['item_sku']] = SortedDict(zip(column_names_output, values))
+                Data[row['item_sku']] = SortedDict(
+                    zip(column_names_output, values))
 
     # open the intern number csv to get the item ID
     with open(intern_number, mode='r') as item:
@@ -60,10 +83,12 @@ def itemUpload(filepath, intern_number):
 
     while(isfile(output_path)):
         output_path_number = int(output_path_number) + 1
-        output_path = "Upload/item_upload_" + str(output_path_number) + datatype
+        output_path = "Upload/item_upload_" + \
+            str(output_path_number) + datatype
 
     with open(output_path, mode='a') as item:
-        writer = DictWriter(item, delimiter=";", fieldnames=column_names_output)
+        writer = DictWriter(item, delimiter=";",
+                            fieldnames=column_names_output)
         writer.writeheader()
         for row in Data:
             writer.writerow(Data[row])

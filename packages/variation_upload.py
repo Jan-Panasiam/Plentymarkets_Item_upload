@@ -68,11 +68,6 @@ def variationUpload(flatfile, intern_number):
                     attributes = 'color_name:' + row['color_name']
                 if(row['size_name']):
                     attributes += ';size_name:' + row['size_name']
-                if(row['outer_material_type']):
-                    attributes += ';material_name:' + \
-                        row['outer_material_type']
-                if('pattern' in [*row] and row['pattern']):
-                    attributes += ';pattern:' + row['pattern']
                 try:
                     values = ['', '', row['item_sku'], item_name, '', int(row['package_length']) * 10, int(row['package_width']) * 10, int(
                         row['package_height']) * 10, row['package_weight'], attributes, row['standard_price'], 'Badel', 'Y', 'Y']

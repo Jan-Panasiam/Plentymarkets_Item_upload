@@ -30,11 +30,26 @@ class ImportArea(tk.Frame):
 
         for clm, name in enumerate(self.names):
             self.button.append(tk.Button(self, text=name,
-                               command=lambda path = self.paths[clm]:self.getPath(path)))
+                               command=lambda number = clm, path = self.paths:self.getPath(number, path)))
             self.button[-1].grid(sticky='WENS', row=0, column=clm, padx=1, pady=1)
 
-    def getPath(self, var):
-        var = askopenfilename()
+    def getPath(self, num, var):
+        var[num] = askopenfilename()
+        for i, s in enumerate(self.paths):
+            if self.paths[i] and i == 0:
+                print(self.paths[i])
+                app.checkArea.button[0].configure(state="normal")
+                app.checkArea.button[1].configure(state="normal")
+            if self.paths[i] and i == 2:
+                app.checkArea.button[2].configure(state="normal")
+                app.checkArea.button[3].configure(state="normal")
+                app.checkArea.button[4].configure(state="normal")
+                app.checkArea.button[6].configure(state="normal")
+                app.checkArea.button[7].configure(state="normal")
+                app.checkArea.button[8].configure(state="normal")
+            if self.paths[i] and i == 3:
+                app.checkArea.button[5].configure(state="normal")
+
 
 
 # inherits from the tkinter class Frame
@@ -128,14 +143,6 @@ class UploadGUI(tk.Tk):
 
         self.checkArea = CheckBoxArea(master=self)
         self.checkArea.grid(row=1, column=0)
-
-        for num, button in enumerate(self.checkArea.button):
-            if(self.importArea.paths[0] and num < 2):
-                button.configure(state="normal")
-            if(self.importArea.paths[2] and ((num > 1 and num < 5) or num == 8)):
-                button.configure(state="normal")
-            if(self.importArea.paths[3] and (num > 3 and num < 8)):
-                button.configure(state="normal")
 
         self.exeArea = ExecutionArea(master=self,
                                      itemvar=self.checkArea.itembox,

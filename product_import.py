@@ -64,7 +64,7 @@ def main():
     stocklist = askopenfilename()
     print("spreadsheet csv containing the current stock : ", stocklist)
 
-    stockUpload(sheet, export, stocklist)
+    stockUpload(sheet, stocklist)
 
     print("\nCreate a upload file for the SKU and Parent_SKU\nto connect existing items from amazon to plentyMarkets.\n")
 

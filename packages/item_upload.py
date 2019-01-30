@@ -1,6 +1,9 @@
-from csv import DictReader, DictWriter
+import csv
 from os.path import isfile
 from sys import exit
+from variation_upload import writeCSV
+
+
 try:
     from sortedcontainers import SortedDict
 except ImportError:
@@ -33,9 +36,10 @@ def itemUpload(filepath, intern_number):
     Data = SortedDict()
 
     with open(filepath, mode='r') as item:
-        reader = DictReader(item, delimiter=";")
+        reader = csv.DictReader(item, delimiter=";")
         for row in reader:
-            # if the item is a parent scrap the name and the desc from the flatfile
+            # if the item is a parent scrap the name and the desc from the 
+            # flatfile
             if(row['parent_child'] == 'parent'):
                 try:
                     if(row['package_height'] and row['package_length'] and row['package_width']):
@@ -68,7 +72,7 @@ def itemUpload(filepath, intern_number):
 
     # open the intern number csv to get the item ID
     with open(intern_number, mode='r') as item:
-        reader = DictReader(item, delimiter=";")
+        reader = csv.DictReader(item, delimiter=";")
         for row in reader:
             if(row['amazon_sku'] in [*Data]):
                 Data[row['amazon_sku']]['ItemID'] = row['article_id']
@@ -77,23 +81,47 @@ def itemUpload(filepath, intern_number):
     # OUTPUT
     # --------------------------------------------------------------
 
-    output_path_number = 1
-    datatype = ".csv"
-    output_path = "Upload/item_upload_" + str(output_path_number) + datatype
+    writeCSV(Data, "item", column_names_output)
 
-    while(isfile(output_path)):
-        output_path_number = int(output_path_number) + 1
-        output_path = "Upload/item_upload_" + \
-            str(output_path_number) + datatype
 
-    with open(output_path, mode='a') as item:
-        writer = DictWriter(item, delimiter=";",
-                            fieldnames=column_names_output)
-        writer.writeheader()
-        for row in Data:
-            writer.writerow(Data[row])
+def itemPropertyUpload(flatfile, export):
 
-    if(isfile(output_path)):
-        print("Upload file successfully created under {0}".format(output_path))
+    with open(flatfile, mode='r') as item:
+        reader = csv.DictReader(item, delimiter=';', lineterminator='\n')
 
-    return output_path
+        material = {}
+        # search for a material name and assign a number that correlates to it
+        for row in reader:
+            if(row['parent_child'] == 'parent'):
+                if(re.search(r'(cotton|baumwolle)',
+                             row['outer_material_type'].lower())):
+                    material[row['item_sku']] = 4
+                if(re.search(r'(hemp|hanf)',
+                             row['outer_material_type'].lower())):
+                    material[row['item_sku']] = 5
+                if(re.search(r'(viskose|viscose)',
+                             row['outer_material_type'].lower())):
+                    material[row['item_sku']] = 6
+
+    with open(export, mode='r') as item:
+        reader = csv.DictReader(item, delimiter=';', lineterminator='\n')
+
+        column_names = ['PropertyItemID', 'ItemID',
+                        'PrimaryVariationCustomNumber']
+
+        Data = {}
+        for row in reader:
+            if(row['AttributeValueSetID'] == ''):
+                values = ['3',
+                          row['ItemID'],
+                          row['VariationName']]
+
+                Data[row['VariationNumber'] + '1'] = dict(zip(column_names,
+                                                              values))
+                values = [material[row['VariationNumber']],
+                          row['ItemID'],
+                          row['VariationName']]
+
+                Data[row['VariationNumber'] + '2'] = dict(zip(column_names,
+                                                              values))
+    writeCSV(Data, "property", column_names)

@@ -1,38 +1,12 @@
 import csv
 from os.path import isfile
 import sys
+from variation_upload import writeCSV
 try:
     from sortedcontainers import SortedDict
 except ImportError:
     print("the sortedcontainers module is required to run this program.")
     raise ImportError
-
-
-def writeCSV(dataobject, name, columns):
-    '''Write Data into new CSV for Upload
-        OUTPUT
-    '''
-
-    output_path_number = 1
-    datatype = ".csv"
-    output_path = "Upload/" + name + "_upload_" + \
-        str(output_path_number) + datatype
-
-    while(isfile(output_path)):
-        output_path_number = int(output_path_number) + 1
-        output_path = "Upload/" + name + "_upload_" + \
-            str(output_path_number) + datatype
-
-    with open(output_path, mode='a') as item:
-        writer = csv.DictWriter(item, delimiter=";", fieldnames=columns)
-        writer.writeheader()
-        for row in dataobject:
-            writer.writerow(dataobject[row])
-
-    if(isfile(output_path)):
-        print("Upload file successfully created under {0}".format(output_path))
-
-    return output_path
 
 
 def amazonSkuUpload(flatfile, export):

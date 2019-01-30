@@ -1,7 +1,7 @@
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 from sys import exit
-from packages.item_upload import itemUpload
+from packages.item_upload import itemUpload, itemPropertyUpload
 # from packages.attribute_upload import attributeUpload
 from packages.variation_upload import variationUpload, setActive, EANUpload, marketConnection
 from packages.stock_upload import stockUpload, priceUpload
@@ -52,9 +52,10 @@ def main():
         print("Something went wrong at the Export file import!")
     print("spreadsheet csv containing the export : ", export)
     try:
-        print("EAN, Active & Price Upload")
+        print("EAN, Active, Merkmale & Price Upload")
         EANUpload(sheet, export)
         setActive(sheet, export)
+        itemPropertyUpload(sheet, export)
         priceUpload(sheet, export)
     except FileNotFoundError as err:
         print(err)

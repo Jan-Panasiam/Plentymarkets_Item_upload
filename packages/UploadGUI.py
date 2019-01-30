@@ -160,9 +160,5 @@ class UploadGUI(tk.Tk):
 # Set master(parent) to None because it is the root window
 app = UploadGUI(master=None)
 app.title = ("ONLY FOR TEST")
-if app.exeArea.startScript:
-    if app.exeArea.itemvar:
-        print("Item starting...")
-    elif app.exeArea.variationvar:
-        print("Variation starting...")
+
 app.mainloop()

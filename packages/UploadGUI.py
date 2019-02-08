@@ -30,26 +30,21 @@ class ImportArea(tk.Frame):
 
         for clm, name in enumerate(self.names):
             self.button.append(tk.Button(self, text=name,
-                               command=lambda number = clm, path = self.paths:self.getPath(number, path)))
-            self.button[-1].grid(sticky='WENS', row=0, column=clm, padx=1, pady=1)
+                               command=lambda number=clm,
+                               path=self.paths: self.getPath(number, path)))
+            self.button[-1].grid(sticky='WENS',
+                                 row=0, column=clm,
+                                 padx=1, pady=1)
 
     def getPath(self, num, var):
         var[num] = askopenfilename()
         for i, s in enumerate(self.paths):
             if self.paths[i] and i == 0:
-                print(self.paths[i])
-                app.checkArea.button[0].configure(state="normal")
-                app.checkArea.button[1].configure(state="normal")
+                self.master.checkArea.button[0].configure(state='normal')
             if self.paths[i] and i == 2:
-                app.checkArea.button[2].configure(state="normal")
-                app.checkArea.button[3].configure(state="normal")
-                app.checkArea.button[4].configure(state="normal")
-                app.checkArea.button[6].configure(state="normal")
-                app.checkArea.button[7].configure(state="normal")
-                app.checkArea.button[8].configure(state="normal")
+                pass
             if self.paths[i] and i == 3:
-                app.checkArea.button[5].configure(state="normal")
-
+                pass
 
 
 # inherits from the tkinter class Frame
@@ -158,7 +153,3 @@ class UploadGUI(tk.Tk):
 
 
 # Set master(parent) to None because it is the root window
-app = UploadGUI(master=None)
-app.title = ("ONLY FOR TEST")
-
-app.mainloop()

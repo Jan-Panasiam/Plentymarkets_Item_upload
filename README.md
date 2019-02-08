@@ -7,35 +7,42 @@ Preperation
 Check your Flatfile Version, the current version of this program works with the appereal flatfile of 2019.
 
 Make sure to prepare your PlentyMarkets Account you need the following list of dataformats:
-	- Item upload:
-	Erstellung der Parentartikel, der Artikel aggiert dabei als eine Art Hülle zum eigentlich parent.
-	Die Grund version nutzt, eine Liste, interner Nummern um die ItemID zu bestimmen. Dies ist aber 
-	nicht notwendig.
-	Creation of the Parentarticle, the article acts as a shell for the actual parentvariation.
-	The basic version of the program uses a intern number list to fill in the ItemID. But this is no
+
+	de = [Erstellung der Parentartikel, der Artikel aggiert dabei als eine Art Hülle zum eigentlich parent.
+		Die Grund version nutzt, eine Liste, interner Nummern um die ItemID zu bestimmen. Dies ist aber 
+		nicht notwendig.]
+	en = [Creation of the Parentarticle, the article acts as a shell for the actual parentvariation.
+		The basic version of the program uses a intern number list to fill in the ItemID. But this is not
+		necessary.]
 	- Item Upload
 		{
 			[Typ: Item]
-			CategoryLevel1Name: IMPORT
-			CategoryLevel2Name: IMPORT
-			CategoryLevel3Name: IMPORT
-			CategoryLevel4Name: IMPORT
-			CategoryLevel5Name: IMPORT
-			CategoryLevel6Name: IMPORT
-			ItemID: IMPORT
-			PrimaryVariationCustomNumber: IMPORT
-			PrimaryVariationLengthMM: IMPORT
-			PrimaryVariationWidthMM: IMPORT
-			PrimaryVariationHeightMM: IMPORT
-			PrimaryVariationWeightG: IMPORT
-			PrimaryVariationName: IMPORT
-			PrimaryVariationPurchasePrice: IMPORT
-			PrimaryVariationMainWarehouse: IMPORT
-			ItemOriginCountry: IMPORT
-			ItemProducer: IMPORT
-			ItemProducerID: IMPORT
-			ItemTextName: IMPORT
-			ItemTextDescription: IMPORT
+			ItemID: IMPORT,											[1]
+			PrimaryVariationCustomNumber: IMPORT,					[2]
+            PrimaryVariationLengthMM: IMPORT,						[3]
+            PrimaryVariationWidthMM: IMPORT,						[4]
+            PrimaryVariationHeightMM: IMPORT,						[5] 
+            PrimaryVariationWeightG: IMPORT,						[6]
+            PrimaryVariationName: IMPORT, 							[7]
+            PrimaryVariationMainWarehouse: IMPORT,					[8]
+            PrimaryVariationPurchasePrice: IMPORT,					[9] 
+            ItemOriginCountry: IMPORT,								[10]
+            ItemProducer: IMPORT,									[11] 
+            ItemProducerID: IMPORT,									[12]
+            ItemProductType: IMPORT,								[13]
+            ItemTextName: IMPORT,									[14] 
+            ItemTextDescription: IMPORT,							[15] 
+            ItemTextKeywords: IMPORT,								[16]
+            ItemTextLang: IMPORT,									[17] 
+            PrimaryVariationExternalID: IMPORT,						[18]
+            PrimaryVariationActive: IMPORT,							[19]
+            PrimaryVariationAutoStockInvisible: IMPORT,				[20]
+            PrimaryVariationAutoStockNoPositiveStockIcon: IMPORT,	[21]
+            PrimaryVariationAutoStockPositiveStockIcon: IMPORT,		[22]
+            PrimaryVariationAutoStockVisible: IMPORT,				[23]
+            PrimaryVariationAvailability: IMPORT,					[24]
+            ItemMarking1: IMPORT, 									[25]
+            ItemMarking2: IMPORT 									[26]
 		}
 	- Variation Upload:
 	Erstellung der Variationen, diese werden dem im Itemupload hochgeladenen parent zugewiesen.
@@ -55,6 +62,7 @@ Make sure to prepare your PlentyMarkets Account you need the following list of d
 			MainWarehouse: IMPORT 		
 			Availability: IMPORT 		
 			AutoStockVisible: IMPORT
+			ExternalID: Import
 		}
 	- Attribute Upload
 	Erstellung der in der Liste genutzten Farben ,Größen und Materialien im Plentymarket system. 

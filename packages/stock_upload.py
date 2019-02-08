@@ -2,7 +2,7 @@
 
 from csv import DictReader, DictWriter
 from os.path import isfile
-from variation_upload import writeCSV
+from packages import variation_upload
 try:
     from sortedcontainers import SortedDict
 except ImportError:
@@ -34,7 +34,7 @@ def stockUpload(flatfile, stocklist):
             if(row['MASTER'] and row['MASTER'] in [*Data]):
                 Data[row['MASTER']]['Stock'] = row['BADEL 26.12.16']
 
-    output_path = writeCSV(Data, 'stock', column_names)
+    output_path = variation_upload.writeCSV(Data, 'stock', column_names)
 
 
 def priceUpload(flatfile, export):
@@ -58,4 +58,4 @@ def priceUpload(flatfile, export):
             if(row['VariationNumber'] in [*Data]):
                 Data[row['VariationNumber']]['VariationID'] = row['VariationID']
 
-    output_path = writeCSV(Data, 'price', column_names)
+    output_path = variation_upload.writeCSV(Data, 'price', column_names)

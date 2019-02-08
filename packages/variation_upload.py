@@ -37,20 +37,38 @@ def writeCSV(dataobject, name, columns):
 def variationUpload(flatfile, intern_number):
 
     # The column header names
-    names = ['ItemID', 'VariationID', 'VariationNumber', 'VariationName', 'Position', 'LengthMM', 'WidthMM', 'HeightMM',
-             'WeightG', 'VariationAttributes', 'PurchasePrice', 'MainWarehouse', 'Availability', 'AutoStockVisible']
+    names = ['ItemID', 'VariationID', 'VariationNumber', 'VariationName', 'Position',
+             'LengthMM', 'WidthMM', 'HeightMM', 'WeightG', 'VariationAttributes',
+             'PurchasePrice', 'MainWarehouse', 'Availability', 'AutoStockVisible',
+             'ExternalID']
 
     # create a Data Dictionary and fill it with the necessary values from the flatfile
     Data = SortedDict()
 
     with open(flatfile, mode='r') as item:
         reader = DictReader(item, delimiter=";")
+
+        relationship = ['parent_child', 'Variantenbestandteil']
         for row in reader:
-            if(row['parent_child'] == 'parent'):
+            try:
+                if(row[relationship[0]]):
+                    relationcolum = relationship[0]
+            except KeyError:
+                if(row[relationship[1]]):
+                    relationcolum = relationship[1]
+            except KeyError as err:
+                print(err)
+                print("There seems to be a new Flatfile, please check column for parent\n",
+                     " & child relationship for the headername and enter it within the\n",
+                     " first with open(flatfile....")
+            if(row[relationcolum] == 'parent'):
                 item_name = row['item_name']
-            if(row['parent_child'] == 'child'):
+            if(row[relationcolum] == 'child'):
                 try:
-                    if(row['package_height'] and row['package_length'] and row['package_width']):
+                    if(row['package_height'] and
+                    row['package_length'] and
+                    row['package_width']):
+
                         row['package_height'] = int(row['package_height'])
                         row['package_length'] = int(row['package_length'])
                         row['package_width'] = int(row['package_width'])
@@ -61,7 +79,8 @@ def variationUpload(flatfile, intern_number):
                 except ValueError as err:
                     print(err)
                     print(
-                        "/nPlease copy the values for height, length, width and weight\nfrom the children to the parent variation in the flatfile.\n")
+                        '/nPlease copy the values for height, length, width and weight\n',
+                        'from the children to the parent variation in the flatfile.\n')
                     exit()
 
                 if(row['color_name']):
@@ -69,14 +88,19 @@ def variationUpload(flatfile, intern_number):
                 if(row['size_name']):
                     attributes += ';size_name:' + row['size_name']
                 try:
-                    values = ['', '', row['item_sku'], item_name, '', int(row['package_length']) * 10, int(row['package_width']) * 10, int(
-                        row['package_height']) * 10, row['package_weight'], attributes, row['standard_price'], 'Badel', 'Y', 'Y']
+                    values = ['', '', row['item_sku'], item_name, '',
+                              int(row['package_length']) * 10,
+                              int(row['package_width']) * 10,
+                              int(row['package_height']) * 10,
+                              row['package_weight'], attributes,
+                              row['standard_price'], 'Badel', 'Y', 'Y', '']
                 except Exception as err:
                     print(err)
                     exit()
                 Data[row['item_sku']] = SortedDict(zip(names, values))
 
-    # open the intern numbers csv and fill in the remaining missing fields by using the item_sku as dict key
+    # open the intern numbers csv and fill in the remaining missing fields by using the
+    # item_sku as dict key
     with open(intern_number, mode='r') as item:
         reader = DictReader(item, delimiter=';')
         for row in reader:
@@ -85,6 +109,7 @@ def variationUpload(flatfile, intern_number):
                 Data[row['amazon_sku']]['ItemID'] = row['article_id']
                 if(not(row['position'] == 0)):
                     Data[row['amazon_sku']]['Position'] = row['position']
+                    Data[row['amazon_sku']]['ExternalID'] = row['full_number']
 
     output_path = writeCSV(Data, 'variation', names)
 
@@ -92,7 +117,8 @@ def variationUpload(flatfile, intern_number):
 
 
 def setActive(flatfile, export):
-    # because of a regulation of the plentyMarkets system the active status has to be delivered as an extra upload
+    # because of a regulation of the plentyMarkets system the active status has to be
+    # delivered as an extra upload
     column_names = ['Active', 'VariationID']
     Data = {}
     # open the flatfile to get the sku names
@@ -112,7 +138,8 @@ def setActive(flatfile, export):
 
 
 def EANUpload(flatfile, export):
-    # open the flatfile get the ean for an sku and save it into a dictionary with columnheaders of the plentymarket dataformat
+    # open the flatfile get the ean for an sku and save it into a dictionary with
+    # columnheaders of the plentymarket dataformat
 
     column_names = ['BarcodeID', 'BarcodeName', 'BarcodeType',
                     'Code', 'VariationID', 'VariationNumber']

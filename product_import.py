@@ -5,8 +5,7 @@ from packages.item_upload import itemUpload, itemPropertyUpload
 # from packages.attribute_upload import attributeUpload
 from packages.variation_upload import variationUpload, setActive, EANUpload, marketConnection
 from packages.stock_upload import stockUpload, priceUpload
-from packages.UploadGUI import UploadGUI
-from packages.amazon_data_upload import amazonSkuUpload, amazonDataUpload
+from packages.amazon_data_upload import amazonSkuUpload, amazonDataUpload, asinUpload
 from packages.image_upload import imageUpload
 
 
@@ -74,6 +73,10 @@ def main():
     print("\nCreate a upload file for the additional Information to Amazon Products like bullet points, lifestyle etc.\n")
 
     amazonDataUpload(sheet, export)
+
+    print("\nCollect the ASIN Numbers matching to the Variationnumber(Sku) and format them into the dataformat format.\n")
+
+    asinUpload(export, stocklist)
 
     print("\nCollect the imagelinks from the flatfile, sorts them and assigns the variation ID.\n")
     try:

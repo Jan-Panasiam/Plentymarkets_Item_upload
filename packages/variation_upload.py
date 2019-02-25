@@ -47,23 +47,10 @@ def variationUpload(flatfile, intern_number):
 
     with open(flatfile, mode='r') as item:
         reader = DictReader(item, delimiter=";")
-
-        relationship = ['parent_child', 'Variantenbestandteil']
         for row in reader:
-            try:
-                if(row[relationship[0]]):
-                    relationcolum = relationship[0]
-            except KeyError:
-                if(row[relationship[1]]):
-                    relationcolum = relationship[1]
-            except KeyError as err:
-                print(err)
-                print("There seems to be a new Flatfile, please check column for parent\n",
-                     " & child relationship for the headername and enter it within the\n",
-                     " first with open(flatfile....")
-            if(row[relationcolum] == 'parent'):
+            if(row['parent_child'] == 'parent'):
                 item_name = row['item_name']
-            if(row[relationcolum] == 'child'):
+            if(row['parent_child'] == 'child'):
                 try:
                     if(row['package_height'] and
                     row['package_length'] and

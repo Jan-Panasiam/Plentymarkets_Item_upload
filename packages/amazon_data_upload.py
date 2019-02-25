@@ -36,7 +36,7 @@ def amazonSkuUpload(flatfile, export):
 
 def amazonDataUpload(flatfile, export):
 
-    column_names = ['ItemAmazonProductType', 'ItemProductType', 'bullet_point1',
+    column_names = ['ItemAmazonProductType', 'ItemAmazonFBA', 'bullet_point1',
                     'bullet_point2', 'bullet_point3', 'bullet_point4',
                     'bullet_point5', 'fit_type',
                     'lifestyle', 'batteries_required',
@@ -44,16 +44,34 @@ def amazonDataUpload(flatfile, export):
                     'supplier_declared_dg_hz_regulation2',
                     'supplier_declared_dg_hz_regulation3',
                     'supplier_declared_dg_hz_regulation4',
-                    'supplier_declared_dg_hz_regulation5', 'ItemID']
+                    'supplier_declared_dg_hz_regulation5', 'ItemID',
+                    'ItemShippingWithAmazonFBA']
 
     Data = SortedDict()
 
     with open(flatfile, mode='r') as item:
         reader = csv.DictReader(item, delimiter=";")
 
+        type_id = {
+            'accessory':28,
+            'shirt':13,
+            'pants':15,
+            'dress':18,
+            'outerwear':21,
+            'bags':27
+        }
+
+        product_type = ''
+
         for row in reader:
             if(row['parent_child'] == 'parent'):
-                values = [row['feed_product_type'], row['feed_product_type'],
+
+                if(row['feed_product_type'].lower() in [*type_id]):
+                    for key in type_id:
+                        if(row['feed_product_type'].lower() == key):
+                            product_type = type_id[key]
+
+                values = [product_type, '1',
                           row['bullet_point1'], row['bullet_point2'],
                           row['bullet_point3'], row['bullet_point4'],
                           row['bullet_point5'], row['fit_type'],
@@ -63,7 +81,7 @@ def amazonDataUpload(flatfile, export):
                           row['supplier_declared_dg_hz_regulation3'],
                           row['supplier_declared_dg_hz_regulation4'],
                           row['supplier_declared_dg_hz_regulation5'],
-                          '']
+                          '','1']
                 Data[row['item_sku']] = SortedDict(zip(column_names, values))
 
     with open(export, mode='r') as item:
@@ -87,7 +105,7 @@ def asinUpload(export, stock):
 
         for row in reader:
             if row['VariationID']:
-                values = [ '', '1', '', row['VariationID'] ]
+                values = [ '', '1', '0', row['VariationID'] ]
 
                 Data[row['VariationNumber']] = dict(zip(column_names, values))
 

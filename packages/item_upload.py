@@ -42,26 +42,11 @@ def itemUpload(flatfile, intern):
 
     with open(flatfile, mode='r') as item:
         reader = csv.DictReader(item, delimiter=";")
-
-
-        relationship = ['parent_child', 'Variantenbestandteil']
         for row in reader:
-            try:
-                if(row[relationship[0]]):
-                    relationcolum = relationship[0]
-            except KeyError:
-                if(row[relationship[1]]):
-                    relationcolum = relationship[1]
-            except KeyError as err:
-                print(err)
-                print("There seems to be a new Flatfile, please check column for parent\n",
-                      " & child relationship for the headername and enter it within the\n",
-                      " first with open(flatfile....)")
-                exit(1)
-                    # transform the text format to integer in order to adjust the
-                    # height, width, length numbers from centimeter to milimeter
+            # transform the text format to integer in order to adjust the
+            # height, width, length numbers from centimeter to milimeter
 
-            if(row[relationcolum]):
+            if(row['parent_child'] == 'parent'):
                 try:
                     if(row['package_height'] and
                     row['package_length'] and
@@ -89,19 +74,20 @@ def itemUpload(flatfile, intern):
                 # combine the keyword columns into a single one
                 # after that check the size of the keywords
                 # because the maximum for amazon is 250byte
-                if(row['generic_keywords1']):
-                    keywords = ''
-                    try:
-                        keywords = str(row['generic_keywords1'] + '' +
-                                    row['generic_keywords2'] + '' +
-                                    row['generic_keywords3'] + '' +
-                                    row['generic_keywords4'] + '' +
-                                    row['generic_keywords5'])
-                    except Exception as err:
-                        print(err)
-                        print("The combination of the keywords failed!")
-                else if(row['generic_keywords']):
-                    keywords = 'generic_keywords'
+#                if('generic_keywords1' in headers):
+#                    if(row['generic_keywords1']):
+#                        keywords = ''
+#                        try:
+#                            keywords = str(row['generic_keywords1'] + '' +
+#                                        row['generic_keywords2'] + '' +
+#                                        row['generic_keywords3'] + '' +
+#                                        row['generic_keywords4'] + '' +
+#                                        row['generic_keywords5'])
+#                        except Exception as err:
+#                            print(err)
+#                            print("The combination of the keywords failed!")
+                if(row['generic_keywords']):
+                    keywords = row[ 'generic_keywords' ]
 
                 try:
                     values = ['', row['item_sku'], row['package_length'] * 10,
@@ -147,15 +133,15 @@ def itemPropertyUpload(flatfile, export):
 
                     material[row['item_sku']] = 4
                     value[row['item_sku']] = "Baumwolle"
-            if(re.search(r'(hemp|hanf)',
-               row['outer_material_type'].lower())):
+                if(re.search(r'(hemp|hanf)',
+                row['outer_material_type'].lower())):
 
-                material[row['item_sku']] = 5
-                value[row['item_sku']] = "Hanf"
-            if(re.search(r'(viskose|viscose)',
-               row['outer_material_type'].lower())):
+                    material[row['item_sku']] = 5
+                    value[row['item_sku']] = "Hanf"
+                if(re.search(r'(viskose|viscose)',
+                row['outer_material_type'].lower())):
 
-                material[row['item_sku']] = 6
+                    material[row['item_sku']] = 6
                 value[row['item_sku']] = "Viskose"
 
     with open(export, mode='r') as item:
@@ -175,12 +161,13 @@ def itemPropertyUpload(flatfile, export):
 
                 Data[row['VariationNumber'] + '1'] = dict(zip(column_names,
                                                           values))
-                values = [material[row['VariationNumber']],
-                          row['ItemID'],
-                          row['VariationName'],
-                          'de',
-                          value[row['VariationNumber']]]
+                if(row['VariationNumber'] in [*material]):
+                    values = [material[row['VariationNumber']],
+                            row['ItemID'],
+                            row['VariationName'],
+                            'de',
+                            value[row['VariationNumber']]]
 
-                Data[row['VariationNumber'] + '2'] = dict(zip(column_names,
+                    Data[row['VariationNumber'] + '2'] = dict(zip(column_names,
                                                           values))
     variation_upload.writeCSV(Data, "property", column_names)

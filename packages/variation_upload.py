@@ -155,7 +155,7 @@ def marketConnection(export, ebay=0, amazon=0):
     # and 0 for False
 
     column_names = ['VariationID', 'VariationCustomNumber',
-                    'webApi', 'AmazonGermany', 'Amazon', 'eBayGermany', 'Ebay']
+                    'webApi', 'AmazonFBAGermany', 'AmazonFBA', 'eBayGermany', 'Ebay']
 
     Data = {}
     with open(export, mode='r') as item:

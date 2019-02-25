@@ -44,7 +44,7 @@ def main():
     print("\nGet a dataexport from the plentymarket site from the variation attributes, in order to access the current Variation ID.\n")
     try:
         export = askopenfilename()
-    except FileNotFoundError:
+    except FileNotFoundError: # pylint:disable=invalid-name,used-before-assignment
         print("No Export File!")
     except Exception as exc:
         print(exc)
@@ -88,7 +88,7 @@ def main():
     print("\nActivate Marketconnection for Ebay & Amazon for all variation.\n")
 
     try:
-        marketConnection(export, ebay=1, amazon=0)
+        marketConnection(export, ebay=1, amazon=1)
     except Exception as err:
         print(err)
         print("Market connection failed!")

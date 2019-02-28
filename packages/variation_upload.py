@@ -1,4 +1,4 @@
-from csv import DictReader, DictWriter
+import csv
 from os.path import isfile
 try:
     from sortedcontainers import SortedDict
@@ -23,7 +23,7 @@ def writeCSV(dataobject, name, columns):
             str(output_path_number) + datatype
 
     with open(output_path, mode='a') as item:
-        writer = DictWriter(item, delimiter=";", fieldnames=columns)
+        writer = csv.DictWriter(item, delimiter=";", fieldnames=columns)
         writer.writeheader()
         for row in dataobject:
             writer.writerow(dataobject[row])
@@ -42,11 +42,14 @@ def variationUpload(flatfile, intern_number):
              'PurchasePrice', 'MainWarehouse', 'Availability', 'AutoStockVisible',
              'ExternalID']
 
+    # get the amount of different sizes to exclude adding the size if there is only a single one as attribute.
+    number_sizes = numberOfSizes(flatfile)
+
     # create a Data Dictionary and fill it with the necessary values from the flatfile
     Data = SortedDict()
 
     with open(flatfile, mode='r') as item:
-        reader = DictReader(item, delimiter=";")
+        reader = csv.DictReader(item, delimiter=";")
         for row in reader:
             if(row['parent_child'] == 'parent'):
                 item_name = row['item_name']
@@ -72,7 +75,7 @@ def variationUpload(flatfile, intern_number):
 
                 if(row['color_name']):
                     attributes = 'color_name:' + row['color_name']
-                if(row['size_name']):
+                if(row['size_name'] and number_sizes > 1):
                     attributes += ';size_name:' + row['size_name']
                 try:
                     values = ['', '', row['item_sku'], item_name, '',
@@ -89,7 +92,7 @@ def variationUpload(flatfile, intern_number):
     # open the intern numbers csv and fill in the remaining missing fields by using the
     # item_sku as dict key
     with open(intern_number, mode='r') as item:
-        reader = DictReader(item, delimiter=';')
+        reader = csv.DictReader(item, delimiter=';')
         for row in reader:
             # check if the sku is within the keys of the Data Dictionary
             if(row['amazon_sku'] in [*Data]):
@@ -110,14 +113,14 @@ def setActive(flatfile, export):
     Data = {}
     # open the flatfile to get the sku names
     with open(flatfile, mode='r') as item:
-        reader = DictReader(item, delimiter=';')
+        reader = csv.DictReader(item, delimiter=';')
 
         for row in reader:
             values = ['Y', '']
             Data[row['item_sku']] = dict(zip(column_names, values))
 
     with open(export, mode='r') as item:
-        reader = DictReader(item, delimiter=';')
+        reader = csv.DictReader(item, delimiter=';')
         for row in reader:
             if(row['VariationNumber'] in [*Data]):
                 Data[row['VariationNumber']]['VariationID'] = row['VariationID']
@@ -132,7 +135,7 @@ def EANUpload(flatfile, export):
                     'Code', 'VariationID', 'VariationNumber']
     Data = {}
     with open(flatfile, mode='r') as item:
-        reader = DictReader(item, delimiter=";")
+        reader = csv.DictReader(item, delimiter=";")
 
         for row in reader:
             values = ['3', 'UPC', 'UPC',
@@ -141,7 +144,7 @@ def EANUpload(flatfile, export):
 
     # open the exported file to get the variation id
     with open(export, mode='r') as item:
-        reader = DictReader(item, delimiter=";")
+        reader = csv.DictReader(item, delimiter=";")
 
         for row in reader:
             if(row['VariationNumber'] in [*Data]):
@@ -159,7 +162,7 @@ def marketConnection(export, ebay=0, amazon=0):
 
     Data = {}
     with open(export, mode='r') as item:
-        reader = DictReader(item, delimiter=';')
+        reader = csv.DictReader(item, delimiter=';')
 
         for row in reader:
             if row['VariationID'] and row['VariationNumber']:
@@ -169,3 +172,22 @@ def marketConnection(export, ebay=0, amazon=0):
 
 
     output_path = writeCSV(Data, 'market_connect', column_names)
+
+def numberOfSizes(flatfile):
+    # open the flatfile and read the size of each variation, put all of them in a set
+    # and return the size of the set.
+
+    length_set = 0
+    sizeset = set()
+
+    with open(flatfile, mode='r') as item:
+        reader = csv.DictReader(item, delimiter=';')
+
+        for row in reader:
+            sizeset.add(row['size_name'])
+
+    sizeset.discard('')
+
+    print("lenght of set %0, content of set %1",len(sizeset), sizeset)
+
+    return len(sizeset)

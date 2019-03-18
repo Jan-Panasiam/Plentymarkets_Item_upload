@@ -20,7 +20,7 @@ def amazonSkuUpload(flatfile, export):
         item_number = 1
         for row in reader:
             if(row['VariationID']):
-                values = [row['VariationID'], '4', '0', '', '']
+                values = [row['VariationID'], '104', '0', '', '']
                 Data[row['VariationNumber']] = SortedDict(
                     zip(column_names, values))
 
@@ -36,16 +36,16 @@ def amazonSkuUpload(flatfile, export):
 
 def amazonDataUpload(flatfile, export):
 
-    column_names = ['ItemAmazonProductType', 'ItemAmazonFBA', 'bullet_point1',
-                    'bullet_point2', 'bullet_point3', 'bullet_point4',
-                    'bullet_point5', 'fit_type',
-                    'lifestyle', 'batteries_required',
-                    'supplier_declared_dg_hz_regulation1',
-                    'supplier_declared_dg_hz_regulation2',
-                    'supplier_declared_dg_hz_regulation3',
-                    'supplier_declared_dg_hz_regulation4',
-                    'supplier_declared_dg_hz_regulation5', 'ItemID',
-                    'ItemShippingWithAmazonFBA']
+    column_names = [
+                        'ItemAmazonProductType', 'ItemAmazonFBA',
+                        'bullet_point1','bullet_point2', 'bullet_point3',
+                        'bullet_point4', 'bullet_point5',
+                        'fit_type', 'lifestyle', 'batteries_required',
+                        'supplier_declared_dg_hz_regulation1',
+                        'department_name', 'variation_theme', 'collection_name',
+                        'material_composition', 'size_map', 'size_name',
+                        'color_map', 'ItemID','ItemShippingWithAmazonFBA'
+                   ]
 
     Data = SortedDict()
 
@@ -77,12 +77,25 @@ def amazonDataUpload(flatfile, export):
                           row['bullet_point5'], row['fit_type'],
                           row['lifestyle'], row['batteries_required'],
                           row['supplier_declared_dg_hz_regulation1'],
-                          row['supplier_declared_dg_hz_regulation2'],
-                          row['supplier_declared_dg_hz_regulation3'],
-                          row['supplier_declared_dg_hz_regulation4'],
-                          row['supplier_declared_dg_hz_regulation5'],
-                          '','1']
+                          row['department_name'],
+                          row['variation_theme'],
+                          row['collection_name'],
+                          row['material_composition'],
+                          row['size_map'],
+                          row['size_name'],
+                          row['color_map'],
+                          '0','1']
+
                 Data[row['item_sku']] = SortedDict(zip(column_names, values))
+
+            if(row['parent_child'] == 'child' and row['parent_sku'] in [*Data]):
+                for key in column_names:
+                    if(not(Data[ row[ 'parent_sku' ] ][ key ])):
+                        try:
+                            Data[ row[ 'parent_sku' ] ][ key ] = row[ key ]
+                        except Exception as err:
+                            print(err)
+
 
     with open(export, mode='r') as item:
         reader = csv.DictReader(item, delimiter=";")

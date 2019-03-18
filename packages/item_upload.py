@@ -131,18 +131,18 @@ def itemPropertyUpload(flatfile, export):
                 if(re.search(r'(cotton|baumwolle)',
                    row['outer_material_type'].lower())):
 
-                    material[row['item_sku']] = 4
+                    material[row['item_sku']] = 7
                     value[row['item_sku']] = "Baumwolle"
                 if(re.search(r'(hemp|hanf)',
                 row['outer_material_type'].lower())):
 
-                    material[row['item_sku']] = 5
+                    material[row['item_sku']] = 7
                     value[row['item_sku']] = "Hanf"
                 if(re.search(r'(viskose|viscose)',
                 row['outer_material_type'].lower())):
 
-                    material[row['item_sku']] = 6
-                value[row['item_sku']] = "Viskose"
+                    material[row['item_sku']] = 7
+                    value[row['item_sku']] = "Viskose"
 
     with open(export, mode='r') as item:
         reader = csv.DictReader(item, delimiter=';', lineterminator='\n')
@@ -153,14 +153,6 @@ def itemPropertyUpload(flatfile, export):
         Data = {}
         for row in reader:
             if(row['AttributeValueSetID'] == ''):
-                values = ['3',
-                          row['ItemID'],
-                          row['VariationName'],
-                          'de',
-                          'PANASIAM']
-
-                Data[row['VariationNumber'] + '1'] = dict(zip(column_names,
-                                                          values))
                 if(row['VariationNumber'] in [*material]):
                     values = [material[row['VariationNumber']],
                             row['ItemID'],
@@ -168,6 +160,6 @@ def itemPropertyUpload(flatfile, export):
                             'de',
                             value[row['VariationNumber']]]
 
-                    Data[row['VariationNumber'] + '2'] = dict(zip(column_names,
+                    Data[row['VariationNumber'] + '1'] = dict(zip(column_names,
                                                           values))
     variation_upload.writeCSV(Data, "property", column_names)

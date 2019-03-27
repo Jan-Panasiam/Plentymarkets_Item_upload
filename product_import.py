@@ -51,8 +51,7 @@ def main():
         print("Something went wrong at the Export file import!")
     print("spreadsheet csv containing the export : ", export)
     try:
-        print("EAN, Active, Merkmale & Price Upload")
-        EANUpload(sheet, export)
+        print("Active, Merkmale & Price Upload")
         setActive(sheet, export)
         itemPropertyUpload(sheet, export)
         priceUpload(sheet, export)
@@ -64,6 +63,7 @@ def main():
     stocklist = askopenfilename()
     print("spreadsheet csv containing the current stock : ", stocklist)
 
+    EANUpload(sheet, export, stocklist)
     stockUpload(sheet, stocklist)
 
     print("\nCreate a upload file for the SKU and Parent_SKU\nto connect existing items from amazon to plentyMarkets.\n")

@@ -123,26 +123,53 @@ def itemPropertyUpload(flatfile, export):
     with open(flatfile, mode='r') as item:
         reader = csv.DictReader(item, delimiter=';', lineterminator='\n')
 
-        material = {}
-        value = {}
-        # search for a material name and assign a number that correlates to it
+        # define the names of the property fields within the flatfile
+        property_names = ['bullet_point1', 'bullet_point2'
+                          , 'bullet_point3', 'bullet_point4'
+                          , 'bullet_point5', 'fit_type'
+                          , 'lifestyle', 'batteries_required'
+                          , 'supplier_declared_dg_hz_regulation'
+                          , 'department_name', 'variation_theme'
+                          , 'collection_name', 'material_composition'
+                          , 'outer_material_type']
+
+        # Assign the Plentymarkets property ID to the property_names
+        property_id = dict()
+
+        id_values = ['15', '16'
+                     , '17', '24'
+                     , '19', '20'
+                     , '9', '10'
+                     , '14'
+                     , '13', '12'
+                     , '11', '8'
+                     , '7']
+
+        property_id = dict( zip(property_names, id_values) )
+
+        properties = dict()
+
         for row in reader:
             if(row['parent_child'] == 'parent'):
-                if(re.search(r'(cotton|baumwolle)',
-                   row['outer_material_type'].lower())):
+                try:
+                    values = [row[property_names[0]], row[property_names[1]]
+                            , row[property_names[2]], row[property_names[3]]
+                            , row[property_names[4]], row[property_names[5]]
+                            , row[property_names[6]], row[property_names[7]]
+                            , row[property_names[8] + '1']
+                            , row[property_names[9]], row[property_names[10]]
+                            , row[property_names[11]], row[property_names[12]]
+                            , row[property_names[13]]
+                            ]
+                except ValueError as err:
+                    print("In property Upload: One of the values wasn't found : ", err)
 
-                    material[row['item_sku']] = 7
-                    value[row['item_sku']] = "Baumwolle"
-                if(re.search(r'(hemp|hanf)',
-                row['outer_material_type'].lower())):
+                # Check for empty values
+                #for index, item in enumerate( values ):
+                #    if(not(item)):
+                #        print(row['item_sku'], " has no value on ", property_names[index], " !")
 
-                    material[row['item_sku']] = 7
-                    value[row['item_sku']] = "Hanf"
-                if(re.search(r'(viskose|viscose)',
-                row['outer_material_type'].lower())):
-
-                    material[row['item_sku']] = 7
-                    value[row['item_sku']] = "Viskose"
+                properties[row['item_sku']] = dict(zip(property_names, values))
 
     with open(export, mode='r') as item:
         reader = csv.DictReader(item, delimiter=';', lineterminator='\n')
@@ -153,13 +180,18 @@ def itemPropertyUpload(flatfile, export):
         Data = {}
         for row in reader:
             if(row['AttributeValueSetID'] == ''):
-                if(row['VariationNumber'] in [*material]):
-                    values = [material[row['VariationNumber']],
-                            row['ItemID'],
-                            row['VariationName'],
-                            'de',
-                            value[row['VariationNumber']]]
+                if(row['VariationNumber'] in [*properties]):
+                    for number, key in enumerate( properties[row['VariationNumber']] ):
+                        if(properties[row['VariationNumber']][key]):
+                            values = [
+                                    property_id[key],
+                                    row['ItemID'],
+                                    row['VariationName'],
+                                    'de',
+                                    properties[row['VariationNumber']][key]
+                                    ]
 
-                    Data[row['VariationNumber'] + '1'] = dict(zip(column_names,
-                                                          values))
+                        Data[row['VariationNumber'] + str( number )] = dict(zip(column_names,
+                                                            values))
     variation_upload.writeCSV(Data, "property", column_names)
+

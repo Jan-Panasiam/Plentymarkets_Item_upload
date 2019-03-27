@@ -38,13 +38,7 @@ def amazonDataUpload(flatfile, export):
 
     column_names = [
                         'ItemAmazonProductType', 'ItemAmazonFBA',
-                        'bullet_point1','bullet_point2', 'bullet_point3',
-                        'bullet_point4', 'bullet_point5',
-                        'fit_type', 'lifestyle', 'batteries_required',
-                        'supplier_declared_dg_hz_regulation1',
-                        'department_name', 'variation_theme', 'collection_name',
-                        'material_composition', 'size_map', 'size_name',
-                        'color_map', 'ItemID','ItemShippingWithAmazonFBA'
+                        'ItemID','ItemShippingWithAmazonFBA'
                    ]
 
     Data = SortedDict()
@@ -72,18 +66,6 @@ def amazonDataUpload(flatfile, export):
                             product_type = type_id[key]
 
                 values = [product_type, '1',
-                          row['bullet_point1'], row['bullet_point2'],
-                          row['bullet_point3'], row['bullet_point4'],
-                          row['bullet_point5'], row['fit_type'],
-                          row['lifestyle'], row['batteries_required'],
-                          row['supplier_declared_dg_hz_regulation1'],
-                          row['department_name'],
-                          row['variation_theme'],
-                          row['collection_name'],
-                          row['material_composition'],
-                          row['size_map'],
-                          row['size_name'],
-                          row['color_map'],
                           '0','1']
 
                 Data[row['item_sku']] = SortedDict(zip(column_names, values))

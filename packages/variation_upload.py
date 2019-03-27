@@ -127,30 +127,61 @@ def setActive(flatfile, export):
     output_path = writeCSV(Data, 'active', column_names)
 
 
-def EANUpload(flatfile, export):
+def EANUpload(flatfile, export, stocklist):
     # open the flatfile get the ean for an sku and save it into a dictionary with
     # columnheaders of the plentymarket dataformat
 
     column_names = ['BarcodeID', 'BarcodeName', 'BarcodeType',
                     'Code', 'VariationID', 'VariationNumber']
+
+    barcode_types = {'EAN' : {'id' : 3, 'name' : 'UPC', 'type' : 'UPC'},
+                     'FNSKU' : {'id' : 5, 'name' : 'FNSKU', 'type' : 'EAN_13'}}
     Data = {}
     with open(flatfile, mode='r') as item:
         reader = csv.DictReader(item, delimiter=";")
 
         for row in reader:
-            values = ['3', 'UPC', 'UPC',
-                      row['external_product_id'], '', row['item_sku']]
-            Data[row['item_sku']] = dict(zip(column_names, values))
+            if(row['parent_child'] == 'child'):
+                for barcode in barcode_types:
+                    # Set code to an empty String if the barcode type matches EAN set it to to
+                    # the external_product_id
+                    code = ''
+                    if(barcode == 'EAN'):
+                        code = row['external_product_id']
+
+                    values = [
+                                barcode_types[barcode]['id'], barcode_types[barcode]['name'],
+                                barcode_types[barcode]['type'], code,
+                                '', row['item_sku']
+                            ]
+                    Data[row['item_sku'] + barcode] = dict(zip(column_names, values))
 
     # open the exported file to get the variation id
     with open(export, mode='r') as item:
         reader = csv.DictReader(item, delimiter=";")
 
         for row in reader:
-            if(row['VariationNumber'] in [*Data]):
-                Data[row['VariationNumber']]['VariationID'] = row['VariationID']
+            for barcode in barcode_types:
+                if(row['VariationNumber'] + barcode in [*Data]):
+                    Data[row['VariationNumber'] + barcode]['VariationID'] = row['VariationID']
 
-    output_path = writeCSV(Data, 'EAN', column_names)
+    with open(stocklist, mode='r') as item:
+        reader = csv.DictReader(item, delimiter=";")
+
+        for row in reader:
+            print(row['fnsku'])
+            for barcode in barcode_types:
+                if(row['MASTER'] + barcode in [*Data]):
+                    # Set code to an empty String if the barcode type matches FNSKU set it to to
+                    # the external_product_id
+                    code = ''
+                    if(barcode == 'FNSKU'):
+                        code = row['fnsku']
+
+                    if(code):
+                        Data[row['MASTER'] + barcode]['Code'] = code
+
+    output_path = writeCSV(Data, 'Barcode', column_names)
 
 
 def marketConnection(export, ebay=0, amazon=0):

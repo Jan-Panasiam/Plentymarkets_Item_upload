@@ -41,6 +41,7 @@ def priceUpload(flatfile, export):
     # The column header names
     column_names = ['VariationID', 'IsNet', 'VariationPrice', 'SalesPriceID']
 
+    price_id = ['1', '4']
     # create a Data Dictionary and fill it with the necessary values from the
     # flatfile
     Data = SortedDict()
@@ -49,8 +50,9 @@ def priceUpload(flatfile, export):
         reader = DictReader(item, delimiter=";")
         for row in reader:
             if(row['external_product_id']):
-                values = ['', 0, row['standard_price'], 1]
-                Data[row['item_sku']] = SortedDict(zip(column_names, values))
+                for ident in price_id:
+                    values = ['', 0, row['standard_price'], ident]
+                    Data[row['item_sku']] = SortedDict(zip(column_names, values))
 
     with open(export, mode='r') as item:
         reader = DictReader(item, delimiter=";")

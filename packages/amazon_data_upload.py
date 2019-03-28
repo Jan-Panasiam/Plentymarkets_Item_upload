@@ -113,3 +113,27 @@ def asinUpload(export, stock):
 
     variation_upload.writeCSV(dataobject=Data, name='asin', columns=column_names)
 
+def featureUpload(flatfile, feature, feature_id):
+
+	column_names = [
+						'Variation.number', 'VariationEigenschaften.id',
+						'VariationEigenschaften.cast', 'VariationEigenschaften.linked',
+						'VariationEigenschaften.value'
+				   ]
+
+	Data = {}
+
+	with open(flatfile, mode = 'r') as item:
+		reader = csv.DictReader(item, delimiter = ';')
+
+		for row in reader:
+			if(row['parent_child'] == 'child'):
+				values = [
+							row['item_sku'], feature_id,
+							'1', '1',
+							row[feature]
+						]
+
+				Data['item_sku'] = dict(zip(column_names, values))
+
+		variation_upload.writeCSV(dataobject=Data, name=feature.upper(), columns=column_names)

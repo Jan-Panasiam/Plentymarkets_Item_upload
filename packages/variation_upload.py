@@ -169,7 +169,6 @@ def EANUpload(flatfile, export, stocklist):
         reader = csv.DictReader(item, delimiter=";")
 
         for row in reader:
-            print(row['fnsku'])
             for barcode in barcode_types:
                 if(row['MASTER'] + barcode in [*Data]):
                     # Set code to an empty String if the barcode type matches FNSKU set it to to

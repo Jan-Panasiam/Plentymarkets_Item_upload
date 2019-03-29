@@ -130,7 +130,7 @@ def itemPropertyUpload(flatfile, export):
                           , 'lifestyle', 'batteries_required'
                           , 'supplier_declared_dg_hz_regulation'
                           , 'department_name', 'variation_theme'
-                          , 'collection_name', 'material_composition'
+                          , 'seasons', 'material_composition'
                           , 'outer_material_type']
 
         # Assign the Plentymarkets property ID to the property_names

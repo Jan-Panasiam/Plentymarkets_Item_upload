@@ -128,12 +128,13 @@ def featureUpload(flatfile, feature, feature_id):
 
 		for row in reader:
 			if(row['parent_child'] == 'child'):
+				print(row['item_sku'] + "\t")
 				values = [
 							row['item_sku'], feature_id,
 							'1', '1',
 							row[feature]
 						]
 
-				Data['item_sku'] = dict(zip(column_names, values))
+				Data[row[ 'item_sku' ]] = dict(zip(column_names, values))
 
 		variation_upload.writeCSV(dataobject=Data, name=feature.upper(), columns=column_names)

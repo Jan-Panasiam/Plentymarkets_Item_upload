@@ -1,11 +1,11 @@
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
-from sys import exit
+import sys
 from packages.item_upload import itemUpload, itemPropertyUpload
 # from packages.attribute_upload import attributeUpload
 from packages.variation_upload import variationUpload, setActive, EANUpload, marketConnection
 from packages.stock_upload import stockUpload, priceUpload
-from packages.amazon_data_upload import amazonSkuUpload, amazonDataUpload, asinUpload
+from packages.amazon_data_upload import amazonSkuUpload, amazonDataUpload, asinUpload, featureUpload
 from packages.image_upload import imageUpload
 
 
@@ -20,15 +20,15 @@ def main():
     root.withdraw()
     sheet = askopenfilename()
     intern_number = askopenfilename()
+    erroritem = ''
     print("spreadsheet csv containing the flatfile : ", sheet)
     print("spreadsheet csv containing the intern numbers : ", intern_number)
     try:
         print("\nItem Upload\n")
-        itemUpload(sheet, intern_number)
-    except Exception as exc:
-        print(exc)
+        erroritem = itemUpload(sheet, intern_number)
+    except:
         print("Item Upload failed!")
-
+        print("Here: ", erroritem)
     try:
         print("\nVariation Upload\n")
         variationUpload(sheet, intern_number)
@@ -51,14 +51,15 @@ def main():
         print("Something went wrong at the Export file import!")
     print("spreadsheet csv containing the export : ", export)
     try:
-        print("Active, Merkmale & Price Upload")
+        print("Active, properties , features & price Upload")
+        featureUpload(sheet, 'color_map', 1)
         setActive(sheet, export)
         itemPropertyUpload(sheet, export)
         priceUpload(sheet, export)
     except FileNotFoundError as err:
         print(err)
         print("Missing Data, check if you have\n - a flatfile\n - a intern file table\n - export file from plentymarkets\n - a sheet with the stock numbers!\n")
-        exit()
+        sys.exit()
     print("\nOpen your amazon storage report and save it as an csv.\n")
     stocklist = askopenfilename()
     print("spreadsheet csv containing the current stock : ", stocklist)

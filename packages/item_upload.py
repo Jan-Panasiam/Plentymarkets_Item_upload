@@ -46,62 +46,66 @@ def itemUpload(flatfile, intern):
             # transform the text format to integer in order to adjust the
             # height, width, length numbers from centimeter to milimeter
 
-            if(row['parent_child'] == 'parent'):
-                try:
-                    if(row['package_height'] and
-                    row['package_length'] and
-                    row['package_width']):
+            try:
+                if(row['parent_child'] == 'parent'):
+                    try:
+                        if(row['package_height'] and
+                        row['package_length'] and
+                        row['package_width']):
 
-                        row['package_height'] = int(row['package_height'])
-                        row['package_length'] = int(row['package_length'])
-                        row['package_width'] = int(row['package_width'])
+                            row['package_height'] = int(row['package_height'])
+                            row['package_length'] = int(row['package_length'])
+                            row['package_width'] = int(row['package_width'])
 
-                # if the number is a floating point number it has to be
-                # transformed into a float first befor the integer conversion
-                except ValueError as err:
-                    row['package_height'] = int(float(row['package_height']))
-                    row['package_length'] = int(float(row['package_length']))
-                    row['package_width'] = int(float(row['package_width']))
+                    # if the number is a floating point number it has to be
+                    # transformed into a float first befor the integer conversion
+                    except ValueError as err:
+                        row['package_height'] = int(float(row['package_height']))
+                        row['package_length'] = int(float(row['package_length']))
+                        row['package_width'] = int(float(row['package_width']))
 
-                except ValueError as err:
-                    print(err)
-                    print("/nPlease copy the values for height, length, width",
-                          "and weight\nfrom the children to the parent",
-                          "variation in the flatfile.\n")
-                    exit()
+                    except ValueError as err:
+                        print(err)
+                        print("/nPlease copy the values for height, length, width",
+                            "and weight\nfrom the children to the parent",
+                            "variation in the flatfile.\n")
+                        exit()
 
-                # get the keywords from the flatfile if it is a old flatfile
-                # combine the keyword columns into a single one
-                # after that check the size of the keywords
-                # because the maximum for amazon is 250byte
-#                if('generic_keywords1' in headers):
-#                    if(row['generic_keywords1']):
-#                        keywords = ''
-#                        try:
-#                            keywords = str(row['generic_keywords1'] + '' +
-#                                        row['generic_keywords2'] + '' +
-#                                        row['generic_keywords3'] + '' +
-#                                        row['generic_keywords4'] + '' +
-#                                        row['generic_keywords5'])
-#                        except Exception as err:
-#                            print(err)
-#                            print("The combination of the keywords failed!")
-                if(row['generic_keywords']):
-                    keywords = row[ 'generic_keywords' ]
+                    # get the keywords from the flatfile if it is a old flatfile
+                    # combine the keyword columns into a single one
+                    # after that check the size of the keywords
+                    # because the maximum for amazon is 250byte
+    #                if('generic_keywords1' in headers):
+    #                    if(row['generic_keywords1']):
+    #                        keywords = ''
+    #                        try:
+    #                            keywords = str(row['generic_keywords1'] + '' +
+    #                                        row['generic_keywords2'] + '' +
+    #                                        row['generic_keywords3'] + '' +
+    #                                        row['generic_keywords4'] + '' +
+    #                                        row['generic_keywords5'])
+    #                        except Exception as err:
+    #                            print(err)
+    #                            print("The combination of the keywords failed!")
+                    if(row['generic_keywords']):
+                        keywords = row[ 'generic_keywords' ]
 
-                try:
-                    values = ['', row['item_sku'], row['package_length'] * 10,
-                              row['package_width'] * 10,
-                              row['package_height'] * 10,
-                              row['package_weight'], row['item_name'],
-                              '104', '', '62', row['brand_name'].upper(), '3',
-                              row['feed_product_type'], '',
-                              row['product_description'], keywords, 'de',
-                              '', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 9, 1]
+                    try:
+                        values = ['', row['item_sku'], row['package_length'] * 10,
+                                row['package_width'] * 10,
+                                row['package_height'] * 10,
+                                row['package_weight'], row['item_name'],
+                                '104', '', '62', row['brand_name'].upper(), '3',
+                                row['feed_product_type'], '',
+                                row['product_description'], keywords, 'de',
+                                '', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 9, 1]
 
-                except Exception as err:
-                    print(err)
-                Data[row['item_sku']] = SortedDict(zip(column_names, values))
+                    except Exception as err:
+                        print(err)
+                    Data[row['item_sku']] = SortedDict(zip(column_names, values))
+            except KeyError as err:
+                print(err)
+                return row['item_sku']
 
         # open the intern number csv to get the item ID
         with open(intern, mode='r') as item:
@@ -131,7 +135,9 @@ def itemPropertyUpload(flatfile, export):
                           , 'supplier_declared_dg_hz_regulation'
                           , 'department_name', 'variation_theme'
                           , 'seasons', 'material_composition'
-                          , 'outer_material_type']
+                          , 'outer_material_type', 'collar_style'
+                          , 'neck_size', 'pattern_type'
+                          , 'sleeve_type']
 
         # Assign the Plentymarkets property ID to the property_names
         property_id = dict()
@@ -143,7 +149,9 @@ def itemPropertyUpload(flatfile, export):
                      , '14'
                      , '13', '12'
                      , '11', '8'
-                     , '7']
+                     , '7', '25'
+                     , '26', '28'
+                     , '29']
 
         property_id = dict( zip(property_names, id_values) )
 
@@ -159,7 +167,9 @@ def itemPropertyUpload(flatfile, export):
                             , row[property_names[8] + '1']
                             , row[property_names[9]], row[property_names[10]]
                             , row[property_names[11]], row[property_names[12]]
-                            , row[property_names[13]]
+                            , row[property_names[13]], row[property_names[14]]
+                            , row[property_names[15]], row[property_names[16]]
+                            , row[property_names[17]]
                             ]
                 except ValueError as err:
                     print("In property Upload: One of the values wasn't found : ", err)

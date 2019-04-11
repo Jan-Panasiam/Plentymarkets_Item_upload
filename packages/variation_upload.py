@@ -1,4 +1,4 @@
-from csv import DictReader, DictWriter
+import csv
 from os.path import isfile
 try:
     from sortedcontainers import SortedDict
@@ -14,14 +14,16 @@ def writeCSV(dataobject, name, columns):
 
     output_path_number = 1
     datatype = ".csv"
-    output_path = "Upload/" + name + "_upload_" + str(output_path_number) + datatype
+    output_path = "Upload/" + name + "_upload_" + \
+        str(output_path_number) + datatype
 
     while(isfile(output_path)):
         output_path_number = int(output_path_number) + 1
-        output_path = "Upload/" + name + "_upload_" + str(output_path_number) + datatype
+        output_path = "Upload/" + name + "_upload_" + \
+            str(output_path_number) + datatype
 
     with open(output_path, mode='a') as item:
-        writer = DictWriter(item, delimiter=";", fieldnames=columns)
+        writer = csv.DictWriter(item, delimiter=";", fieldnames=columns)
         writer.writeheader()
         for row in dataobject:
             writer.writerow(dataobject[row])
@@ -35,19 +37,28 @@ def writeCSV(dataobject, name, columns):
 def variationUpload(flatfile, intern_number):
 
     # The column header names
-    names = ['ItemID', 'VariationID', 'VariationNumber', 'VariationName', 'Position', 'LengthMM', 'WidthMM', 'HeightMM', 'WeightG', 'VariationAttributes', 'PurchasePrice', 'MainWarehouse', 'Availability', 'AutoStockVisible']
+    names = ['ItemID', 'VariationID', 'VariationNumber', 'VariationName', 'Position',
+             'LengthMM', 'WidthMM', 'HeightMM', 'WeightG', 'VariationAttributes',
+             'PurchasePrice', 'MainWarehouse', 'Availability', 'AutoStockVisible',
+             'ExternalID']
+
+    # get the amount of different sizes to exclude adding the size if there is only a single one as attribute.
+    number_sizes = numberOfSizes(flatfile)
 
     # create a Data Dictionary and fill it with the necessary values from the flatfile
     Data = SortedDict()
 
     with open(flatfile, mode='r') as item:
-        reader = DictReader(item, delimiter=";")
+        reader = csv.DictReader(item, delimiter=";")
         for row in reader:
             if(row['parent_child'] == 'parent'):
                 item_name = row['item_name']
             if(row['parent_child'] == 'child'):
                 try:
-                    if(row['package_height'] and row['package_length'] and row['package_width']):
+                    if(row['package_height'] and
+                    row['package_length'] and
+                    row['package_width']):
+
                         row['package_height'] = int(row['package_height'])
                         row['package_length'] = int(row['package_length'])
                         row['package_width'] = int(row['package_width'])
@@ -57,34 +68,38 @@ def variationUpload(flatfile, intern_number):
                     row['package_width'] = int(float(row['package_width']))
                 except ValueError as err:
                     print(err)
-                    print("/nPlease copy the values for height, length, width and weight\nfrom the children to the parent variation in the flatfile.\n")
+                    print(
+                        '/nPlease copy the values for height, length, width and weight\n',
+                        'from the children to the parent variation in the flatfile.\n')
                     exit()
 
                 if(row['color_name']):
                     attributes = 'color_name:' + row['color_name']
-                if(row['size_name']):
+                if(row['size_name'] and number_sizes > 1):
                     attributes += ';size_name:' + row['size_name']
-                if(row['outer_material_type']):
-                    attributes += ';material_name:' + row['outer_material_type']
-                if('pattern' in [*row] and row['pattern']):
-                    attributes += ';pattern:' + row['pattern']
                 try:
-                    values = ['', '', row['item_sku'], item_name, '', int(row['package_length']) * 10, int(row['package_width']) * 10, int(row['package_height']) * 10, row['package_weight'], attributes, row['standard_price'], 'Badel', 'Y', 'Y']
+                    values = ['', '', row['item_sku'], item_name, '',
+                              int(row['package_length']) * 10,
+                              int(row['package_width']) * 10,
+                              int(row['package_height']) * 10,
+                              row['package_weight'], attributes,
+                              row['standard_price'], 'Badel', 'Y', 'Y', '']
                 except Exception as err:
                     print(err)
                     exit()
                 Data[row['item_sku']] = SortedDict(zip(names, values))
 
-    # open the intern numbers csv and fill in the remaining missing fields by using the item_sku as dict key
+    # open the intern numbers csv and fill in the remaining missing fields by using the
+    # item_sku as dict key
     with open(intern_number, mode='r') as item:
-        reader = DictReader(item, delimiter=';')
+        reader = csv.DictReader(item, delimiter=';')
         for row in reader:
             # check if the sku is within the keys of the Data Dictionary
             if(row['amazon_sku'] in [*Data]):
                 Data[row['amazon_sku']]['ItemID'] = row['article_id']
-                Data[row['amazon_sku']]['VariationID'] = row['full_number']
                 if(not(row['position'] == 0)):
                     Data[row['amazon_sku']]['Position'] = row['position']
+                    Data[row['amazon_sku']]['ExternalID'] = row['full_number']
 
     output_path = writeCSV(Data, 'variation', names)
 
@@ -92,43 +107,117 @@ def variationUpload(flatfile, intern_number):
 
 
 def setActive(flatfile, export):
-    # because of a regulation of the plentyMarkets system the active status has to be delivered as an extra upload
-    column_names = ['Active', 'ItemID', 'VariationID', 'VariationNumber']
+    # because of a regulation of the plentyMarkets system the active status has to be
+    # delivered as an extra upload
+    column_names = ['Active', 'VariationID']
     Data = {}
     # open the flatfile to get the sku names
     with open(flatfile, mode='r') as item:
-        reader = DictReader(item, delimiter=';')
+        reader = csv.DictReader(item, delimiter=';')
 
         for row in reader:
-            values = ['Y', '', '', row['item_sku']]
+            values = ['Y', '']
             Data[row['item_sku']] = dict(zip(column_names, values))
 
     with open(export, mode='r') as item:
-        reader = DictReader(item, delimiter=';')
+        reader = csv.DictReader(item, delimiter=';')
         for row in reader:
             if(row['VariationNumber'] in [*Data]):
-                Data[row['VariationNumber']]['ItemID'] = row['ItemID']
                 Data[row['VariationNumber']]['VariationID'] = row['VariationID']
     output_path = writeCSV(Data, 'active', column_names)
 
 
-def EANUpload(flatfile, export):
-    # open the flatfile get the ean for an sku and save it into a dictionary with columnheaders of the plentymarket dataformat
-    column_names = ['BarcodeID', 'BarcodeName', 'BarcodeType', 'Code', 'VariationID', 'VariationNumber']
+def EANUpload(flatfile, export, stocklist):
+    # open the flatfile get the ean for an sku and save it into a dictionary with
+    # columnheaders of the plentymarket dataformat
+
+    column_names = ['BarcodeID', 'BarcodeName', 'BarcodeType',
+                    'Code', 'VariationID', 'VariationNumber']
+
+    barcode_types = {'EAN' : {'id' : 3, 'name' : 'UPC', 'type' : 'UPC'},
+                     'FNSKU' : {'id' : 5, 'name' : 'FNSKU', 'type' : 'EAN_13'}}
     Data = {}
     with open(flatfile, mode='r') as item:
-        reader = DictReader(item, delimiter=";")
+        reader = csv.DictReader(item, delimiter=";")
 
         for row in reader:
-            values = ['3', 'UPC', 'UPC', row['external_product_id'], '', row['item_sku']]
-            Data[row['item_sku']] = dict(zip(column_names, values))
+            if(row['parent_child'] == 'child'):
+                for barcode in barcode_types:
+                    # Set code to an empty String if the barcode type matches EAN set it to to
+                    # the external_product_id
+                    code = ''
+                    if(barcode == 'EAN'):
+                        code = row['external_product_id']
+
+                    values = [
+                                barcode_types[barcode]['id'], barcode_types[barcode]['name'],
+                                barcode_types[barcode]['type'], code,
+                                '', row['item_sku']
+                            ]
+                    Data[row['item_sku'] + barcode] = dict(zip(column_names, values))
 
     # open the exported file to get the variation id
     with open(export, mode='r') as item:
-        reader = DictReader(item, delimiter=";")
+        reader = csv.DictReader(item, delimiter=";")
 
         for row in reader:
-            if(row['VariationNumber'] in [*Data]):
-                Data[row['VariationNumber']]['VariationID'] = row['VariationID']
+            for barcode in barcode_types:
+                if(row['VariationNumber'] + barcode in [*Data]):
+                    Data[row['VariationNumber'] + barcode]['VariationID'] = row['VariationID']
 
-    output_path = writeCSV(Data, 'EAN', column_names)
+    with open(stocklist, mode='r') as item:
+        reader = csv.DictReader(item, delimiter=";")
+
+        for row in reader:
+            for barcode in barcode_types:
+                if(row['MASTER'] + barcode in [*Data]):
+                    # Set code to an empty String if the barcode type matches FNSKU set it to to
+                    # the external_product_id
+                    code = ''
+                    if(barcode == 'FNSKU'):
+                        code = row['fnsku']
+
+                    if(code):
+                        Data[row['MASTER'] + barcode]['Code'] = code
+
+    output_path = writeCSV(Data, 'Barcode', column_names)
+
+
+def marketConnection(export, ebay=0, amazon=0):
+    # Enable marketconnection of items and variations by entering 1 for True
+    # and 0 for False
+
+    column_names = ['VariationID', 'VariationCustomNumber',
+                    'webApi', 'AmazonFBAGermany', 'AmazonFBA', 'eBayGermany', 'Ebay']
+
+    Data = {}
+    with open(export, mode='r') as item:
+        reader = csv.DictReader(item, delimiter=';')
+
+        for row in reader:
+            if row['VariationID'] and row['VariationNumber']:
+                values = [row['VariationID'], row['VariationNumber'],
+                          '1', amazon, amazon, ebay, ebay]
+                Data[row['VariationNumber']] = dict(zip(column_names, values))
+
+
+    output_path = writeCSV(Data, 'market_connect', column_names)
+
+def numberOfSizes(flatfile):
+    # open the flatfile and read the size of each variation, put all of them in a set
+    # and return the size of the set.
+
+    length_set = 0
+    sizeset = set()
+
+    with open(flatfile, mode='r') as item:
+        reader = csv.DictReader(item, delimiter=';')
+
+        for row in reader:
+            sizeset.add(row['size_name'])
+
+    sizeset.discard('')
+
+    print("lenght of set %0, content of set %1",len(sizeset), sizeset)
+
+    return len(sizeset)

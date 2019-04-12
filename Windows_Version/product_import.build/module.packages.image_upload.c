@@ -67,27 +67,27 @@ static PyObject *const_str_plain_ItemImageUrl;
 static PyObject *const_str_plain_Link6;
 static PyObject *const_str_plain_IMG;
 extern PyObject *const_str_plain_fieldnames;
-extern PyObject *const_str_chr_44;
+static PyObject *const_str_chr_44;
 static PyObject *const_str_plain_other_image_url3;
 static PyObject *const_str_digest_86550dff38a42d21d7ecc4ba405b08ad;
 static PyObject *const_str_plain_other_image_url6;
 static PyObject *const_str_plain_other_image_url4;
 extern PyObject *const_str_plain_VariationID;
 static PyObject *const_str_plain_Link5;
+static PyObject *const_str_digest_e71a76cd8425bc044906dc0d9da19510;
 extern PyObject *const_str_plain_imageUpload;
 static PyObject *const_str_digest_f8ccd80c9bd87eea8a76e319cc49c7c0;
 extern PyObject *const_tuple_str_plain_SortedDict_tuple;
 extern PyObject *const_str_plain_sortedcontainers;
 static PyObject *const_str_plain_Link9;
 extern PyObject *const_tuple_empty;
-static PyObject *const_str_digest_4a59df53d64d9d1dd06c52df1acad43f;
 extern PyObject *const_str_plain_DictReader;
 static PyObject *const_str_plain_Link1;
 extern PyObject *const_str_plain_r;
 static PyObject *const_str_plain_parentsku;
 static PyObject *const_str_plain_other_image_url7;
 static PyObject *const_str_digest_50bbaec1a5eb857d671ae0a295a3ba99;
-extern PyObject *const_str_plain_match;
+static PyObject *const_str_plain_match;
 static PyObject *const_str_plain_VariationLink;
 static PyObject *const_tuple_571764174be2436e71f6ecb4f6eb470e_tuple;
 static PyObject *const_list_str_digest_24132dca8cce04f6eb26d9784274e35b_list;
@@ -115,7 +115,7 @@ static PyObject *const_str_plain_imglink;
 static PyObject *const_str_plain_other_image_url1;
 extern PyObject *const_int_pos_1;
 extern PyObject *const_str_plain_PrimaryVariationCustomNumber;
-extern PyObject *const_str_plain_replace;
+static PyObject *const_str_plain_replace;
 static PyObject *const_str_plain_findall;
 static PyObject *const_list_3e49eae715ef32d497b3a2e39c3e2fd1_list;
 static PyObject *const_str_plain_Link7;
@@ -145,87 +145,90 @@ static bool constants_created = false;
 /* Function to create module private constants. */
 static void createModuleConstants( void )
 {
-    const_str_plain_itemid = UNSTREAM_STRING_ASCII( &constant_bin[ 54235 ], 6, 1 );
-    const_str_digest_568e41ab45feb298299eabf32fcf863e = UNSTREAM_STRING_ASCII( &constant_bin[ 54241 ], 78, 0 );
-    const_str_plain_other_image_url8 = UNSTREAM_STRING_ASCII( &constant_bin[ 54319 ], 16, 1 );
-    const_tuple_ad35501cc09efc913201a23e42f56532_tuple = PyMarshal_ReadObjectFromString( (char *)&constant_bin[ 54335 ], 257 );
+    const_str_plain_itemid = UNSTREAM_STRING_ASCII( &constant_bin[ 2104 ], 6, 1 );
+    const_str_digest_568e41ab45feb298299eabf32fcf863e = UNSTREAM_STRING_ASCII( &constant_bin[ 2110 ], 78, 0 );
+    const_str_plain_other_image_url8 = UNSTREAM_STRING_ASCII( &constant_bin[ 2188 ], 16, 1 );
+    const_tuple_ad35501cc09efc913201a23e42f56532_tuple = PyMarshal_ReadObjectFromString( (char *)&constant_bin[ 2204 ], 257 );
     const_list_str_plain_variation_id_str_plain_item_id_list = PyList_New( 2 );
-    const_str_plain_variation_id = UNSTREAM_STRING_ASCII( &constant_bin[ 54592 ], 12, 1 );
+    const_str_plain_variation_id = UNSTREAM_STRING_ASCII( &constant_bin[ 2461 ], 12, 1 );
     PyList_SET_ITEM( const_list_str_plain_variation_id_str_plain_item_id_list, 0, const_str_plain_variation_id ); Py_INCREF( const_str_plain_variation_id );
-    const_str_plain_item_id = UNSTREAM_STRING_ASCII( &constant_bin[ 54604 ], 7, 1 );
+    const_str_plain_item_id = UNSTREAM_STRING_ASCII( &constant_bin[ 2473 ], 7, 1 );
     PyList_SET_ITEM( const_list_str_plain_variation_id_str_plain_item_id_list, 1, const_str_plain_item_id ); Py_INCREF( const_str_plain_item_id );
-    const_str_plain_other_image_url5 = UNSTREAM_STRING_ASCII( &constant_bin[ 54611 ], 16, 1 );
+    const_str_plain_other_image_url5 = UNSTREAM_STRING_ASCII( &constant_bin[ 2480 ], 16, 1 );
     const_list_str_digest_f8ccd80c9bd87eea8a76e319cc49c7c0_list = PyList_New( 1 );
-    const_str_digest_f8ccd80c9bd87eea8a76e319cc49c7c0 = UNSTREAM_STRING_ASCII( &constant_bin[ 54627 ], 10, 0 );
+    const_str_digest_f8ccd80c9bd87eea8a76e319cc49c7c0 = UNSTREAM_STRING_ASCII( &constant_bin[ 2496 ], 10, 0 );
     PyList_SET_ITEM( const_list_str_digest_f8ccd80c9bd87eea8a76e319cc49c7c0_list, 0, const_str_digest_f8ccd80c9bd87eea8a76e319cc49c7c0 ); Py_INCREF( const_str_digest_f8ccd80c9bd87eea8a76e319cc49c7c0 );
-    const_str_plain_Link4 = UNSTREAM_STRING_ASCII( &constant_bin[ 54637 ], 5, 1 );
-    const_str_digest_24132dca8cce04f6eb26d9784274e35b = UNSTREAM_STRING_ASCII( &constant_bin[ 54642 ], 11, 0 );
-    const_str_digest_2b2c36ecac5773513acc4505e9368f9a = UNSTREAM_STRING_ASCII( &constant_bin[ 54653 ], 30, 0 );
+    const_str_plain_Link4 = UNSTREAM_STRING_ASCII( &constant_bin[ 2506 ], 5, 1 );
+    const_str_digest_24132dca8cce04f6eb26d9784274e35b = UNSTREAM_STRING_ASCII( &constant_bin[ 2511 ], 11, 0 );
+    const_str_digest_2b2c36ecac5773513acc4505e9368f9a = UNSTREAM_STRING_ASCII( &constant_bin[ 2522 ], 30, 0 );
     const_list_str_digest_50bbaec1a5eb857d671ae0a295a3ba99_list = PyList_New( 1 );
-    const_str_digest_50bbaec1a5eb857d671ae0a295a3ba99 = UNSTREAM_STRING_ASCII( &constant_bin[ 54683 ], 5, 0 );
+    const_str_digest_50bbaec1a5eb857d671ae0a295a3ba99 = UNSTREAM_STRING_ASCII( &constant_bin[ 2552 ], 5, 0 );
     PyList_SET_ITEM( const_list_str_digest_50bbaec1a5eb857d671ae0a295a3ba99_list, 0, const_str_digest_50bbaec1a5eb857d671ae0a295a3ba99 ); Py_INCREF( const_str_digest_50bbaec1a5eb857d671ae0a295a3ba99 );
-    const_str_plain_blockEntry = UNSTREAM_STRING_ASCII( &constant_bin[ 54498 ], 10, 1 );
-    const_str_plain_ItemImageUrl = UNSTREAM_STRING_ASCII( &constant_bin[ 54688 ], 12, 1 );
-    const_str_plain_Link6 = UNSTREAM_STRING_ASCII( &constant_bin[ 54700 ], 5, 1 );
-    const_str_plain_IMG = UNSTREAM_STRING_ASCII( &constant_bin[ 54705 ], 3, 1 );
-    const_str_plain_other_image_url3 = UNSTREAM_STRING_ASCII( &constant_bin[ 54708 ], 16, 1 );
-    const_str_digest_86550dff38a42d21d7ecc4ba405b08ad = UNSTREAM_STRING_ASCII( &constant_bin[ 54724 ], 8, 0 );
-    const_str_plain_other_image_url6 = UNSTREAM_STRING_ASCII( &constant_bin[ 54732 ], 16, 1 );
-    const_str_plain_other_image_url4 = UNSTREAM_STRING_ASCII( &constant_bin[ 54748 ], 16, 1 );
-    const_str_plain_Link5 = UNSTREAM_STRING_ASCII( &constant_bin[ 54764 ], 5, 1 );
-    const_str_plain_Link9 = UNSTREAM_STRING_ASCII( &constant_bin[ 54769 ], 5, 1 );
-    const_str_digest_4a59df53d64d9d1dd06c52df1acad43f = UNSTREAM_STRING_ASCII( &constant_bin[ 54774 ], 24, 0 );
-    const_str_plain_Link1 = UNSTREAM_STRING_ASCII( &constant_bin[ 54798 ], 5, 1 );
-    const_str_plain_parentsku = UNSTREAM_STRING_ASCII( &constant_bin[ 54803 ], 9, 1 );
-    const_str_plain_other_image_url7 = UNSTREAM_STRING_ASCII( &constant_bin[ 54812 ], 16, 1 );
-    const_str_plain_VariationLink = UNSTREAM_STRING_ASCII( &constant_bin[ 54828 ], 13, 1 );
+    const_str_plain_blockEntry = UNSTREAM_STRING_ASCII( &constant_bin[ 2367 ], 10, 1 );
+    const_str_plain_ItemImageUrl = UNSTREAM_STRING_ASCII( &constant_bin[ 2557 ], 12, 1 );
+    const_str_plain_Link6 = UNSTREAM_STRING_ASCII( &constant_bin[ 2569 ], 5, 1 );
+    const_str_plain_IMG = UNSTREAM_STRING_ASCII( &constant_bin[ 2574 ], 3, 1 );
+    const_str_chr_44 = UNSTREAM_STRING_ASCII( &constant_bin[ 161 ], 1, 0 );
+    const_str_plain_other_image_url3 = UNSTREAM_STRING_ASCII( &constant_bin[ 2577 ], 16, 1 );
+    const_str_digest_86550dff38a42d21d7ecc4ba405b08ad = UNSTREAM_STRING_ASCII( &constant_bin[ 2593 ], 8, 0 );
+    const_str_plain_other_image_url6 = UNSTREAM_STRING_ASCII( &constant_bin[ 2601 ], 16, 1 );
+    const_str_plain_other_image_url4 = UNSTREAM_STRING_ASCII( &constant_bin[ 2617 ], 16, 1 );
+    const_str_plain_Link5 = UNSTREAM_STRING_ASCII( &constant_bin[ 2633 ], 5, 1 );
+    const_str_digest_e71a76cd8425bc044906dc0d9da19510 = UNSTREAM_STRING_ASCII( &constant_bin[ 2638 ], 24, 0 );
+    const_str_plain_Link9 = UNSTREAM_STRING_ASCII( &constant_bin[ 2662 ], 5, 1 );
+    const_str_plain_Link1 = UNSTREAM_STRING_ASCII( &constant_bin[ 2667 ], 5, 1 );
+    const_str_plain_parentsku = UNSTREAM_STRING_ASCII( &constant_bin[ 2672 ], 9, 1 );
+    const_str_plain_other_image_url7 = UNSTREAM_STRING_ASCII( &constant_bin[ 2681 ], 16, 1 );
+    const_str_plain_match = UNSTREAM_STRING_ASCII( &constant_bin[ 535 ], 5, 1 );
+    const_str_plain_VariationLink = UNSTREAM_STRING_ASCII( &constant_bin[ 2697 ], 13, 1 );
     const_tuple_571764174be2436e71f6ecb4f6eb470e_tuple = PyTuple_New( 8 );
-    const_str_plain_imglink = UNSTREAM_STRING_ASCII( &constant_bin[ 54470 ], 7, 1 );
+    const_str_plain_imglink = UNSTREAM_STRING_ASCII( &constant_bin[ 2339 ], 7, 1 );
     PyTuple_SET_ITEM( const_tuple_571764174be2436e71f6ecb4f6eb470e_tuple, 0, const_str_plain_imglink ); Py_INCREF( const_str_plain_imglink );
     PyTuple_SET_ITEM( const_tuple_571764174be2436e71f6ecb4f6eb470e_tuple, 1, const_str_plain_itemid ); Py_INCREF( const_str_plain_itemid );
-    const_str_plain_variationid = UNSTREAM_STRING_ASCII( &constant_bin[ 54841 ], 11, 1 );
+    const_str_plain_variationid = UNSTREAM_STRING_ASCII( &constant_bin[ 2710 ], 11, 1 );
     PyTuple_SET_ITEM( const_tuple_571764174be2436e71f6ecb4f6eb470e_tuple, 2, const_str_plain_variationid ); Py_INCREF( const_str_plain_variationid );
-    const_str_plain_variationlinks = UNSTREAM_STRING_ASCII( &constant_bin[ 54510 ], 14, 1 );
+    const_str_plain_variationlinks = UNSTREAM_STRING_ASCII( &constant_bin[ 2379 ], 14, 1 );
     PyTuple_SET_ITEM( const_tuple_571764174be2436e71f6ecb4f6eb470e_tuple, 3, const_str_plain_variationlinks ); Py_INCREF( const_str_plain_variationlinks );
-    const_str_plain_target = UNSTREAM_STRING_ASCII( &constant_bin[ 54852 ], 6, 1 );
+    const_str_plain_target = UNSTREAM_STRING_ASCII( &constant_bin[ 2721 ], 6, 1 );
     PyTuple_SET_ITEM( const_tuple_571764174be2436e71f6ecb4f6eb470e_tuple, 4, const_str_plain_target ); Py_INCREF( const_str_plain_target );
-    const_str_plain_existing = UNSTREAM_STRING_ASCII( &constant_bin[ 1399 ], 8, 1 );
+    const_str_plain_existing = UNSTREAM_STRING_ASCII( &constant_bin[ 1408 ], 8, 1 );
     PyTuple_SET_ITEM( const_tuple_571764174be2436e71f6ecb4f6eb470e_tuple, 5, const_str_plain_existing ); Py_INCREF( const_str_plain_existing );
     PyTuple_SET_ITEM( const_tuple_571764174be2436e71f6ecb4f6eb470e_tuple, 6, const_str_plain_blockEntry ); Py_INCREF( const_str_plain_blockEntry );
     PyTuple_SET_ITEM( const_tuple_571764174be2436e71f6ecb4f6eb470e_tuple, 7, const_str_plain_row ); Py_INCREF( const_str_plain_row );
     const_list_str_digest_24132dca8cce04f6eb26d9784274e35b_list = PyList_New( 1 );
     PyList_SET_ITEM( const_list_str_digest_24132dca8cce04f6eb26d9784274e35b_list, 0, const_str_digest_24132dca8cce04f6eb26d9784274e35b ); Py_INCREF( const_str_digest_24132dca8cce04f6eb26d9784274e35b );
-    const_str_plain_Link8 = UNSTREAM_STRING_ASCII( &constant_bin[ 54858 ], 5, 1 );
-    const_str_plain_Link2 = UNSTREAM_STRING_ASCII( &constant_bin[ 54863 ], 5, 1 );
-    const_str_plain_main_image_url = UNSTREAM_STRING_ASCII( &constant_bin[ 54868 ], 14, 1 );
-    const_str_plain_search = UNSTREAM_STRING_ASCII( &constant_bin[ 54431 ], 6, 1 );
+    const_str_plain_Link8 = UNSTREAM_STRING_ASCII( &constant_bin[ 2727 ], 5, 1 );
+    const_str_plain_Link2 = UNSTREAM_STRING_ASCII( &constant_bin[ 2732 ], 5, 1 );
+    const_str_plain_main_image_url = UNSTREAM_STRING_ASCII( &constant_bin[ 2737 ], 14, 1 );
+    const_str_plain_search = UNSTREAM_STRING_ASCII( &constant_bin[ 2300 ], 6, 1 );
     const_list_str_empty_list = PyList_New( 1 );
     PyList_SET_ITEM( const_list_str_empty_list, 0, const_str_empty ); Py_INCREF( const_str_empty );
-    const_str_plain_ItemImageItemID = UNSTREAM_STRING_ASCII( &constant_bin[ 54882 ], 15, 1 );
-    const_str_plain_other_image_url2 = UNSTREAM_STRING_ASCII( &constant_bin[ 54897 ], 16, 1 );
-    const_str_digest_ad941c752b4641f1244b53a43330d852 = UNSTREAM_STRING_ASCII( &constant_bin[ 54913 ], 65, 0 );
+    const_str_plain_ItemImageItemID = UNSTREAM_STRING_ASCII( &constant_bin[ 2751 ], 15, 1 );
+    const_str_plain_other_image_url2 = UNSTREAM_STRING_ASCII( &constant_bin[ 2766 ], 16, 1 );
+    const_str_digest_ad941c752b4641f1244b53a43330d852 = UNSTREAM_STRING_ASCII( &constant_bin[ 2782 ], 65, 0 );
     const_list_a300605b70f74a1a0e77959c3c617730_list = PyList_New( 9 );
     PyList_SET_ITEM( const_list_a300605b70f74a1a0e77959c3c617730_list, 0, const_str_plain_Link1 ); Py_INCREF( const_str_plain_Link1 );
     PyList_SET_ITEM( const_list_a300605b70f74a1a0e77959c3c617730_list, 1, const_str_plain_Link2 ); Py_INCREF( const_str_plain_Link2 );
-    const_str_plain_Link3 = UNSTREAM_STRING_ASCII( &constant_bin[ 54978 ], 5, 1 );
+    const_str_plain_Link3 = UNSTREAM_STRING_ASCII( &constant_bin[ 2847 ], 5, 1 );
     PyList_SET_ITEM( const_list_a300605b70f74a1a0e77959c3c617730_list, 2, const_str_plain_Link3 ); Py_INCREF( const_str_plain_Link3 );
     PyList_SET_ITEM( const_list_a300605b70f74a1a0e77959c3c617730_list, 3, const_str_plain_Link4 ); Py_INCREF( const_str_plain_Link4 );
     PyList_SET_ITEM( const_list_a300605b70f74a1a0e77959c3c617730_list, 4, const_str_plain_Link5 ); Py_INCREF( const_str_plain_Link5 );
     PyList_SET_ITEM( const_list_a300605b70f74a1a0e77959c3c617730_list, 5, const_str_plain_Link6 ); Py_INCREF( const_str_plain_Link6 );
-    const_str_plain_Link7 = UNSTREAM_STRING_ASCII( &constant_bin[ 54983 ], 5, 1 );
+    const_str_plain_Link7 = UNSTREAM_STRING_ASCII( &constant_bin[ 2852 ], 5, 1 );
     PyList_SET_ITEM( const_list_a300605b70f74a1a0e77959c3c617730_list, 6, const_str_plain_Link7 ); Py_INCREF( const_str_plain_Link7 );
     PyList_SET_ITEM( const_list_a300605b70f74a1a0e77959c3c617730_list, 7, const_str_plain_Link8 ); Py_INCREF( const_str_plain_Link8 );
     PyList_SET_ITEM( const_list_a300605b70f74a1a0e77959c3c617730_list, 8, const_str_plain_Link9 ); Py_INCREF( const_str_plain_Link9 );
-    const_str_digest_2fff37438ce400d56e32b392b5a1c26a = UNSTREAM_STRING_ASCII( &constant_bin[ 54988 ], 9, 0 );
-    const_str_plain_other_image_url1 = UNSTREAM_STRING_ASCII( &constant_bin[ 54997 ], 16, 1 );
-    const_str_plain_findall = UNSTREAM_STRING_ASCII( &constant_bin[ 55013 ], 7, 1 );
+    const_str_digest_2fff37438ce400d56e32b392b5a1c26a = UNSTREAM_STRING_ASCII( &constant_bin[ 2857 ], 9, 0 );
+    const_str_plain_other_image_url1 = UNSTREAM_STRING_ASCII( &constant_bin[ 2866 ], 16, 1 );
+    const_str_plain_replace = UNSTREAM_STRING_ASCII( &constant_bin[ 2170 ], 7, 1 );
+    const_str_plain_findall = UNSTREAM_STRING_ASCII( &constant_bin[ 2882 ], 7, 1 );
     const_list_3e49eae715ef32d497b3a2e39c3e2fd1_list = PyList_New( 4 );
     PyList_SET_ITEM( const_list_3e49eae715ef32d497b3a2e39c3e2fd1_list, 0, const_str_plain_ItemImageItemID ); Py_INCREF( const_str_plain_ItemImageItemID );
     PyList_SET_ITEM( const_list_3e49eae715ef32d497b3a2e39c3e2fd1_list, 1, const_str_plain_PrimaryVariationCustomNumber ); Py_INCREF( const_str_plain_PrimaryVariationCustomNumber );
     PyList_SET_ITEM( const_list_3e49eae715ef32d497b3a2e39c3e2fd1_list, 2, const_str_plain_VariationLink ); Py_INCREF( const_str_plain_VariationLink );
     PyList_SET_ITEM( const_list_3e49eae715ef32d497b3a2e39c3e2fd1_list, 3, const_str_plain_ItemImageUrl ); Py_INCREF( const_str_plain_ItemImageUrl );
-    const_str_plain_searchImage = UNSTREAM_STRING_ASCII( &constant_bin[ 55020 ], 11, 1 );
-    const_str_digest_d62bf4c0ba5e3f4391b87bbae8ee309e = UNSTREAM_STRING_ASCII( &constant_bin[ 55031 ], 21, 0 );
+    const_str_plain_searchImage = UNSTREAM_STRING_ASCII( &constant_bin[ 2889 ], 11, 1 );
+    const_str_digest_d62bf4c0ba5e3f4391b87bbae8ee309e = UNSTREAM_STRING_ASCII( &constant_bin[ 2900 ], 21, 0 );
 
     constants_created = true;
 }
@@ -242,16 +245,16 @@ void checkModuleConstants_packages$image_upload( void )
 #endif
 
 // The module code objects.
-static PyCodeObject *codeobj_5dd0da38bfb500e453c2a4579bbbebf8;
-static PyCodeObject *codeobj_3bf48e8e81f0e283115609637b8e42e5;
-static PyCodeObject *codeobj_25a6165d438f42c7c995c4b744b69951;
+static PyCodeObject *codeobj_aca0d15e67ef8d7b7534d91a2f46736b;
+static PyCodeObject *codeobj_be1b86cc7d6ae51c8dc94d64cd945bc0;
+static PyCodeObject *codeobj_b4eaf13588ad2ab05c417108bde90bf2;
 
 static void createModuleCodeObjects(void)
 {
-    module_filename_obj = MAKE_RELATIVE_PATH( const_str_digest_4a59df53d64d9d1dd06c52df1acad43f );
-    codeobj_5dd0da38bfb500e453c2a4579bbbebf8 = MAKE_CODEOBJ( module_filename_obj, const_str_digest_2b2c36ecac5773513acc4505e9368f9a, 1, const_tuple_empty, 0, 0, CO_NOFREE );
-    codeobj_3bf48e8e81f0e283115609637b8e42e5 = MAKE_CODEOBJ( module_filename_obj, const_str_plain_imageUpload, 37, const_tuple_ad35501cc09efc913201a23e42f56532_tuple, 2, 0, CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE );
-    codeobj_25a6165d438f42c7c995c4b744b69951 = MAKE_CODEOBJ( module_filename_obj, const_str_plain_searchImage, 7, const_tuple_571764174be2436e71f6ecb4f6eb470e_tuple, 5, 0, CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE );
+    module_filename_obj = MAKE_RELATIVE_PATH( const_str_digest_e71a76cd8425bc044906dc0d9da19510 );
+    codeobj_aca0d15e67ef8d7b7534d91a2f46736b = MAKE_CODEOBJ( module_filename_obj, const_str_digest_2b2c36ecac5773513acc4505e9368f9a, 1, const_tuple_empty, 0, 0, CO_NOFREE );
+    codeobj_be1b86cc7d6ae51c8dc94d64cd945bc0 = MAKE_CODEOBJ( module_filename_obj, const_str_plain_imageUpload, 37, const_tuple_ad35501cc09efc913201a23e42f56532_tuple, 2, 0, CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE );
+    codeobj_b4eaf13588ad2ab05c417108bde90bf2 = MAKE_CODEOBJ( module_filename_obj, const_str_plain_searchImage, 7, const_tuple_571764174be2436e71f6ecb4f6eb470e_tuple, 5, 0, CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE );
 }
 
 // The module function declarations.
@@ -285,7 +288,7 @@ static PyObject *impl_packages$image_upload$$$function_1_searchImage( struct Nui
     PyObject *tmp_for_loop_1__iter_value = NULL;
     PyObject *tmp_inplace_assign_subscr_1__subscript = NULL;
     PyObject *tmp_inplace_assign_subscr_1__target = NULL;
-    struct Nuitka_FrameObject *frame_25a6165d438f42c7c995c4b744b69951;
+    struct Nuitka_FrameObject *frame_b4eaf13588ad2ab05c417108bde90bf2;
     NUITKA_MAY_BE_UNUSED char const *type_description_1 = NULL;
     PyObject *exception_type = NULL;
     PyObject *exception_value = NULL;
@@ -302,7 +305,7 @@ static PyObject *impl_packages$image_upload$$$function_1_searchImage( struct Nui
     PyTracebackObject *exception_keeper_tb_2;
     NUITKA_MAY_BE_UNUSED int exception_keeper_lineno_2;
     PyObject *tmp_return_value = NULL;
-    static struct Nuitka_FrameObject *cache_frame_25a6165d438f42c7c995c4b744b69951 = NULL;
+    static struct Nuitka_FrameObject *cache_frame_b4eaf13588ad2ab05c417108bde90bf2 = NULL;
     PyObject *exception_keeper_type_3;
     PyObject *exception_keeper_value_3;
     PyTracebackObject *exception_keeper_tb_3;
@@ -324,14 +327,14 @@ static PyObject *impl_packages$image_upload$$$function_1_searchImage( struct Nui
         var_blockEntry = tmp_assign_source_2;
     }
     // Tried code:
-    MAKE_OR_REUSE_FRAME( cache_frame_25a6165d438f42c7c995c4b744b69951, codeobj_25a6165d438f42c7c995c4b744b69951, module_packages$image_upload, sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *) );
-    frame_25a6165d438f42c7c995c4b744b69951 = cache_frame_25a6165d438f42c7c995c4b744b69951;
+    MAKE_OR_REUSE_FRAME( cache_frame_b4eaf13588ad2ab05c417108bde90bf2, codeobj_b4eaf13588ad2ab05c417108bde90bf2, module_packages$image_upload, sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *) );
+    frame_b4eaf13588ad2ab05c417108bde90bf2 = cache_frame_b4eaf13588ad2ab05c417108bde90bf2;
 
     // Push the new frame as the currently active one.
-    pushFrameStack( frame_25a6165d438f42c7c995c4b744b69951 );
+    pushFrameStack( frame_b4eaf13588ad2ab05c417108bde90bf2 );
 
     // Mark the frame object as in use, ref count 1 will be up for reuse.
-    assert( Py_REFCNT( frame_25a6165d438f42c7c995c4b744b69951 ) == 2 ); // Frame stack
+    assert( Py_REFCNT( frame_b4eaf13588ad2ab05c417108bde90bf2 ) == 2 ); // Frame stack
 
     // Framed code:
     {
@@ -563,7 +566,7 @@ static PyObject *impl_packages$image_upload$$$function_1_searchImage( struct Nui
         tmp_args_element_name_1 = par_variationid;
         CHECK_OBJECT( par_variationlinks );
         tmp_args_element_name_2 = par_variationlinks;
-        frame_25a6165d438f42c7c995c4b744b69951->m_frame.f_lineno = 15;
+        frame_b4eaf13588ad2ab05c417108bde90bf2->m_frame.f_lineno = 15;
         {
             PyObject *call_args[] = { tmp_args_element_name_1, tmp_args_element_name_2 };
             tmp_call_result_1 = CALL_METHOD_WITH_ARGS2( tmp_called_instance_1, const_str_plain_search, call_args );
@@ -801,7 +804,7 @@ static PyObject *impl_packages$image_upload$$$function_1_searchImage( struct Nui
         tmp_args_element_name_3 = par_variationid;
         CHECK_OBJECT( par_variationlinks );
         tmp_args_element_name_4 = par_variationlinks;
-        frame_25a6165d438f42c7c995c4b744b69951->m_frame.f_lineno = 23;
+        frame_b4eaf13588ad2ab05c417108bde90bf2->m_frame.f_lineno = 23;
         {
             PyObject *call_args[] = { tmp_args_element_name_3, tmp_args_element_name_4 };
             tmp_operand_name_1 = CALL_METHOD_WITH_ARGS2( tmp_called_instance_2, const_str_plain_search, call_args );
@@ -1004,7 +1007,7 @@ static PyObject *impl_packages$image_upload$$$function_1_searchImage( struct Nui
                 type_description_1 = "oooooooo";
                 goto try_except_handler_2;
             }
-            frame_25a6165d438f42c7c995c4b744b69951->m_frame.f_lineno = 27;
+            frame_b4eaf13588ad2ab05c417108bde90bf2->m_frame.f_lineno = 27;
             {
                 PyObject *call_args[] = { tmp_args_element_name_5, tmp_args_element_name_6 };
                 tmp_operand_name_2 = CALL_FUNCTION_WITH_ARGS2( tmp_called_name_1, call_args );
@@ -1349,7 +1352,7 @@ static PyObject *impl_packages$image_upload$$$function_1_searchImage( struct Nui
     }
 
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_25a6165d438f42c7c995c4b744b69951 );
+    RESTORE_FRAME_EXCEPTION( frame_b4eaf13588ad2ab05c417108bde90bf2 );
 #endif
 
     // Put the previous frame back on top.
@@ -1359,7 +1362,7 @@ static PyObject *impl_packages$image_upload$$$function_1_searchImage( struct Nui
 
     frame_return_exit_1:;
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_25a6165d438f42c7c995c4b744b69951 );
+    RESTORE_FRAME_EXCEPTION( frame_b4eaf13588ad2ab05c417108bde90bf2 );
 #endif
 
     // Put the previous frame back on top.
@@ -1370,21 +1373,21 @@ static PyObject *impl_packages$image_upload$$$function_1_searchImage( struct Nui
     frame_exception_exit_1:;
 
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_25a6165d438f42c7c995c4b744b69951 );
+    RESTORE_FRAME_EXCEPTION( frame_b4eaf13588ad2ab05c417108bde90bf2 );
 #endif
 
     if ( exception_tb == NULL )
     {
-        exception_tb = MAKE_TRACEBACK( frame_25a6165d438f42c7c995c4b744b69951, exception_lineno );
+        exception_tb = MAKE_TRACEBACK( frame_b4eaf13588ad2ab05c417108bde90bf2, exception_lineno );
     }
-    else if ( exception_tb->tb_frame != &frame_25a6165d438f42c7c995c4b744b69951->m_frame )
+    else if ( exception_tb->tb_frame != &frame_b4eaf13588ad2ab05c417108bde90bf2->m_frame )
     {
-        exception_tb = ADD_TRACEBACK( exception_tb, frame_25a6165d438f42c7c995c4b744b69951, exception_lineno );
+        exception_tb = ADD_TRACEBACK( exception_tb, frame_b4eaf13588ad2ab05c417108bde90bf2, exception_lineno );
     }
 
     // Attachs locals to frame if any.
     Nuitka_Frame_AttachLocals(
-        (struct Nuitka_FrameObject *)frame_25a6165d438f42c7c995c4b744b69951,
+        (struct Nuitka_FrameObject *)frame_b4eaf13588ad2ab05c417108bde90bf2,
         type_description_1,
         par_imglink,
         par_itemid,
@@ -1398,13 +1401,13 @@ static PyObject *impl_packages$image_upload$$$function_1_searchImage( struct Nui
 
 
     // Release cached frame.
-    if ( frame_25a6165d438f42c7c995c4b744b69951 == cache_frame_25a6165d438f42c7c995c4b744b69951 )
+    if ( frame_b4eaf13588ad2ab05c417108bde90bf2 == cache_frame_b4eaf13588ad2ab05c417108bde90bf2 )
     {
-        Py_DECREF( frame_25a6165d438f42c7c995c4b744b69951 );
+        Py_DECREF( frame_b4eaf13588ad2ab05c417108bde90bf2 );
     }
-    cache_frame_25a6165d438f42c7c995c4b744b69951 = NULL;
+    cache_frame_b4eaf13588ad2ab05c417108bde90bf2 = NULL;
 
-    assertFrameObject( frame_25a6165d438f42c7c995c4b744b69951 );
+    assertFrameObject( frame_b4eaf13588ad2ab05c417108bde90bf2 );
 
     // Put the previous frame back on top.
     popFrameStack();
@@ -1580,7 +1583,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
     PyObject *tmp_with_3__exit = NULL;
     nuitka_bool tmp_with_3__indicator = NUITKA_BOOL_UNASSIGNED;
     PyObject *tmp_with_3__source = NULL;
-    struct Nuitka_FrameObject *frame_3bf48e8e81f0e283115609637b8e42e5;
+    struct Nuitka_FrameObject *frame_be1b86cc7d6ae51c8dc94d64cd945bc0;
     NUITKA_MAY_BE_UNUSED char const *type_description_1 = NULL;
     PyObject *exception_type = NULL;
     PyObject *exception_value = NULL;
@@ -1685,7 +1688,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
     PyObject *exception_keeper_value_21;
     PyTracebackObject *exception_keeper_tb_21;
     NUITKA_MAY_BE_UNUSED int exception_keeper_lineno_21;
-    static struct Nuitka_FrameObject *cache_frame_3bf48e8e81f0e283115609637b8e42e5 = NULL;
+    static struct Nuitka_FrameObject *cache_frame_be1b86cc7d6ae51c8dc94d64cd945bc0 = NULL;
     PyObject *tmp_return_value = NULL;
     PyObject *exception_keeper_type_22;
     PyObject *exception_keeper_value_22;
@@ -1694,14 +1697,14 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
 
     // Actual function body.
     // Tried code:
-    MAKE_OR_REUSE_FRAME( cache_frame_3bf48e8e81f0e283115609637b8e42e5, codeobj_3bf48e8e81f0e283115609637b8e42e5, module_packages$image_upload, sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *) );
-    frame_3bf48e8e81f0e283115609637b8e42e5 = cache_frame_3bf48e8e81f0e283115609637b8e42e5;
+    MAKE_OR_REUSE_FRAME( cache_frame_be1b86cc7d6ae51c8dc94d64cd945bc0, codeobj_be1b86cc7d6ae51c8dc94d64cd945bc0, module_packages$image_upload, sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *) );
+    frame_be1b86cc7d6ae51c8dc94d64cd945bc0 = cache_frame_be1b86cc7d6ae51c8dc94d64cd945bc0;
 
     // Push the new frame as the currently active one.
-    pushFrameStack( frame_3bf48e8e81f0e283115609637b8e42e5 );
+    pushFrameStack( frame_be1b86cc7d6ae51c8dc94d64cd945bc0 );
 
     // Mark the frame object as in use, ref count 1 will be up for reuse.
-    assert( Py_REFCNT( frame_3bf48e8e81f0e283115609637b8e42e5 ) == 2 ); // Frame stack
+    assert( Py_REFCNT( frame_be1b86cc7d6ae51c8dc94d64cd945bc0 ) == 2 ); // Frame stack
 
     // Framed code:
     // Tried code:
@@ -1745,7 +1748,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             type_description_1 = "oooooooooooooooooooooooNoo";
             goto try_except_handler_2;
         }
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 39;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 39;
         tmp_assign_source_2 = CALL_FUNCTION_NO_ARGS( tmp_called_name_1 );
         Py_DECREF( tmp_called_name_1 );
         if ( tmp_assign_source_2 == NULL )
@@ -1852,7 +1855,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
         Py_INCREF( tmp_tuple_element_1 );
         PyTuple_SET_ITEM( tmp_args_name_1, 0, tmp_tuple_element_1 );
         tmp_kw_name_1 = PyDict_Copy( const_dict_a2fe7522a8a3fde103f0109fa97f1383 );
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 41;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 41;
         tmp_assign_source_7 = CALL_FUNCTION( tmp_called_name_2, tmp_args_name_1, tmp_kw_name_1 );
         Py_DECREF( tmp_called_name_2 );
         Py_DECREF( tmp_args_name_1 );
@@ -2000,7 +2003,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
         tmp_args_element_name_1 = var_names;
         CHECK_OBJECT( var_identification );
         tmp_args_element_name_2 = var_identification;
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 45;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 45;
         {
             PyObject *call_args[] = { tmp_args_element_name_1, tmp_args_element_name_2 };
             tmp_dict_seq_1 = CALL_FUNCTION_WITH_ARGS2( tmp_called_name_3, call_args );
@@ -2132,11 +2135,11 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
 
     if ( exception_keeper_tb_2 == NULL )
     {
-        exception_keeper_tb_2 = MAKE_TRACEBACK( frame_3bf48e8e81f0e283115609637b8e42e5, exception_keeper_lineno_2 );
+        exception_keeper_tb_2 = MAKE_TRACEBACK( frame_be1b86cc7d6ae51c8dc94d64cd945bc0, exception_keeper_lineno_2 );
     }
     else if ( exception_keeper_lineno_2 != 0 )
     {
-        exception_keeper_tb_2 = ADD_TRACEBACK( exception_keeper_tb_2, frame_3bf48e8e81f0e283115609637b8e42e5, exception_keeper_lineno_2 );
+        exception_keeper_tb_2 = ADD_TRACEBACK( exception_keeper_tb_2, frame_be1b86cc7d6ae51c8dc94d64cd945bc0, exception_keeper_lineno_2 );
     }
 
     NORMALIZE_EXCEPTION( &exception_keeper_type_2, &exception_keeper_value_2, &exception_keeper_tb_2 );
@@ -2188,7 +2191,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             tmp_args_element_name_3 = EXC_TYPE(PyThreadState_GET());
             tmp_args_element_name_4 = EXC_VALUE(PyThreadState_GET());
             tmp_args_element_name_5 = EXC_TRACEBACK(PyThreadState_GET());
-            frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 39;
+            frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 39;
             {
                 PyObject *call_args[] = { tmp_args_element_name_3, tmp_args_element_name_4, tmp_args_element_name_5 };
                 tmp_operand_name_1 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_4, call_args );
@@ -2234,7 +2237,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
                 exception_lineno = 39;
             }
 
-            if (exception_tb && exception_tb->tb_frame == &frame_3bf48e8e81f0e283115609637b8e42e5->m_frame) frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = exception_tb->tb_lineno;
+            if (exception_tb && exception_tb->tb_frame == &frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame) frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = exception_tb->tb_lineno;
             type_description_1 = "oooooooooooooooooooooooNoo";
             goto try_except_handler_6;
             branch_no_2:;
@@ -2247,7 +2250,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             exception_lineno = 39;
         }
 
-        if (exception_tb && exception_tb->tb_frame == &frame_3bf48e8e81f0e283115609637b8e42e5->m_frame) frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = exception_tb->tb_lineno;
+        if (exception_tb && exception_tb->tb_frame == &frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame) frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = exception_tb->tb_lineno;
         type_description_1 = "oooooooooooooooooooooooNoo";
         goto try_except_handler_6;
         branch_end_1:;
@@ -2317,7 +2320,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             PyObject *tmp_call_result_1;
             CHECK_OBJECT( tmp_with_1__exit );
             tmp_called_name_5 = tmp_with_1__exit;
-            frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 39;
+            frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 39;
             tmp_call_result_1 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_5, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_1 == NULL )
@@ -2369,7 +2372,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             PyObject *tmp_call_result_2;
             CHECK_OBJECT( tmp_with_1__exit );
             tmp_called_name_6 = tmp_with_1__exit;
-            frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 39;
+            frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 39;
             tmp_call_result_2 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_6, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_2 == NULL )
@@ -2501,7 +2504,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             type_description_1 = "oooooooooooooooooooooooNoo";
             goto try_except_handler_7;
         }
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 63;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 63;
         tmp_assign_source_20 = CALL_FUNCTION_NO_ARGS( tmp_called_name_7 );
         Py_DECREF( tmp_called_name_7 );
         if ( tmp_assign_source_20 == NULL )
@@ -2585,7 +2588,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
         }
 
         tmp_called_name_8 = tmp_mvar_value_2;
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 64;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 64;
         tmp_assign_source_24 = CALL_FUNCTION_NO_ARGS( tmp_called_name_8 );
         if ( tmp_assign_source_24 == NULL )
         {
@@ -2650,7 +2653,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
         Py_INCREF( tmp_tuple_element_3 );
         PyTuple_SET_ITEM( tmp_args_name_2, 0, tmp_tuple_element_3 );
         tmp_kw_name_2 = PyDict_Copy( const_dict_a2fe7522a8a3fde103f0109fa97f1383 );
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 67;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 67;
         tmp_assign_source_25 = CALL_FUNCTION( tmp_called_name_9, tmp_args_name_2, tmp_kw_name_2 );
         Py_DECREF( tmp_called_name_9 );
         Py_DECREF( tmp_args_name_2 );
@@ -3164,7 +3167,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             }
             CHECK_OBJECT( var_img );
             tmp_args_element_name_7 = var_img;
-            frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 88;
+            frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 88;
             {
                 PyObject *call_args[] = { tmp_args_element_name_6, tmp_args_element_name_7 };
                 tmp_call_result_3 = CALL_FUNCTION_WITH_ARGS2( tmp_called_name_10, call_args );
@@ -3278,7 +3281,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
                     type_description_1 = "oooooooooooooooooooooooNoo";
                     goto try_except_handler_12;
                 }
-                frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 89;
+                frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 89;
                 {
                     PyObject *call_args[] = { tmp_args_element_name_8, tmp_args_element_name_9 };
                     tmp_and_left_value_1 = CALL_FUNCTION_WITH_ARGS2( tmp_called_name_11, call_args );
@@ -3367,7 +3370,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
                     type_description_1 = "oooooooooooooooooooooooNoo";
                     goto try_except_handler_12;
                 }
-                frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 90;
+                frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 90;
                 {
                     PyObject *call_args[] = { tmp_args_element_name_10, tmp_args_element_name_11 };
                     tmp_and_right_value_1 = CALL_FUNCTION_WITH_ARGS2( tmp_called_name_12, call_args );
@@ -3398,7 +3401,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
                 tmp_called_instance_1 = var_imglinks;
                 CHECK_OBJECT( var_img );
                 tmp_args_element_name_12 = var_img;
-                frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 89;
+                frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 89;
                 {
                     PyObject *call_args[] = { tmp_args_element_name_12 };
                     tmp_ass_subscript_1 = CALL_METHOD_WITH_ARGS1( tmp_called_instance_1, const_str_plain_index, call_args );
@@ -3675,7 +3678,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             tmp_args_element_name_14 = var_names;
             CHECK_OBJECT( var_imglinks );
             tmp_args_element_name_15 = var_imglinks;
-            frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 94;
+            frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 94;
             {
                 PyObject *call_args[] = { tmp_args_element_name_14, tmp_args_element_name_15 };
                 tmp_args_element_name_13 = CALL_FUNCTION_WITH_ARGS2( tmp_called_name_14, call_args );
@@ -3692,7 +3695,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
                 type_description_1 = "oooooooooooooooooooooooNoo";
                 goto try_except_handler_10;
             }
-            frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 94;
+            frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 94;
             {
                 PyObject *call_args[] = { tmp_args_element_name_13 };
                 tmp_ass_subvalue_2 = CALL_FUNCTION_WITH_ARGS1( tmp_called_name_13, call_args );
@@ -4212,11 +4215,11 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
 
     if ( exception_keeper_tb_9 == NULL )
     {
-        exception_keeper_tb_9 = MAKE_TRACEBACK( frame_3bf48e8e81f0e283115609637b8e42e5, exception_keeper_lineno_9 );
+        exception_keeper_tb_9 = MAKE_TRACEBACK( frame_be1b86cc7d6ae51c8dc94d64cd945bc0, exception_keeper_lineno_9 );
     }
     else if ( exception_keeper_lineno_9 != 0 )
     {
-        exception_keeper_tb_9 = ADD_TRACEBACK( exception_keeper_tb_9, frame_3bf48e8e81f0e283115609637b8e42e5, exception_keeper_lineno_9 );
+        exception_keeper_tb_9 = ADD_TRACEBACK( exception_keeper_tb_9, frame_be1b86cc7d6ae51c8dc94d64cd945bc0, exception_keeper_lineno_9 );
     }
 
     NORMALIZE_EXCEPTION( &exception_keeper_type_9, &exception_keeper_value_9, &exception_keeper_tb_9 );
@@ -4268,7 +4271,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             tmp_args_element_name_16 = EXC_TYPE(PyThreadState_GET());
             tmp_args_element_name_17 = EXC_VALUE(PyThreadState_GET());
             tmp_args_element_name_18 = EXC_TRACEBACK(PyThreadState_GET());
-            frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 63;
+            frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 63;
             {
                 PyObject *call_args[] = { tmp_args_element_name_16, tmp_args_element_name_17, tmp_args_element_name_18 };
                 tmp_operand_name_2 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_15, call_args );
@@ -4314,7 +4317,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
                 exception_lineno = 63;
             }
 
-            if (exception_tb && exception_tb->tb_frame == &frame_3bf48e8e81f0e283115609637b8e42e5->m_frame) frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = exception_tb->tb_lineno;
+            if (exception_tb && exception_tb->tb_frame == &frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame) frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = exception_tb->tb_lineno;
             type_description_1 = "oooooooooooooooooooooooNoo";
             goto try_except_handler_13;
             branch_no_10:;
@@ -4327,7 +4330,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             exception_lineno = 63;
         }
 
-        if (exception_tb && exception_tb->tb_frame == &frame_3bf48e8e81f0e283115609637b8e42e5->m_frame) frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = exception_tb->tb_lineno;
+        if (exception_tb && exception_tb->tb_frame == &frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame) frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = exception_tb->tb_lineno;
         type_description_1 = "oooooooooooooooooooooooNoo";
         goto try_except_handler_13;
         branch_end_9:;
@@ -4397,7 +4400,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             PyObject *tmp_call_result_4;
             CHECK_OBJECT( tmp_with_2__exit );
             tmp_called_name_16 = tmp_with_2__exit;
-            frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 63;
+            frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 63;
             tmp_call_result_4 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_16, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_4 == NULL )
@@ -4449,7 +4452,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             PyObject *tmp_call_result_5;
             CHECK_OBJECT( tmp_with_2__exit );
             tmp_called_name_17 = tmp_with_2__exit;
-            frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 63;
+            frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 63;
             tmp_call_result_5 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_17, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_5 == NULL )
@@ -4546,7 +4549,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
         tmp_called_instance_2 = const_str_chr_44;
         CHECK_OBJECT( var_searchterm );
         tmp_args_element_name_22 = var_searchterm;
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 105;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 105;
         {
             PyObject *call_args[] = { tmp_args_element_name_22 };
             tmp_args_element_name_21 = CALL_METHOD_WITH_ARGS1( tmp_called_instance_2, const_str_plain_join, call_args );
@@ -4566,7 +4569,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
         tmp_called_instance_3 = const_str_chr_44;
         CHECK_OBJECT( var_replaceterm );
         tmp_args_element_name_24 = var_replaceterm;
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 105;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 105;
         {
             PyObject *call_args[] = { tmp_args_element_name_24 };
             tmp_args_element_name_23 = CALL_METHOD_WITH_ARGS1( tmp_called_instance_3, const_str_plain_join, call_args );
@@ -4584,7 +4587,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             type_description_1 = "oooooooooooooooooooooooNoo";
             goto frame_exception_exit_1;
         }
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 104;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 104;
         {
             PyObject *call_args[] = { tmp_args_element_name_20, tmp_args_element_name_21, tmp_args_element_name_23 };
             tmp_args_element_name_19 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_19, call_args );
@@ -4604,7 +4607,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             type_description_1 = "oooooooooooooooooooooooNoo";
             goto frame_exception_exit_1;
         }
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 104;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 104;
         {
             PyObject *call_args[] = { tmp_args_element_name_19 };
             tmp_call_result_6 = CALL_FUNCTION_WITH_ARGS1( tmp_called_name_18, call_args );
@@ -4651,7 +4654,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
         }
 
         tmp_called_name_20 = tmp_mvar_value_6;
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 109;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 109;
         tmp_assign_source_39 = CALL_FUNCTION_NO_ARGS( tmp_called_name_20 );
         if ( tmp_assign_source_39 == NULL )
         {
@@ -4890,7 +4893,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             type_description_1 = "oooooooooooooooooooooooNoo";
             goto try_except_handler_14;
         }
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 116;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 116;
         {
             PyObject *call_args[] = { tmp_args_element_name_27 };
             tmp_args_element_name_26 = CALL_FUNCTION_WITH_ARGS1( tmp_called_name_22, call_args );
@@ -4909,7 +4912,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             type_description_1 = "oooooooooooooooooooooooNoo";
             goto try_except_handler_14;
         }
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 116;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 116;
         {
             PyObject *call_args[] = { tmp_args_element_name_25, tmp_args_element_name_26 };
             tmp_iter_arg_6 = CALL_FUNCTION_WITH_ARGS2( tmp_called_name_21, call_args );
@@ -5270,7 +5273,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             tmp_args_element_name_31 = var_variationlinks;
             CHECK_OBJECT( var_Data );
             tmp_args_element_name_32 = var_Data;
-            frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 118;
+            frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 118;
             {
                 PyObject *call_args[] = { tmp_args_element_name_28, tmp_args_element_name_29, tmp_args_element_name_30, tmp_args_element_name_31, tmp_args_element_name_32 };
                 tmp_iter_arg_7 = CALL_FUNCTION_WITH_ARGS5( tmp_called_name_23, call_args );
@@ -5804,7 +5807,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
                     type_description_1 = "oooooooooooooooooooooooNoo";
                     goto try_except_handler_15;
                 }
-                frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 128;
+                frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 128;
                 {
                     PyObject *call_args[] = { tmp_args_element_name_33, tmp_args_element_name_34 };
                     tmp_call_result_7 = CALL_FUNCTION_WITH_ARGS2( tmp_called_name_24, call_args );
@@ -5943,7 +5946,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
                 tmp_args_element_name_36 = var_names;
                 CHECK_OBJECT( var_values );
                 tmp_args_element_name_37 = var_values;
-                frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 131;
+                frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 131;
                 {
                     PyObject *call_args[] = { tmp_args_element_name_36, tmp_args_element_name_37 };
                     tmp_args_element_name_35 = CALL_FUNCTION_WITH_ARGS2( tmp_called_name_26, call_args );
@@ -5960,7 +5963,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
                     type_description_1 = "oooooooooooooooooooooooNoo";
                     goto try_except_handler_15;
                 }
-                frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 131;
+                frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 131;
                 {
                     PyObject *call_args[] = { tmp_args_element_name_35 };
                     tmp_ass_subvalue_7 = CALL_FUNCTION_WITH_ARGS1( tmp_called_name_25, call_args );
@@ -6282,7 +6285,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
         tmp_called_name_27 = tmp_mvar_value_11;
         CHECK_OBJECT( var_newfile_path );
         tmp_args_element_name_38 = var_newfile_path;
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 139;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 139;
         {
             PyObject *call_args[] = { tmp_args_element_name_38 };
             tmp_operand_name_4 = CALL_FUNCTION_WITH_ARGS1( tmp_called_name_27, call_args );
@@ -6477,7 +6480,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             type_description_1 = "oooooooooooooooooooooooNoo";
             goto try_except_handler_18;
         }
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 145;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 145;
         tmp_assign_source_63 = CALL_FUNCTION_NO_ARGS( tmp_called_name_28 );
         Py_DECREF( tmp_called_name_28 );
         if ( tmp_assign_source_63 == NULL )
@@ -6596,7 +6599,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
         tmp_dict_value_2 = var_names;
         tmp_res = PyDict_SetItem( tmp_kw_name_3, tmp_dict_key_2, tmp_dict_value_2 );
         assert( !(tmp_res != 0) );
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 146;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 146;
         tmp_assign_source_67 = CALL_FUNCTION( tmp_called_name_29, tmp_args_name_3, tmp_kw_name_3 );
         Py_DECREF( tmp_called_name_29 );
         Py_DECREF( tmp_args_name_3 );
@@ -6620,7 +6623,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
         PyObject *tmp_call_result_8;
         CHECK_OBJECT( var_writer );
         tmp_called_instance_4 = var_writer;
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 147;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 147;
         tmp_call_result_8 = CALL_METHOD_NO_ARGS( tmp_called_instance_4, const_str_plain_writeheader );
         if ( tmp_call_result_8 == NULL )
         {
@@ -6736,7 +6739,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             type_description_1 = "oooooooooooooooooooooooNoo";
             goto try_except_handler_21;
         }
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 149;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 149;
         {
             PyObject *call_args[] = { tmp_args_element_name_39 };
             tmp_call_result_9 = CALL_FUNCTION_WITH_ARGS1( tmp_called_name_30, call_args );
@@ -6827,11 +6830,11 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
 
     if ( exception_keeper_tb_18 == NULL )
     {
-        exception_keeper_tb_18 = MAKE_TRACEBACK( frame_3bf48e8e81f0e283115609637b8e42e5, exception_keeper_lineno_18 );
+        exception_keeper_tb_18 = MAKE_TRACEBACK( frame_be1b86cc7d6ae51c8dc94d64cd945bc0, exception_keeper_lineno_18 );
     }
     else if ( exception_keeper_lineno_18 != 0 )
     {
-        exception_keeper_tb_18 = ADD_TRACEBACK( exception_keeper_tb_18, frame_3bf48e8e81f0e283115609637b8e42e5, exception_keeper_lineno_18 );
+        exception_keeper_tb_18 = ADD_TRACEBACK( exception_keeper_tb_18, frame_be1b86cc7d6ae51c8dc94d64cd945bc0, exception_keeper_lineno_18 );
     }
 
     NORMALIZE_EXCEPTION( &exception_keeper_type_18, &exception_keeper_value_18, &exception_keeper_tb_18 );
@@ -6883,7 +6886,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             tmp_args_element_name_40 = EXC_TYPE(PyThreadState_GET());
             tmp_args_element_name_41 = EXC_VALUE(PyThreadState_GET());
             tmp_args_element_name_42 = EXC_TRACEBACK(PyThreadState_GET());
-            frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 145;
+            frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 145;
             {
                 PyObject *call_args[] = { tmp_args_element_name_40, tmp_args_element_name_41, tmp_args_element_name_42 };
                 tmp_operand_name_5 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_31, call_args );
@@ -6929,7 +6932,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
                 exception_lineno = 145;
             }
 
-            if (exception_tb && exception_tb->tb_frame == &frame_3bf48e8e81f0e283115609637b8e42e5->m_frame) frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = exception_tb->tb_lineno;
+            if (exception_tb && exception_tb->tb_frame == &frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame) frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = exception_tb->tb_lineno;
             type_description_1 = "oooooooooooooooooooooooNoo";
             goto try_except_handler_22;
             branch_no_18:;
@@ -6942,7 +6945,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             exception_lineno = 145;
         }
 
-        if (exception_tb && exception_tb->tb_frame == &frame_3bf48e8e81f0e283115609637b8e42e5->m_frame) frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = exception_tb->tb_lineno;
+        if (exception_tb && exception_tb->tb_frame == &frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame) frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = exception_tb->tb_lineno;
         type_description_1 = "oooooooooooooooooooooooNoo";
         goto try_except_handler_22;
         branch_end_17:;
@@ -7012,7 +7015,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             PyObject *tmp_call_result_10;
             CHECK_OBJECT( tmp_with_3__exit );
             tmp_called_name_32 = tmp_with_3__exit;
-            frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 145;
+            frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 145;
             tmp_call_result_10 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_32, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_10 == NULL )
@@ -7064,7 +7067,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             PyObject *tmp_call_result_11;
             CHECK_OBJECT( tmp_with_3__exit );
             tmp_called_name_33 = tmp_with_3__exit;
-            frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 145;
+            frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 145;
             tmp_call_result_11 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_33, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_11 == NULL )
@@ -7156,7 +7159,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
         tmp_called_name_34 = tmp_mvar_value_13;
         CHECK_OBJECT( var_newfile_path );
         tmp_args_element_name_43 = var_newfile_path;
-        frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 151;
+        frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 151;
         {
             PyObject *call_args[] = { tmp_args_element_name_43 };
             tmp_call_result_12 = CALL_FUNCTION_WITH_ARGS1( tmp_called_name_34, call_args );
@@ -7207,7 +7210,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
             tmp_called_instance_5 = const_str_digest_ad941c752b4641f1244b53a43330d852;
             CHECK_OBJECT( var_newfile_path );
             tmp_args_element_name_45 = var_newfile_path;
-            frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 152;
+            frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 152;
             {
                 PyObject *call_args[] = { tmp_args_element_name_45 };
                 tmp_args_element_name_44 = CALL_METHOD_WITH_ARGS1( tmp_called_instance_5, const_str_plain_format, call_args );
@@ -7224,7 +7227,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
                 type_description_1 = "oooooooooooooooooooooooNoo";
                 goto frame_exception_exit_1;
             }
-            frame_3bf48e8e81f0e283115609637b8e42e5->m_frame.f_lineno = 152;
+            frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame.f_lineno = 152;
             {
                 PyObject *call_args[] = { tmp_args_element_name_44 };
                 tmp_call_result_13 = CALL_FUNCTION_WITH_ARGS1( tmp_called_name_35, call_args );
@@ -7248,7 +7251,7 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
     }
 
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_3bf48e8e81f0e283115609637b8e42e5 );
+    RESTORE_FRAME_EXCEPTION( frame_be1b86cc7d6ae51c8dc94d64cd945bc0 );
 #endif
 
     // Put the previous frame back on top.
@@ -7259,21 +7262,21 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
     frame_exception_exit_1:;
 
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_3bf48e8e81f0e283115609637b8e42e5 );
+    RESTORE_FRAME_EXCEPTION( frame_be1b86cc7d6ae51c8dc94d64cd945bc0 );
 #endif
 
     if ( exception_tb == NULL )
     {
-        exception_tb = MAKE_TRACEBACK( frame_3bf48e8e81f0e283115609637b8e42e5, exception_lineno );
+        exception_tb = MAKE_TRACEBACK( frame_be1b86cc7d6ae51c8dc94d64cd945bc0, exception_lineno );
     }
-    else if ( exception_tb->tb_frame != &frame_3bf48e8e81f0e283115609637b8e42e5->m_frame )
+    else if ( exception_tb->tb_frame != &frame_be1b86cc7d6ae51c8dc94d64cd945bc0->m_frame )
     {
-        exception_tb = ADD_TRACEBACK( exception_tb, frame_3bf48e8e81f0e283115609637b8e42e5, exception_lineno );
+        exception_tb = ADD_TRACEBACK( exception_tb, frame_be1b86cc7d6ae51c8dc94d64cd945bc0, exception_lineno );
     }
 
     // Attachs locals to frame if any.
     Nuitka_Frame_AttachLocals(
-        (struct Nuitka_FrameObject *)frame_3bf48e8e81f0e283115609637b8e42e5,
+        (struct Nuitka_FrameObject *)frame_be1b86cc7d6ae51c8dc94d64cd945bc0,
         type_description_1,
         par_flatfile,
         par_exportfile,
@@ -7305,13 +7308,13 @@ static PyObject *impl_packages$image_upload$$$function_2_imageUpload( struct Nui
 
 
     // Release cached frame.
-    if ( frame_3bf48e8e81f0e283115609637b8e42e5 == cache_frame_3bf48e8e81f0e283115609637b8e42e5 )
+    if ( frame_be1b86cc7d6ae51c8dc94d64cd945bc0 == cache_frame_be1b86cc7d6ae51c8dc94d64cd945bc0 )
     {
-        Py_DECREF( frame_3bf48e8e81f0e283115609637b8e42e5 );
+        Py_DECREF( frame_be1b86cc7d6ae51c8dc94d64cd945bc0 );
     }
-    cache_frame_3bf48e8e81f0e283115609637b8e42e5 = NULL;
+    cache_frame_be1b86cc7d6ae51c8dc94d64cd945bc0 = NULL;
 
-    assertFrameObject( frame_3bf48e8e81f0e283115609637b8e42e5 );
+    assertFrameObject( frame_be1b86cc7d6ae51c8dc94d64cd945bc0 );
 
     // Put the previous frame back on top.
     popFrameStack();
@@ -7543,7 +7546,7 @@ static PyObject *MAKE_FUNCTION_packages$image_upload$$$function_1_searchImage(  
 #if PYTHON_VERSION >= 300
         NULL,
 #endif
-        codeobj_25a6165d438f42c7c995c4b744b69951,
+        codeobj_b4eaf13588ad2ab05c417108bde90bf2,
         NULL,
 #if PYTHON_VERSION >= 300
         NULL,
@@ -7567,7 +7570,7 @@ static PyObject *MAKE_FUNCTION_packages$image_upload$$$function_2_imageUpload(  
 #if PYTHON_VERSION >= 300
         NULL,
 #endif
-        codeobj_3bf48e8e81f0e283115609637b8e42e5,
+        codeobj_be1b86cc7d6ae51c8dc94d64cd945bc0,
         NULL,
 #if PYTHON_VERSION >= 300
         NULL,
@@ -7852,7 +7855,7 @@ MOD_INIT_DECL( packages$image_upload )
 #endif
 
     // Temp variables if any
-    struct Nuitka_FrameObject *frame_5dd0da38bfb500e453c2a4579bbbebf8;
+    struct Nuitka_FrameObject *frame_aca0d15e67ef8d7b7534d91a2f46736b;
     NUITKA_MAY_BE_UNUSED char const *type_description_1 = NULL;
     bool tmp_result;
     PyObject *exception_type = NULL;
@@ -7872,12 +7875,12 @@ MOD_INIT_DECL( packages$image_upload )
         UPDATE_STRING_DICT0( moduledict_packages$image_upload, (Nuitka_StringObject *)const_str_plain___file__, tmp_assign_source_2 );
     }
     // Frame without reuse.
-    frame_5dd0da38bfb500e453c2a4579bbbebf8 = MAKE_MODULE_FRAME( codeobj_5dd0da38bfb500e453c2a4579bbbebf8, module_packages$image_upload );
+    frame_aca0d15e67ef8d7b7534d91a2f46736b = MAKE_MODULE_FRAME( codeobj_aca0d15e67ef8d7b7534d91a2f46736b, module_packages$image_upload );
 
     // Push the new frame as the currently active one, and we should be exclusively
     // owning it.
-    pushFrameStack( frame_5dd0da38bfb500e453c2a4579bbbebf8 );
-    assert( Py_REFCNT( frame_5dd0da38bfb500e453c2a4579bbbebf8 ) == 2 );
+    pushFrameStack( frame_aca0d15e67ef8d7b7534d91a2f46736b );
+    assert( Py_REFCNT( frame_aca0d15e67ef8d7b7534d91a2f46736b ) == 2 );
 
     // Framed code:
     {
@@ -7951,7 +7954,7 @@ MOD_INIT_DECL( packages$image_upload )
         tmp_locals_name_1 = Py_None;
         tmp_fromlist_name_1 = Py_None;
         tmp_level_name_1 = const_int_0;
-        frame_5dd0da38bfb500e453c2a4579bbbebf8->m_frame.f_lineno = 1;
+        frame_aca0d15e67ef8d7b7534d91a2f46736b->m_frame.f_lineno = 1;
         tmp_assign_source_4 = IMPORT_MODULE5( tmp_name_name_1, tmp_globals_name_1, tmp_locals_name_1, tmp_fromlist_name_1, tmp_level_name_1 );
         if ( tmp_assign_source_4 == NULL )
         {
@@ -7979,7 +7982,7 @@ MOD_INIT_DECL( packages$image_upload )
         tmp_locals_name_2 = Py_None;
         tmp_fromlist_name_2 = const_tuple_str_plain_SortedDict_tuple;
         tmp_level_name_2 = const_int_0;
-        frame_5dd0da38bfb500e453c2a4579bbbebf8->m_frame.f_lineno = 2;
+        frame_aca0d15e67ef8d7b7534d91a2f46736b->m_frame.f_lineno = 2;
         tmp_import_name_from_1 = IMPORT_MODULE5( tmp_name_name_2, tmp_globals_name_2, tmp_locals_name_2, tmp_fromlist_name_2, tmp_level_name_2 );
         if ( tmp_import_name_from_1 == NULL )
         {
@@ -8019,7 +8022,7 @@ MOD_INIT_DECL( packages$image_upload )
         tmp_locals_name_3 = Py_None;
         tmp_fromlist_name_3 = Py_None;
         tmp_level_name_3 = const_int_0;
-        frame_5dd0da38bfb500e453c2a4579bbbebf8->m_frame.f_lineno = 3;
+        frame_aca0d15e67ef8d7b7534d91a2f46736b->m_frame.f_lineno = 3;
         tmp_assign_source_6 = IMPORT_MODULE5( tmp_name_name_3, tmp_globals_name_3, tmp_locals_name_3, tmp_fromlist_name_3, tmp_level_name_3 );
         if ( tmp_assign_source_6 == NULL )
         {
@@ -8047,7 +8050,7 @@ MOD_INIT_DECL( packages$image_upload )
         tmp_locals_name_4 = Py_None;
         tmp_fromlist_name_4 = const_tuple_str_plain_isfile_tuple;
         tmp_level_name_4 = const_int_0;
-        frame_5dd0da38bfb500e453c2a4579bbbebf8->m_frame.f_lineno = 4;
+        frame_aca0d15e67ef8d7b7534d91a2f46736b->m_frame.f_lineno = 4;
         tmp_import_name_from_2 = IMPORT_MODULE5( tmp_name_name_4, tmp_globals_name_4, tmp_locals_name_4, tmp_fromlist_name_4, tmp_level_name_4 );
         if ( tmp_import_name_from_2 == NULL )
         {
@@ -8078,26 +8081,26 @@ MOD_INIT_DECL( packages$image_upload )
 
     // Restore frame exception if necessary.
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_5dd0da38bfb500e453c2a4579bbbebf8 );
+    RESTORE_FRAME_EXCEPTION( frame_aca0d15e67ef8d7b7534d91a2f46736b );
 #endif
     popFrameStack();
 
-    assertFrameObject( frame_5dd0da38bfb500e453c2a4579bbbebf8 );
+    assertFrameObject( frame_aca0d15e67ef8d7b7534d91a2f46736b );
 
     goto frame_no_exception_1;
 
     frame_exception_exit_1:;
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_5dd0da38bfb500e453c2a4579bbbebf8 );
+    RESTORE_FRAME_EXCEPTION( frame_aca0d15e67ef8d7b7534d91a2f46736b );
 #endif
 
     if ( exception_tb == NULL )
     {
-        exception_tb = MAKE_TRACEBACK( frame_5dd0da38bfb500e453c2a4579bbbebf8, exception_lineno );
+        exception_tb = MAKE_TRACEBACK( frame_aca0d15e67ef8d7b7534d91a2f46736b, exception_lineno );
     }
-    else if ( exception_tb->tb_frame != &frame_5dd0da38bfb500e453c2a4579bbbebf8->m_frame )
+    else if ( exception_tb->tb_frame != &frame_aca0d15e67ef8d7b7534d91a2f46736b->m_frame )
     {
-        exception_tb = ADD_TRACEBACK( exception_tb, frame_5dd0da38bfb500e453c2a4579bbbebf8, exception_lineno );
+        exception_tb = ADD_TRACEBACK( exception_tb, frame_aca0d15e67ef8d7b7534d91a2f46736b, exception_lineno );
     }
 
     // Put the previous frame back on top.

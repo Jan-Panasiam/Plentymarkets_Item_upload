@@ -64,9 +64,10 @@ static PyObject *const_str_plain_MarketID;
 extern PyObject *const_tuple_none_none_none_tuple;
 extern PyObject *const_str_plain_VariationNumber;
 extern PyObject *const_str_plain___doc__;
-extern PyObject *const_str_plain_lower;
+static PyObject *const_str_plain_lower;
 static PyObject *const_list_2bded00fd56d0aba2a8739169854738e_list;
 static PyObject *const_str_plain_ItemAmazonProductType;
+static PyObject *const_str_digest_685a2d224f9c4fd4c99c26dd586a8fb0;
 extern PyObject *const_str_plain_amazonSkuUpload;
 extern PyObject *const_str_digest_6e95ed820530cf590fdbebb75f05c4c7;
 extern PyObject *const_str_plain_packages;
@@ -143,7 +144,6 @@ extern PyObject *const_str_plain_has_location;
 static PyObject *const_tuple_0d69e7a9ef3a453e4e0c5dfec2d7ccd5_tuple;
 static PyObject *const_str_plain_bags;
 static PyObject *const_str_plain_MarketplaceCountry;
-static PyObject *const_str_digest_8e3d42d9408f5a4edd26f6b966b17070;
 extern PyObject *const_str_empty;
 static PyObject *const_str_plain_ItemAmazonFBA;
 static PyObject *const_str_plain_dress;
@@ -164,39 +164,41 @@ static void createModuleConstants( void )
     PyTuple_SET_ITEM( const_tuple_fd5740fd0226370d726d63e449f4fb78_tuple, 5, const_str_plain_reader ); Py_INCREF( const_str_plain_reader );
     PyTuple_SET_ITEM( const_tuple_fd5740fd0226370d726d63e449f4fb78_tuple, 6, const_str_plain_row ); Py_INCREF( const_str_plain_row );
     PyTuple_SET_ITEM( const_tuple_fd5740fd0226370d726d63e449f4fb78_tuple, 7, const_str_plain_values ); Py_INCREF( const_str_plain_values );
-    const_str_plain_MarketAccountID = UNSTREAM_STRING_ASCII( &constant_bin[ 53838 ], 15, 1 );
-    const_str_plain_item_number = UNSTREAM_STRING_ASCII( &constant_bin[ 53853 ], 11, 1 );
+    const_str_plain_MarketAccountID = UNSTREAM_STRING_ASCII( &constant_bin[ 1707 ], 15, 1 );
+    const_str_plain_item_number = UNSTREAM_STRING_ASCII( &constant_bin[ 1722 ], 11, 1 );
     const_dict_881978d15704e379117bfdb15db7c54c = _PyDict_NewPresized( 6 );
-    const_str_plain_accessory = UNSTREAM_STRING_ASCII( &constant_bin[ 53864 ], 9, 1 );
+    const_str_plain_accessory = UNSTREAM_STRING_ASCII( &constant_bin[ 1733 ], 9, 1 );
     const_int_pos_28 = PyLong_FromUnsignedLong( 28ul );
     PyDict_SetItem( const_dict_881978d15704e379117bfdb15db7c54c, const_str_plain_accessory, const_int_pos_28 );
-    const_str_plain_shirt = UNSTREAM_STRING_ASCII( &constant_bin[ 53873 ], 5, 1 );
+    const_str_plain_shirt = UNSTREAM_STRING_ASCII( &constant_bin[ 1742 ], 5, 1 );
     PyDict_SetItem( const_dict_881978d15704e379117bfdb15db7c54c, const_str_plain_shirt, const_int_pos_13 );
-    const_str_plain_pants = UNSTREAM_STRING_ASCII( &constant_bin[ 53878 ], 5, 1 );
+    const_str_plain_pants = UNSTREAM_STRING_ASCII( &constant_bin[ 1747 ], 5, 1 );
     PyDict_SetItem( const_dict_881978d15704e379117bfdb15db7c54c, const_str_plain_pants, const_int_pos_15 );
-    const_str_plain_dress = UNSTREAM_STRING_ASCII( &constant_bin[ 10890 ], 5, 1 );
+    const_str_plain_dress = UNSTREAM_STRING_ASCII( &constant_bin[ 1752 ], 5, 1 );
     const_int_pos_18 = PyLong_FromUnsignedLong( 18ul );
     PyDict_SetItem( const_dict_881978d15704e379117bfdb15db7c54c, const_str_plain_dress, const_int_pos_18 );
-    const_str_plain_outerwear = UNSTREAM_STRING_ASCII( &constant_bin[ 53883 ], 9, 1 );
+    const_str_plain_outerwear = UNSTREAM_STRING_ASCII( &constant_bin[ 1757 ], 9, 1 );
     const_int_pos_21 = PyLong_FromUnsignedLong( 21ul );
     PyDict_SetItem( const_dict_881978d15704e379117bfdb15db7c54c, const_str_plain_outerwear, const_int_pos_21 );
-    const_str_plain_bags = UNSTREAM_STRING_ASCII( &constant_bin[ 53892 ], 4, 1 );
+    const_str_plain_bags = UNSTREAM_STRING_ASCII( &constant_bin[ 1766 ], 4, 1 );
     const_int_pos_27 = PyLong_FromUnsignedLong( 27ul );
     PyDict_SetItem( const_dict_881978d15704e379117bfdb15db7c54c, const_str_plain_bags, const_int_pos_27 );
     assert( PyDict_Size( const_dict_881978d15704e379117bfdb15db7c54c ) == 6 );
-    const_str_plain_SKU = UNSTREAM_STRING_ASCII( &constant_bin[ 1369 ], 3, 1 );
-    const_str_plain_product_type = UNSTREAM_STRING_ASCII( &constant_bin[ 53896 ], 12, 1 );
-    const_str_plain_ASIN = UNSTREAM_STRING_ASCII( &constant_bin[ 516 ], 4, 1 );
-    const_str_plain_MarketID = UNSTREAM_STRING_ASCII( &constant_bin[ 53908 ], 8, 1 );
+    const_str_plain_SKU = UNSTREAM_STRING_ASCII( &constant_bin[ 1378 ], 3, 1 );
+    const_str_plain_product_type = UNSTREAM_STRING_ASCII( &constant_bin[ 1770 ], 12, 1 );
+    const_str_plain_ASIN = UNSTREAM_STRING_ASCII( &constant_bin[ 522 ], 4, 1 );
+    const_str_plain_MarketID = UNSTREAM_STRING_ASCII( &constant_bin[ 1782 ], 8, 1 );
+    const_str_plain_lower = UNSTREAM_STRING_ASCII( &constant_bin[ 1790 ], 5, 1 );
     const_list_2bded00fd56d0aba2a8739169854738e_list = PyList_New( 4 );
-    const_str_plain_ItemAmazonProductType = UNSTREAM_STRING_ASCII( &constant_bin[ 53916 ], 21, 1 );
+    const_str_plain_ItemAmazonProductType = UNSTREAM_STRING_ASCII( &constant_bin[ 1795 ], 21, 1 );
     PyList_SET_ITEM( const_list_2bded00fd56d0aba2a8739169854738e_list, 0, const_str_plain_ItemAmazonProductType ); Py_INCREF( const_str_plain_ItemAmazonProductType );
-    const_str_plain_ItemAmazonFBA = UNSTREAM_STRING_ASCII( &constant_bin[ 53937 ], 13, 1 );
+    const_str_plain_ItemAmazonFBA = UNSTREAM_STRING_ASCII( &constant_bin[ 1816 ], 13, 1 );
     PyList_SET_ITEM( const_list_2bded00fd56d0aba2a8739169854738e_list, 1, const_str_plain_ItemAmazonFBA ); Py_INCREF( const_str_plain_ItemAmazonFBA );
     PyList_SET_ITEM( const_list_2bded00fd56d0aba2a8739169854738e_list, 2, const_str_plain_ItemID ); Py_INCREF( const_str_plain_ItemID );
-    const_str_plain_ItemShippingWithAmazonFBA = UNSTREAM_STRING_ASCII( &constant_bin[ 53950 ], 25, 1 );
+    const_str_plain_ItemShippingWithAmazonFBA = UNSTREAM_STRING_ASCII( &constant_bin[ 1829 ], 25, 1 );
     PyList_SET_ITEM( const_list_2bded00fd56d0aba2a8739169854738e_list, 3, const_str_plain_ItemShippingWithAmazonFBA ); Py_INCREF( const_str_plain_ItemShippingWithAmazonFBA );
-    const_str_plain_type_id = UNSTREAM_STRING_ASCII( &constant_bin[ 53975 ], 7, 1 );
+    const_str_digest_685a2d224f9c4fd4c99c26dd586a8fb0 = UNSTREAM_STRING_ASCII( &constant_bin[ 1854 ], 30, 0 );
+    const_str_plain_type_id = UNSTREAM_STRING_ASCII( &constant_bin[ 1884 ], 7, 1 );
     const_tuple_27e8843820aaaf7d85f25843e87477b8_tuple = PyTuple_New( 10 );
     PyTuple_SET_ITEM( const_tuple_27e8843820aaaf7d85f25843e87477b8_tuple, 0, const_str_plain_flatfile ); Py_INCREF( const_str_plain_flatfile );
     PyTuple_SET_ITEM( const_tuple_27e8843820aaaf7d85f25843e87477b8_tuple, 1, const_str_plain_export ); Py_INCREF( const_str_plain_export );
@@ -208,30 +210,30 @@ static void createModuleConstants( void )
     PyTuple_SET_ITEM( const_tuple_27e8843820aaaf7d85f25843e87477b8_tuple, 7, const_str_plain_row ); Py_INCREF( const_str_plain_row );
     PyTuple_SET_ITEM( const_tuple_27e8843820aaaf7d85f25843e87477b8_tuple, 8, const_str_plain_values ); Py_INCREF( const_str_plain_values );
     PyTuple_SET_ITEM( const_tuple_27e8843820aaaf7d85f25843e87477b8_tuple, 9, const_str_plain_output_path ); Py_INCREF( const_str_plain_output_path );
-    const_str_digest_d31423104f1a6e37770a1211bdd50303 = UNSTREAM_STRING_ASCII( &constant_bin[ 53982 ], 25, 0 );
-    const_str_plain_amazon_data = UNSTREAM_STRING_ASCII( &constant_bin[ 54007 ], 11, 1 );
-    const_str_digest_581827c4a96afb18e3efc99820cb258a = UNSTREAM_STRING_ASCII( &constant_bin[ 54018 ], 16, 0 );
-    const_str_chr_9 = UNSTREAM_STRING_ASCII( &constant_bin[ 2997 ], 1, 0 );
+    const_str_digest_d31423104f1a6e37770a1211bdd50303 = UNSTREAM_STRING_ASCII( &constant_bin[ 1891 ], 25, 0 );
+    const_str_plain_amazon_data = UNSTREAM_STRING_ASCII( &constant_bin[ 1863 ], 11, 1 );
+    const_str_digest_581827c4a96afb18e3efc99820cb258a = UNSTREAM_STRING_ASCII( &constant_bin[ 1916 ], 16, 0 );
+    const_str_chr_9 = UNSTREAM_STRING_ASCII( &constant_bin[ 1932 ], 1, 0 );
     const_list_38d5df80f5d7edd580d5976ab80e13ee_list = PyList_New( 5 );
     PyList_SET_ITEM( const_list_38d5df80f5d7edd580d5976ab80e13ee_list, 0, const_str_digest_581827c4a96afb18e3efc99820cb258a ); Py_INCREF( const_str_digest_581827c4a96afb18e3efc99820cb258a );
     PyList_SET_ITEM( const_list_38d5df80f5d7edd580d5976ab80e13ee_list, 1, const_str_digest_d31423104f1a6e37770a1211bdd50303 ); Py_INCREF( const_str_digest_d31423104f1a6e37770a1211bdd50303 );
-    const_str_digest_8d979fb3b2fa2300058776afd243c90a = UNSTREAM_STRING_ASCII( &constant_bin[ 54034 ], 27, 0 );
+    const_str_digest_8d979fb3b2fa2300058776afd243c90a = UNSTREAM_STRING_ASCII( &constant_bin[ 1933 ], 27, 0 );
     PyList_SET_ITEM( const_list_38d5df80f5d7edd580d5976ab80e13ee_list, 2, const_str_digest_8d979fb3b2fa2300058776afd243c90a ); Py_INCREF( const_str_digest_8d979fb3b2fa2300058776afd243c90a );
-    const_str_digest_84e5343586ec457d0a7c5966aff2f9e2 = UNSTREAM_STRING_ASCII( &constant_bin[ 54061 ], 29, 0 );
+    const_str_digest_84e5343586ec457d0a7c5966aff2f9e2 = UNSTREAM_STRING_ASCII( &constant_bin[ 1960 ], 29, 0 );
     PyList_SET_ITEM( const_list_38d5df80f5d7edd580d5976ab80e13ee_list, 3, const_str_digest_84e5343586ec457d0a7c5966aff2f9e2 ); Py_INCREF( const_str_digest_84e5343586ec457d0a7c5966aff2f9e2 );
-    const_str_digest_9e5741ce83918463363f2828b1a0b1c3 = UNSTREAM_STRING_ASCII( &constant_bin[ 54090 ], 28, 0 );
+    const_str_digest_9e5741ce83918463363f2828b1a0b1c3 = UNSTREAM_STRING_ASCII( &constant_bin[ 1989 ], 28, 0 );
     PyList_SET_ITEM( const_list_38d5df80f5d7edd580d5976ab80e13ee_list, 4, const_str_digest_9e5741ce83918463363f2828b1a0b1c3 ); Py_INCREF( const_str_digest_9e5741ce83918463363f2828b1a0b1c3 );
     const_list_bef53315585b71e08f5745956c7b75d5_list = PyList_New( 5 );
     PyList_SET_ITEM( const_list_bef53315585b71e08f5745956c7b75d5_list, 0, const_str_plain_VariationID ); Py_INCREF( const_str_plain_VariationID );
     PyList_SET_ITEM( const_list_bef53315585b71e08f5745956c7b75d5_list, 1, const_str_plain_MarketID ); Py_INCREF( const_str_plain_MarketID );
     PyList_SET_ITEM( const_list_bef53315585b71e08f5745956c7b75d5_list, 2, const_str_plain_MarketAccountID ); Py_INCREF( const_str_plain_MarketAccountID );
     PyList_SET_ITEM( const_list_bef53315585b71e08f5745956c7b75d5_list, 3, const_str_plain_SKU ); Py_INCREF( const_str_plain_SKU );
-    const_str_plain_ParentSKU = UNSTREAM_STRING_ASCII( &constant_bin[ 54118 ], 9, 1 );
+    const_str_plain_ParentSKU = UNSTREAM_STRING_ASCII( &constant_bin[ 2017 ], 9, 1 );
     PyList_SET_ITEM( const_list_bef53315585b71e08f5745956c7b75d5_list, 4, const_str_plain_ParentSKU ); Py_INCREF( const_str_plain_ParentSKU );
-    const_str_plain_sku_amazon = UNSTREAM_STRING_ASCII( &constant_bin[ 54127 ], 10, 1 );
-    const_str_digest_7382cce29d0eb1b21ae5837d94427d74 = UNSTREAM_STRING_ASCII( &constant_bin[ 54137 ], 36, 0 );
-    const_str_plain_feature_id = UNSTREAM_STRING_ASCII( &constant_bin[ 54173 ], 10, 1 );
-    const_str_plain_feature = UNSTREAM_STRING_ASCII( &constant_bin[ 770 ], 7, 1 );
+    const_str_plain_sku_amazon = UNSTREAM_STRING_ASCII( &constant_bin[ 2026 ], 10, 1 );
+    const_str_digest_7382cce29d0eb1b21ae5837d94427d74 = UNSTREAM_STRING_ASCII( &constant_bin[ 2036 ], 36, 0 );
+    const_str_plain_feature_id = UNSTREAM_STRING_ASCII( &constant_bin[ 2072 ], 10, 1 );
+    const_str_plain_feature = UNSTREAM_STRING_ASCII( &constant_bin[ 779 ], 7, 1 );
     const_tuple_fb2569a0d153bbb48996040b81d80b79_tuple = PyTuple_New( 12 );
     PyTuple_SET_ITEM( const_tuple_fb2569a0d153bbb48996040b81d80b79_tuple, 0, const_str_plain_flatfile ); Py_INCREF( const_str_plain_flatfile );
     PyTuple_SET_ITEM( const_tuple_fb2569a0d153bbb48996040b81d80b79_tuple, 1, const_str_plain_export ); Py_INCREF( const_str_plain_export );
@@ -247,11 +249,11 @@ static void createModuleConstants( void )
     PyTuple_SET_ITEM( const_tuple_fb2569a0d153bbb48996040b81d80b79_tuple, 11, const_str_plain_err ); Py_INCREF( const_str_plain_err );
     const_list_9a547db835fee6cc33332e46e422ec44_list = PyList_New( 4 );
     PyList_SET_ITEM( const_list_9a547db835fee6cc33332e46e422ec44_list, 0, const_str_plain_ASIN ); Py_INCREF( const_str_plain_ASIN );
-    const_str_plain_MarketplaceCountry = UNSTREAM_STRING_ASCII( &constant_bin[ 54183 ], 18, 1 );
+    const_str_plain_MarketplaceCountry = UNSTREAM_STRING_ASCII( &constant_bin[ 2082 ], 18, 1 );
     PyList_SET_ITEM( const_list_9a547db835fee6cc33332e46e422ec44_list, 1, const_str_plain_MarketplaceCountry ); Py_INCREF( const_str_plain_MarketplaceCountry );
     PyList_SET_ITEM( const_list_9a547db835fee6cc33332e46e422ec44_list, 2, const_str_plain_Position ); Py_INCREF( const_str_plain_Position );
     PyList_SET_ITEM( const_list_9a547db835fee6cc33332e46e422ec44_list, 3, const_str_plain_VariationID ); Py_INCREF( const_str_plain_VariationID );
-    const_str_plain_asin = UNSTREAM_STRING_ASCII( &constant_bin[ 54201 ], 4, 1 );
+    const_str_plain_asin = UNSTREAM_STRING_ASCII( &constant_bin[ 2100 ], 4, 1 );
     const_tuple_0d69e7a9ef3a453e4e0c5dfec2d7ccd5_tuple = PyTuple_New( 9 );
     PyTuple_SET_ITEM( const_tuple_0d69e7a9ef3a453e4e0c5dfec2d7ccd5_tuple, 0, const_str_plain_flatfile ); Py_INCREF( const_str_plain_flatfile );
     PyTuple_SET_ITEM( const_tuple_0d69e7a9ef3a453e4e0c5dfec2d7ccd5_tuple, 1, const_str_plain_feature ); Py_INCREF( const_str_plain_feature );
@@ -262,7 +264,6 @@ static void createModuleConstants( void )
     PyTuple_SET_ITEM( const_tuple_0d69e7a9ef3a453e4e0c5dfec2d7ccd5_tuple, 6, const_str_plain_reader ); Py_INCREF( const_str_plain_reader );
     PyTuple_SET_ITEM( const_tuple_0d69e7a9ef3a453e4e0c5dfec2d7ccd5_tuple, 7, const_str_plain_row ); Py_INCREF( const_str_plain_row );
     PyTuple_SET_ITEM( const_tuple_0d69e7a9ef3a453e4e0c5dfec2d7ccd5_tuple, 8, const_str_plain_values ); Py_INCREF( const_str_plain_values );
-    const_str_digest_8e3d42d9408f5a4edd26f6b966b17070 = UNSTREAM_STRING_ASCII( &constant_bin[ 54205 ], 30, 0 );
 
     constants_created = true;
 }
@@ -279,20 +280,20 @@ void checkModuleConstants_packages$amazon_data_upload( void )
 #endif
 
 // The module code objects.
-static PyCodeObject *codeobj_3fea4146f05da63540d03627bfa4f5e0;
-static PyCodeObject *codeobj_71a303f3694f0f0b7f000a5eb1d32902;
-static PyCodeObject *codeobj_c7ca8c785e74cb95c6f1c74b515ac193;
-static PyCodeObject *codeobj_bf718b2d70a6bfc55dec23dbc1ae092b;
-static PyCodeObject *codeobj_684baf0425d7755c517c92ae6281d29d;
+static PyCodeObject *codeobj_554b9186f0a8f9fd7f4432d6e37293fa;
+static PyCodeObject *codeobj_3e20433acced9e0aebaa5a9a4d6abf87;
+static PyCodeObject *codeobj_f26c802bdd88e2388fdabbdfaa3931d4;
+static PyCodeObject *codeobj_08f4a3a9648f3826e2f39029c72eb787;
+static PyCodeObject *codeobj_429a5dce964d398b289205348fcb4130;
 
 static void createModuleCodeObjects(void)
 {
-    module_filename_obj = MAKE_RELATIVE_PATH( const_str_digest_8e3d42d9408f5a4edd26f6b966b17070 );
-    codeobj_3fea4146f05da63540d03627bfa4f5e0 = MAKE_CODEOBJ( module_filename_obj, const_str_digest_7382cce29d0eb1b21ae5837d94427d74, 1, const_tuple_empty, 0, 0, CO_NOFREE );
-    codeobj_71a303f3694f0f0b7f000a5eb1d32902 = MAKE_CODEOBJ( module_filename_obj, const_str_plain_amazonDataUpload, 37, const_tuple_fb2569a0d153bbb48996040b81d80b79_tuple, 2, 0, CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE );
-    codeobj_c7ca8c785e74cb95c6f1c74b515ac193 = MAKE_CODEOBJ( module_filename_obj, const_str_plain_amazonSkuUpload, 12, const_tuple_27e8843820aaaf7d85f25843e87477b8_tuple, 2, 0, CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE );
-    codeobj_bf718b2d70a6bfc55dec23dbc1ae092b = MAKE_CODEOBJ( module_filename_obj, const_str_plain_asinUpload, 92, const_tuple_fd5740fd0226370d726d63e449f4fb78_tuple, 2, 0, CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE );
-    codeobj_684baf0425d7755c517c92ae6281d29d = MAKE_CODEOBJ( module_filename_obj, const_str_plain_featureUpload, 116, const_tuple_0d69e7a9ef3a453e4e0c5dfec2d7ccd5_tuple, 3, 0, CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE );
+    module_filename_obj = MAKE_RELATIVE_PATH( const_str_digest_685a2d224f9c4fd4c99c26dd586a8fb0 );
+    codeobj_554b9186f0a8f9fd7f4432d6e37293fa = MAKE_CODEOBJ( module_filename_obj, const_str_digest_7382cce29d0eb1b21ae5837d94427d74, 1, const_tuple_empty, 0, 0, CO_NOFREE );
+    codeobj_3e20433acced9e0aebaa5a9a4d6abf87 = MAKE_CODEOBJ( module_filename_obj, const_str_plain_amazonDataUpload, 37, const_tuple_fb2569a0d153bbb48996040b81d80b79_tuple, 2, 0, CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE );
+    codeobj_f26c802bdd88e2388fdabbdfaa3931d4 = MAKE_CODEOBJ( module_filename_obj, const_str_plain_amazonSkuUpload, 12, const_tuple_27e8843820aaaf7d85f25843e87477b8_tuple, 2, 0, CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE );
+    codeobj_08f4a3a9648f3826e2f39029c72eb787 = MAKE_CODEOBJ( module_filename_obj, const_str_plain_asinUpload, 92, const_tuple_fd5740fd0226370d726d63e449f4fb78_tuple, 2, 0, CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE );
+    codeobj_429a5dce964d398b289205348fcb4130 = MAKE_CODEOBJ( module_filename_obj, const_str_plain_featureUpload, 116, const_tuple_0d69e7a9ef3a453e4e0c5dfec2d7ccd5_tuple, 3, 0, CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE );
 }
 
 // The module function declarations.
@@ -341,7 +342,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
     PyObject *tmp_with_2__exit = NULL;
     nuitka_bool tmp_with_2__indicator = NUITKA_BOOL_UNASSIGNED;
     PyObject *tmp_with_2__source = NULL;
-    struct Nuitka_FrameObject *frame_c7ca8c785e74cb95c6f1c74b515ac193;
+    struct Nuitka_FrameObject *frame_f26c802bdd88e2388fdabbdfaa3931d4;
     NUITKA_MAY_BE_UNUSED char const *type_description_1 = NULL;
     PyObject *exception_type = NULL;
     PyObject *exception_value = NULL;
@@ -395,7 +396,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
     PyObject *exception_keeper_value_10;
     PyTracebackObject *exception_keeper_tb_10;
     NUITKA_MAY_BE_UNUSED int exception_keeper_lineno_10;
-    static struct Nuitka_FrameObject *cache_frame_c7ca8c785e74cb95c6f1c74b515ac193 = NULL;
+    static struct Nuitka_FrameObject *cache_frame_f26c802bdd88e2388fdabbdfaa3931d4 = NULL;
     PyObject *tmp_return_value = NULL;
     PyObject *exception_keeper_type_11;
     PyObject *exception_keeper_value_11;
@@ -410,14 +411,14 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
         var_column_names = tmp_assign_source_1;
     }
     // Tried code:
-    MAKE_OR_REUSE_FRAME( cache_frame_c7ca8c785e74cb95c6f1c74b515ac193, codeobj_c7ca8c785e74cb95c6f1c74b515ac193, module_packages$amazon_data_upload, sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *) );
-    frame_c7ca8c785e74cb95c6f1c74b515ac193 = cache_frame_c7ca8c785e74cb95c6f1c74b515ac193;
+    MAKE_OR_REUSE_FRAME( cache_frame_f26c802bdd88e2388fdabbdfaa3931d4, codeobj_f26c802bdd88e2388fdabbdfaa3931d4, module_packages$amazon_data_upload, sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *) );
+    frame_f26c802bdd88e2388fdabbdfaa3931d4 = cache_frame_f26c802bdd88e2388fdabbdfaa3931d4;
 
     // Push the new frame as the currently active one.
-    pushFrameStack( frame_c7ca8c785e74cb95c6f1c74b515ac193 );
+    pushFrameStack( frame_f26c802bdd88e2388fdabbdfaa3931d4 );
 
     // Mark the frame object as in use, ref count 1 will be up for reuse.
-    assert( Py_REFCNT( frame_c7ca8c785e74cb95c6f1c74b515ac193 ) == 2 ); // Frame stack
+    assert( Py_REFCNT( frame_f26c802bdd88e2388fdabbdfaa3931d4 ) == 2 ); // Frame stack
 
     // Framed code:
     {
@@ -447,7 +448,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
         }
 
         tmp_called_name_1 = tmp_mvar_value_1;
-        frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = 16;
+        frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = 16;
         tmp_assign_source_2 = CALL_FUNCTION_NO_ARGS( tmp_called_name_1 );
         if ( tmp_assign_source_2 == NULL )
         {
@@ -504,7 +505,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
             type_description_1 = "ooooooNooo";
             goto try_except_handler_2;
         }
-        frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = 18;
+        frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = 18;
         tmp_assign_source_4 = CALL_FUNCTION_NO_ARGS( tmp_called_name_2 );
         Py_DECREF( tmp_called_name_2 );
         if ( tmp_assign_source_4 == NULL )
@@ -605,7 +606,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
         Py_INCREF( tmp_tuple_element_1 );
         PyTuple_SET_ITEM( tmp_args_name_1, 0, tmp_tuple_element_1 );
         tmp_kw_name_1 = PyDict_Copy( const_dict_a2fe7522a8a3fde103f0109fa97f1383 );
-        frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = 19;
+        frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = 19;
         tmp_assign_source_8 = CALL_FUNCTION( tmp_called_name_3, tmp_args_name_1, tmp_kw_name_1 );
         Py_DECREF( tmp_called_name_3 );
         Py_DECREF( tmp_args_name_1 );
@@ -813,7 +814,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
             tmp_args_element_name_2 = var_column_names;
             CHECK_OBJECT( var_values );
             tmp_args_element_name_3 = var_values;
-            frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = 25;
+            frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = 25;
             {
                 PyObject *call_args[] = { tmp_args_element_name_2, tmp_args_element_name_3 };
                 tmp_args_element_name_1 = CALL_FUNCTION_WITH_ARGS2( tmp_called_name_5, call_args );
@@ -830,7 +831,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
                 type_description_1 = "ooooooNooo";
                 goto try_except_handler_5;
             }
-            frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = 24;
+            frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = 24;
             {
                 PyObject *call_args[] = { tmp_args_element_name_1 };
                 tmp_ass_subvalue_1 = CALL_FUNCTION_WITH_ARGS1( tmp_called_name_4, call_args );
@@ -952,11 +953,11 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
 
     if ( exception_keeper_tb_2 == NULL )
     {
-        exception_keeper_tb_2 = MAKE_TRACEBACK( frame_c7ca8c785e74cb95c6f1c74b515ac193, exception_keeper_lineno_2 );
+        exception_keeper_tb_2 = MAKE_TRACEBACK( frame_f26c802bdd88e2388fdabbdfaa3931d4, exception_keeper_lineno_2 );
     }
     else if ( exception_keeper_lineno_2 != 0 )
     {
-        exception_keeper_tb_2 = ADD_TRACEBACK( exception_keeper_tb_2, frame_c7ca8c785e74cb95c6f1c74b515ac193, exception_keeper_lineno_2 );
+        exception_keeper_tb_2 = ADD_TRACEBACK( exception_keeper_tb_2, frame_f26c802bdd88e2388fdabbdfaa3931d4, exception_keeper_lineno_2 );
     }
 
     NORMALIZE_EXCEPTION( &exception_keeper_type_2, &exception_keeper_value_2, &exception_keeper_tb_2 );
@@ -1008,7 +1009,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
             tmp_args_element_name_4 = EXC_TYPE(PyThreadState_GET());
             tmp_args_element_name_5 = EXC_VALUE(PyThreadState_GET());
             tmp_args_element_name_6 = EXC_TRACEBACK(PyThreadState_GET());
-            frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = 18;
+            frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = 18;
             {
                 PyObject *call_args[] = { tmp_args_element_name_4, tmp_args_element_name_5, tmp_args_element_name_6 };
                 tmp_operand_name_1 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_6, call_args );
@@ -1054,7 +1055,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
                 exception_lineno = 18;
             }
 
-            if (exception_tb && exception_tb->tb_frame == &frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame) frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = exception_tb->tb_lineno;
+            if (exception_tb && exception_tb->tb_frame == &frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame) frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = exception_tb->tb_lineno;
             type_description_1 = "ooooooNooo";
             goto try_except_handler_6;
             branch_no_3:;
@@ -1067,7 +1068,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
             exception_lineno = 18;
         }
 
-        if (exception_tb && exception_tb->tb_frame == &frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame) frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = exception_tb->tb_lineno;
+        if (exception_tb && exception_tb->tb_frame == &frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame) frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = exception_tb->tb_lineno;
         type_description_1 = "ooooooNooo";
         goto try_except_handler_6;
         branch_end_2:;
@@ -1137,7 +1138,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
             PyObject *tmp_call_result_1;
             CHECK_OBJECT( tmp_with_1__exit );
             tmp_called_name_7 = tmp_with_1__exit;
-            frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = 18;
+            frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = 18;
             tmp_call_result_1 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_7, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_1 == NULL )
@@ -1189,7 +1190,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
             PyObject *tmp_call_result_2;
             CHECK_OBJECT( tmp_with_1__exit );
             tmp_called_name_8 = tmp_with_1__exit;
-            frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = 18;
+            frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = 18;
             tmp_call_result_2 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_8, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_2 == NULL )
@@ -1290,7 +1291,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
             type_description_1 = "ooooooNooo";
             goto try_except_handler_7;
         }
-        frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = 27;
+        frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = 27;
         tmp_assign_source_15 = CALL_FUNCTION_NO_ARGS( tmp_called_name_9 );
         Py_DECREF( tmp_called_name_9 );
         if ( tmp_assign_source_15 == NULL )
@@ -1396,7 +1397,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
         Py_INCREF( tmp_tuple_element_2 );
         PyTuple_SET_ITEM( tmp_args_name_2, 0, tmp_tuple_element_2 );
         tmp_kw_name_2 = PyDict_Copy( const_dict_a2fe7522a8a3fde103f0109fa97f1383 );
-        frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = 28;
+        frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = 28;
         tmp_assign_source_19 = CALL_FUNCTION( tmp_called_name_10, tmp_args_name_2, tmp_kw_name_2 );
         Py_DECREF( tmp_called_name_10 );
         Py_DECREF( tmp_args_name_2 );
@@ -1765,11 +1766,11 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
 
     if ( exception_keeper_tb_7 == NULL )
     {
-        exception_keeper_tb_7 = MAKE_TRACEBACK( frame_c7ca8c785e74cb95c6f1c74b515ac193, exception_keeper_lineno_7 );
+        exception_keeper_tb_7 = MAKE_TRACEBACK( frame_f26c802bdd88e2388fdabbdfaa3931d4, exception_keeper_lineno_7 );
     }
     else if ( exception_keeper_lineno_7 != 0 )
     {
-        exception_keeper_tb_7 = ADD_TRACEBACK( exception_keeper_tb_7, frame_c7ca8c785e74cb95c6f1c74b515ac193, exception_keeper_lineno_7 );
+        exception_keeper_tb_7 = ADD_TRACEBACK( exception_keeper_tb_7, frame_f26c802bdd88e2388fdabbdfaa3931d4, exception_keeper_lineno_7 );
     }
 
     NORMALIZE_EXCEPTION( &exception_keeper_type_7, &exception_keeper_value_7, &exception_keeper_tb_7 );
@@ -1821,7 +1822,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
             tmp_args_element_name_7 = EXC_TYPE(PyThreadState_GET());
             tmp_args_element_name_8 = EXC_VALUE(PyThreadState_GET());
             tmp_args_element_name_9 = EXC_TRACEBACK(PyThreadState_GET());
-            frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = 27;
+            frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = 27;
             {
                 PyObject *call_args[] = { tmp_args_element_name_7, tmp_args_element_name_8, tmp_args_element_name_9 };
                 tmp_operand_name_2 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_11, call_args );
@@ -1867,7 +1868,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
                 exception_lineno = 27;
             }
 
-            if (exception_tb && exception_tb->tb_frame == &frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame) frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = exception_tb->tb_lineno;
+            if (exception_tb && exception_tb->tb_frame == &frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame) frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = exception_tb->tb_lineno;
             type_description_1 = "ooooooNooo";
             goto try_except_handler_11;
             branch_no_8:;
@@ -1880,7 +1881,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
             exception_lineno = 27;
         }
 
-        if (exception_tb && exception_tb->tb_frame == &frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame) frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = exception_tb->tb_lineno;
+        if (exception_tb && exception_tb->tb_frame == &frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame) frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = exception_tb->tb_lineno;
         type_description_1 = "ooooooNooo";
         goto try_except_handler_11;
         branch_end_7:;
@@ -1950,7 +1951,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
             PyObject *tmp_call_result_3;
             CHECK_OBJECT( tmp_with_2__exit );
             tmp_called_name_12 = tmp_with_2__exit;
-            frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = 27;
+            frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = 27;
             tmp_call_result_3 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_12, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_3 == NULL )
@@ -2002,7 +2003,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
             PyObject *tmp_call_result_4;
             CHECK_OBJECT( tmp_with_2__exit );
             tmp_called_name_13 = tmp_with_2__exit;
-            frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = 27;
+            frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = 27;
             tmp_call_result_4 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_13, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_4 == NULL )
@@ -2097,7 +2098,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
         tmp_args_element_name_11 = const_str_plain_sku_amazon;
         CHECK_OBJECT( var_column_names );
         tmp_args_element_name_12 = var_column_names;
-        frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame.f_lineno = 34;
+        frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame.f_lineno = 34;
         {
             PyObject *call_args[] = { tmp_args_element_name_10, tmp_args_element_name_11, tmp_args_element_name_12 };
             tmp_assign_source_24 = CALL_METHOD_WITH_ARGS3( tmp_called_instance_1, const_str_plain_writeCSV, call_args );
@@ -2119,7 +2120,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
     }
 
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_c7ca8c785e74cb95c6f1c74b515ac193 );
+    RESTORE_FRAME_EXCEPTION( frame_f26c802bdd88e2388fdabbdfaa3931d4 );
 #endif
 
     // Put the previous frame back on top.
@@ -2130,21 +2131,21 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
     frame_exception_exit_1:;
 
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_c7ca8c785e74cb95c6f1c74b515ac193 );
+    RESTORE_FRAME_EXCEPTION( frame_f26c802bdd88e2388fdabbdfaa3931d4 );
 #endif
 
     if ( exception_tb == NULL )
     {
-        exception_tb = MAKE_TRACEBACK( frame_c7ca8c785e74cb95c6f1c74b515ac193, exception_lineno );
+        exception_tb = MAKE_TRACEBACK( frame_f26c802bdd88e2388fdabbdfaa3931d4, exception_lineno );
     }
-    else if ( exception_tb->tb_frame != &frame_c7ca8c785e74cb95c6f1c74b515ac193->m_frame )
+    else if ( exception_tb->tb_frame != &frame_f26c802bdd88e2388fdabbdfaa3931d4->m_frame )
     {
-        exception_tb = ADD_TRACEBACK( exception_tb, frame_c7ca8c785e74cb95c6f1c74b515ac193, exception_lineno );
+        exception_tb = ADD_TRACEBACK( exception_tb, frame_f26c802bdd88e2388fdabbdfaa3931d4, exception_lineno );
     }
 
     // Attachs locals to frame if any.
     Nuitka_Frame_AttachLocals(
-        (struct Nuitka_FrameObject *)frame_c7ca8c785e74cb95c6f1c74b515ac193,
+        (struct Nuitka_FrameObject *)frame_f26c802bdd88e2388fdabbdfaa3931d4,
         type_description_1,
         par_flatfile,
         par_export,
@@ -2160,13 +2161,13 @@ static PyObject *impl_packages$amazon_data_upload$$$function_1_amazonSkuUpload( 
 
 
     // Release cached frame.
-    if ( frame_c7ca8c785e74cb95c6f1c74b515ac193 == cache_frame_c7ca8c785e74cb95c6f1c74b515ac193 )
+    if ( frame_f26c802bdd88e2388fdabbdfaa3931d4 == cache_frame_f26c802bdd88e2388fdabbdfaa3931d4 )
     {
-        Py_DECREF( frame_c7ca8c785e74cb95c6f1c74b515ac193 );
+        Py_DECREF( frame_f26c802bdd88e2388fdabbdfaa3931d4 );
     }
-    cache_frame_c7ca8c785e74cb95c6f1c74b515ac193 = NULL;
+    cache_frame_f26c802bdd88e2388fdabbdfaa3931d4 = NULL;
 
-    assertFrameObject( frame_c7ca8c785e74cb95c6f1c74b515ac193 );
+    assertFrameObject( frame_f26c802bdd88e2388fdabbdfaa3931d4 );
 
     // Put the previous frame back on top.
     popFrameStack();
@@ -2322,7 +2323,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
     PyObject *tmp_with_2__exit = NULL;
     nuitka_bool tmp_with_2__indicator = NUITKA_BOOL_UNASSIGNED;
     PyObject *tmp_with_2__source = NULL;
-    struct Nuitka_FrameObject *frame_71a303f3694f0f0b7f000a5eb1d32902;
+    struct Nuitka_FrameObject *frame_3e20433acced9e0aebaa5a9a4d6abf87;
     NUITKA_MAY_BE_UNUSED char const *type_description_1 = NULL;
     PyObject *exception_type = NULL;
     PyObject *exception_value = NULL;
@@ -2399,7 +2400,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
     PyObject *exception_keeper_value_15;
     PyTracebackObject *exception_keeper_tb_15;
     NUITKA_MAY_BE_UNUSED int exception_keeper_lineno_15;
-    static struct Nuitka_FrameObject *cache_frame_71a303f3694f0f0b7f000a5eb1d32902 = NULL;
+    static struct Nuitka_FrameObject *cache_frame_3e20433acced9e0aebaa5a9a4d6abf87 = NULL;
     PyObject *tmp_return_value = NULL;
     PyObject *exception_keeper_type_16;
     PyObject *exception_keeper_value_16;
@@ -2414,14 +2415,14 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
         var_column_names = tmp_assign_source_1;
     }
     // Tried code:
-    MAKE_OR_REUSE_FRAME( cache_frame_71a303f3694f0f0b7f000a5eb1d32902, codeobj_71a303f3694f0f0b7f000a5eb1d32902, module_packages$amazon_data_upload, sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *) );
-    frame_71a303f3694f0f0b7f000a5eb1d32902 = cache_frame_71a303f3694f0f0b7f000a5eb1d32902;
+    MAKE_OR_REUSE_FRAME( cache_frame_3e20433acced9e0aebaa5a9a4d6abf87, codeobj_3e20433acced9e0aebaa5a9a4d6abf87, module_packages$amazon_data_upload, sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *) );
+    frame_3e20433acced9e0aebaa5a9a4d6abf87 = cache_frame_3e20433acced9e0aebaa5a9a4d6abf87;
 
     // Push the new frame as the currently active one.
-    pushFrameStack( frame_71a303f3694f0f0b7f000a5eb1d32902 );
+    pushFrameStack( frame_3e20433acced9e0aebaa5a9a4d6abf87 );
 
     // Mark the frame object as in use, ref count 1 will be up for reuse.
-    assert( Py_REFCNT( frame_71a303f3694f0f0b7f000a5eb1d32902 ) == 2 ); // Frame stack
+    assert( Py_REFCNT( frame_3e20433acced9e0aebaa5a9a4d6abf87 ) == 2 ); // Frame stack
 
     // Framed code:
     {
@@ -2451,7 +2452,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
         }
 
         tmp_called_name_1 = tmp_mvar_value_1;
-        frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 44;
+        frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 44;
         tmp_assign_source_2 = CALL_FUNCTION_NO_ARGS( tmp_called_name_1 );
         if ( tmp_assign_source_2 == NULL )
         {
@@ -2508,7 +2509,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
             type_description_1 = "oooooooooooo";
             goto try_except_handler_2;
         }
-        frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 46;
+        frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 46;
         tmp_assign_source_4 = CALL_FUNCTION_NO_ARGS( tmp_called_name_2 );
         Py_DECREF( tmp_called_name_2 );
         if ( tmp_assign_source_4 == NULL )
@@ -2609,7 +2610,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
         Py_INCREF( tmp_tuple_element_1 );
         PyTuple_SET_ITEM( tmp_args_name_1, 0, tmp_tuple_element_1 );
         tmp_kw_name_1 = PyDict_Copy( const_dict_a2fe7522a8a3fde103f0109fa97f1383 );
-        frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 47;
+        frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 47;
         tmp_assign_source_8 = CALL_FUNCTION( tmp_called_name_3, tmp_args_name_1, tmp_kw_name_1 );
         Py_DECREF( tmp_called_name_3 );
         Py_DECREF( tmp_args_name_1 );
@@ -2774,7 +2775,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
                 type_description_1 = "oooooooooooo";
                 goto try_except_handler_5;
             }
-            frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 63;
+            frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 63;
             tmp_compexpr_left_2 = CALL_METHOD_NO_ARGS( tmp_called_instance_1, const_str_plain_lower );
             Py_DECREF( tmp_called_instance_1 );
             if ( tmp_compexpr_left_2 == NULL )
@@ -2923,7 +2924,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
                     type_description_1 = "oooooooooooo";
                     goto try_except_handler_6;
                 }
-                frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 65;
+                frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 65;
                 tmp_compexpr_left_3 = CALL_METHOD_NO_ARGS( tmp_called_instance_2, const_str_plain_lower );
                 Py_DECREF( tmp_called_instance_2 );
                 if ( tmp_compexpr_left_3 == NULL )
@@ -3119,7 +3120,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
             tmp_args_element_name_2 = var_column_names;
             CHECK_OBJECT( var_values );
             tmp_args_element_name_3 = var_values;
-            frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 71;
+            frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 71;
             {
                 PyObject *call_args[] = { tmp_args_element_name_2, tmp_args_element_name_3 };
                 tmp_args_element_name_1 = CALL_FUNCTION_WITH_ARGS2( tmp_called_name_5, call_args );
@@ -3136,7 +3137,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
                 type_description_1 = "oooooooooooo";
                 goto try_except_handler_5;
             }
-            frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 71;
+            frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 71;
             {
                 PyObject *call_args[] = { tmp_args_element_name_1 };
                 tmp_ass_subvalue_1 = CALL_FUNCTION_WITH_ARGS1( tmp_called_name_4, call_args );
@@ -3549,11 +3550,11 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
 
             if ( exception_keeper_tb_2 == NULL )
             {
-                exception_keeper_tb_2 = MAKE_TRACEBACK( frame_71a303f3694f0f0b7f000a5eb1d32902, exception_keeper_lineno_2 );
+                exception_keeper_tb_2 = MAKE_TRACEBACK( frame_3e20433acced9e0aebaa5a9a4d6abf87, exception_keeper_lineno_2 );
             }
             else if ( exception_keeper_lineno_2 != 0 )
             {
-                exception_keeper_tb_2 = ADD_TRACEBACK( exception_keeper_tb_2, frame_71a303f3694f0f0b7f000a5eb1d32902, exception_keeper_lineno_2 );
+                exception_keeper_tb_2 = ADD_TRACEBACK( exception_keeper_tb_2, frame_3e20433acced9e0aebaa5a9a4d6abf87, exception_keeper_lineno_2 );
             }
 
             NORMALIZE_EXCEPTION( &exception_keeper_type_2, &exception_keeper_value_2, &exception_keeper_tb_2 );
@@ -3608,7 +3609,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
                     assert( tmp_called_name_6 != NULL );
                     CHECK_OBJECT( var_err );
                     tmp_args_element_name_4 = var_err;
-                    frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 79;
+                    frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 79;
                     {
                         PyObject *call_args[] = { tmp_args_element_name_4 };
                         tmp_call_result_1 = CALL_FUNCTION_WITH_ARGS1( tmp_called_name_6, call_args );
@@ -3662,7 +3663,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
                     exception_lineno = 76;
                 }
 
-                if (exception_tb && exception_tb->tb_frame == &frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame) frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = exception_tb->tb_lineno;
+                if (exception_tb && exception_tb->tb_frame == &frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame) frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = exception_tb->tb_lineno;
                 type_description_1 = "oooooooooooo";
                 goto try_except_handler_9;
                 branch_end_6:;
@@ -3820,11 +3821,11 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
 
     if ( exception_keeper_tb_7 == NULL )
     {
-        exception_keeper_tb_7 = MAKE_TRACEBACK( frame_71a303f3694f0f0b7f000a5eb1d32902, exception_keeper_lineno_7 );
+        exception_keeper_tb_7 = MAKE_TRACEBACK( frame_3e20433acced9e0aebaa5a9a4d6abf87, exception_keeper_lineno_7 );
     }
     else if ( exception_keeper_lineno_7 != 0 )
     {
-        exception_keeper_tb_7 = ADD_TRACEBACK( exception_keeper_tb_7, frame_71a303f3694f0f0b7f000a5eb1d32902, exception_keeper_lineno_7 );
+        exception_keeper_tb_7 = ADD_TRACEBACK( exception_keeper_tb_7, frame_3e20433acced9e0aebaa5a9a4d6abf87, exception_keeper_lineno_7 );
     }
 
     NORMALIZE_EXCEPTION( &exception_keeper_type_7, &exception_keeper_value_7, &exception_keeper_tb_7 );
@@ -3876,7 +3877,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
             tmp_args_element_name_5 = EXC_TYPE(PyThreadState_GET());
             tmp_args_element_name_6 = EXC_VALUE(PyThreadState_GET());
             tmp_args_element_name_7 = EXC_TRACEBACK(PyThreadState_GET());
-            frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 46;
+            frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 46;
             {
                 PyObject *call_args[] = { tmp_args_element_name_5, tmp_args_element_name_6, tmp_args_element_name_7 };
                 tmp_operand_name_2 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_7, call_args );
@@ -3922,7 +3923,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
                 exception_lineno = 46;
             }
 
-            if (exception_tb && exception_tb->tb_frame == &frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame) frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = exception_tb->tb_lineno;
+            if (exception_tb && exception_tb->tb_frame == &frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame) frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = exception_tb->tb_lineno;
             type_description_1 = "oooooooooooo";
             goto try_except_handler_11;
             branch_no_8:;
@@ -3935,7 +3936,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
             exception_lineno = 46;
         }
 
-        if (exception_tb && exception_tb->tb_frame == &frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame) frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = exception_tb->tb_lineno;
+        if (exception_tb && exception_tb->tb_frame == &frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame) frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = exception_tb->tb_lineno;
         type_description_1 = "oooooooooooo";
         goto try_except_handler_11;
         branch_end_7:;
@@ -4005,7 +4006,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
             PyObject *tmp_call_result_2;
             CHECK_OBJECT( tmp_with_1__exit );
             tmp_called_name_8 = tmp_with_1__exit;
-            frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 46;
+            frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 46;
             tmp_call_result_2 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_8, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_2 == NULL )
@@ -4057,7 +4058,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
             PyObject *tmp_call_result_3;
             CHECK_OBJECT( tmp_with_1__exit );
             tmp_called_name_9 = tmp_with_1__exit;
-            frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 46;
+            frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 46;
             tmp_call_result_3 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_9, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_3 == NULL )
@@ -4158,7 +4159,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
             type_description_1 = "oooooooooooo";
             goto try_except_handler_12;
         }
-        frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 82;
+        frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 82;
         tmp_assign_source_25 = CALL_FUNCTION_NO_ARGS( tmp_called_name_10 );
         Py_DECREF( tmp_called_name_10 );
         if ( tmp_assign_source_25 == NULL )
@@ -4264,7 +4265,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
         Py_INCREF( tmp_tuple_element_4 );
         PyTuple_SET_ITEM( tmp_args_name_2, 0, tmp_tuple_element_4 );
         tmp_kw_name_2 = PyDict_Copy( const_dict_a2fe7522a8a3fde103f0109fa97f1383 );
-        frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 83;
+        frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 83;
         tmp_assign_source_29 = CALL_FUNCTION( tmp_called_name_11, tmp_args_name_2, tmp_kw_name_2 );
         Py_DECREF( tmp_called_name_11 );
         Py_DECREF( tmp_args_name_2 );
@@ -4562,11 +4563,11 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
 
     if ( exception_keeper_tb_12 == NULL )
     {
-        exception_keeper_tb_12 = MAKE_TRACEBACK( frame_71a303f3694f0f0b7f000a5eb1d32902, exception_keeper_lineno_12 );
+        exception_keeper_tb_12 = MAKE_TRACEBACK( frame_3e20433acced9e0aebaa5a9a4d6abf87, exception_keeper_lineno_12 );
     }
     else if ( exception_keeper_lineno_12 != 0 )
     {
-        exception_keeper_tb_12 = ADD_TRACEBACK( exception_keeper_tb_12, frame_71a303f3694f0f0b7f000a5eb1d32902, exception_keeper_lineno_12 );
+        exception_keeper_tb_12 = ADD_TRACEBACK( exception_keeper_tb_12, frame_3e20433acced9e0aebaa5a9a4d6abf87, exception_keeper_lineno_12 );
     }
 
     NORMALIZE_EXCEPTION( &exception_keeper_type_12, &exception_keeper_value_12, &exception_keeper_tb_12 );
@@ -4618,7 +4619,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
             tmp_args_element_name_8 = EXC_TYPE(PyThreadState_GET());
             tmp_args_element_name_9 = EXC_VALUE(PyThreadState_GET());
             tmp_args_element_name_10 = EXC_TRACEBACK(PyThreadState_GET());
-            frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 82;
+            frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 82;
             {
                 PyObject *call_args[] = { tmp_args_element_name_8, tmp_args_element_name_9, tmp_args_element_name_10 };
                 tmp_operand_name_3 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_12, call_args );
@@ -4664,7 +4665,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
                 exception_lineno = 82;
             }
 
-            if (exception_tb && exception_tb->tb_frame == &frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame) frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = exception_tb->tb_lineno;
+            if (exception_tb && exception_tb->tb_frame == &frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame) frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = exception_tb->tb_lineno;
             type_description_1 = "oooooooooooo";
             goto try_except_handler_16;
             branch_no_13:;
@@ -4677,7 +4678,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
             exception_lineno = 82;
         }
 
-        if (exception_tb && exception_tb->tb_frame == &frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame) frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = exception_tb->tb_lineno;
+        if (exception_tb && exception_tb->tb_frame == &frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame) frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = exception_tb->tb_lineno;
         type_description_1 = "oooooooooooo";
         goto try_except_handler_16;
         branch_end_12:;
@@ -4747,7 +4748,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
             PyObject *tmp_call_result_4;
             CHECK_OBJECT( tmp_with_2__exit );
             tmp_called_name_13 = tmp_with_2__exit;
-            frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 82;
+            frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 82;
             tmp_call_result_4 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_13, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_4 == NULL )
@@ -4799,7 +4800,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
             PyObject *tmp_call_result_5;
             CHECK_OBJECT( tmp_with_2__exit );
             tmp_called_name_14 = tmp_with_2__exit;
-            frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 82;
+            frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 82;
             tmp_call_result_5 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_14, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_5 == NULL )
@@ -4921,7 +4922,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
         tmp_dict_value_3 = var_column_names;
         tmp_res = PyDict_SetItem( tmp_kw_name_3, tmp_dict_key_3, tmp_dict_value_3 );
         assert( !(tmp_res != 0) );
-        frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame.f_lineno = 89;
+        frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame.f_lineno = 89;
         tmp_call_result_6 = CALL_FUNCTION_WITH_KEYARGS( tmp_called_name_15, tmp_kw_name_3 );
         Py_DECREF( tmp_called_name_15 );
         Py_DECREF( tmp_kw_name_3 );
@@ -4940,7 +4941,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
     }
 
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_71a303f3694f0f0b7f000a5eb1d32902 );
+    RESTORE_FRAME_EXCEPTION( frame_3e20433acced9e0aebaa5a9a4d6abf87 );
 #endif
 
     // Put the previous frame back on top.
@@ -4951,21 +4952,21 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
     frame_exception_exit_1:;
 
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_71a303f3694f0f0b7f000a5eb1d32902 );
+    RESTORE_FRAME_EXCEPTION( frame_3e20433acced9e0aebaa5a9a4d6abf87 );
 #endif
 
     if ( exception_tb == NULL )
     {
-        exception_tb = MAKE_TRACEBACK( frame_71a303f3694f0f0b7f000a5eb1d32902, exception_lineno );
+        exception_tb = MAKE_TRACEBACK( frame_3e20433acced9e0aebaa5a9a4d6abf87, exception_lineno );
     }
-    else if ( exception_tb->tb_frame != &frame_71a303f3694f0f0b7f000a5eb1d32902->m_frame )
+    else if ( exception_tb->tb_frame != &frame_3e20433acced9e0aebaa5a9a4d6abf87->m_frame )
     {
-        exception_tb = ADD_TRACEBACK( exception_tb, frame_71a303f3694f0f0b7f000a5eb1d32902, exception_lineno );
+        exception_tb = ADD_TRACEBACK( exception_tb, frame_3e20433acced9e0aebaa5a9a4d6abf87, exception_lineno );
     }
 
     // Attachs locals to frame if any.
     Nuitka_Frame_AttachLocals(
-        (struct Nuitka_FrameObject *)frame_71a303f3694f0f0b7f000a5eb1d32902,
+        (struct Nuitka_FrameObject *)frame_3e20433acced9e0aebaa5a9a4d6abf87,
         type_description_1,
         par_flatfile,
         par_export,
@@ -4983,13 +4984,13 @@ static PyObject *impl_packages$amazon_data_upload$$$function_2_amazonDataUpload(
 
 
     // Release cached frame.
-    if ( frame_71a303f3694f0f0b7f000a5eb1d32902 == cache_frame_71a303f3694f0f0b7f000a5eb1d32902 )
+    if ( frame_3e20433acced9e0aebaa5a9a4d6abf87 == cache_frame_3e20433acced9e0aebaa5a9a4d6abf87 )
     {
-        Py_DECREF( frame_71a303f3694f0f0b7f000a5eb1d32902 );
+        Py_DECREF( frame_3e20433acced9e0aebaa5a9a4d6abf87 );
     }
-    cache_frame_71a303f3694f0f0b7f000a5eb1d32902 = NULL;
+    cache_frame_3e20433acced9e0aebaa5a9a4d6abf87 = NULL;
 
-    assertFrameObject( frame_71a303f3694f0f0b7f000a5eb1d32902 );
+    assertFrameObject( frame_3e20433acced9e0aebaa5a9a4d6abf87 );
 
     // Put the previous frame back on top.
     popFrameStack();
@@ -5157,7 +5158,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
     PyObject *tmp_with_2__exit = NULL;
     nuitka_bool tmp_with_2__indicator = NUITKA_BOOL_UNASSIGNED;
     PyObject *tmp_with_2__source = NULL;
-    struct Nuitka_FrameObject *frame_bf718b2d70a6bfc55dec23dbc1ae092b;
+    struct Nuitka_FrameObject *frame_08f4a3a9648f3826e2f39029c72eb787;
     NUITKA_MAY_BE_UNUSED char const *type_description_1 = NULL;
     PyObject *exception_type = NULL;
     PyObject *exception_value = NULL;
@@ -5214,7 +5215,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
     PyObject *exception_keeper_value_10;
     PyTracebackObject *exception_keeper_tb_10;
     NUITKA_MAY_BE_UNUSED int exception_keeper_lineno_10;
-    static struct Nuitka_FrameObject *cache_frame_bf718b2d70a6bfc55dec23dbc1ae092b = NULL;
+    static struct Nuitka_FrameObject *cache_frame_08f4a3a9648f3826e2f39029c72eb787 = NULL;
     PyObject *tmp_return_value = NULL;
     PyObject *exception_keeper_type_11;
     PyObject *exception_keeper_value_11;
@@ -5235,14 +5236,14 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
         var_Data = tmp_assign_source_2;
     }
     // Tried code:
-    MAKE_OR_REUSE_FRAME( cache_frame_bf718b2d70a6bfc55dec23dbc1ae092b, codeobj_bf718b2d70a6bfc55dec23dbc1ae092b, module_packages$amazon_data_upload, sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *) );
-    frame_bf718b2d70a6bfc55dec23dbc1ae092b = cache_frame_bf718b2d70a6bfc55dec23dbc1ae092b;
+    MAKE_OR_REUSE_FRAME( cache_frame_08f4a3a9648f3826e2f39029c72eb787, codeobj_08f4a3a9648f3826e2f39029c72eb787, module_packages$amazon_data_upload, sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *) );
+    frame_08f4a3a9648f3826e2f39029c72eb787 = cache_frame_08f4a3a9648f3826e2f39029c72eb787;
 
     // Push the new frame as the currently active one.
-    pushFrameStack( frame_bf718b2d70a6bfc55dec23dbc1ae092b );
+    pushFrameStack( frame_08f4a3a9648f3826e2f39029c72eb787 );
 
     // Mark the frame object as in use, ref count 1 will be up for reuse.
-    assert( Py_REFCNT( frame_bf718b2d70a6bfc55dec23dbc1ae092b ) == 2 ); // Frame stack
+    assert( Py_REFCNT( frame_08f4a3a9648f3826e2f39029c72eb787 ) == 2 ); // Frame stack
 
     // Framed code:
     // Tried code:
@@ -5286,7 +5287,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
             type_description_1 = "oooooooo";
             goto try_except_handler_2;
         }
-        frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = 98;
+        frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = 98;
         tmp_assign_source_4 = CALL_FUNCTION_NO_ARGS( tmp_called_name_1 );
         Py_DECREF( tmp_called_name_1 );
         if ( tmp_assign_source_4 == NULL )
@@ -5387,7 +5388,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
         Py_INCREF( tmp_tuple_element_1 );
         PyTuple_SET_ITEM( tmp_args_name_1, 0, tmp_tuple_element_1 );
         tmp_kw_name_1 = PyDict_Copy( const_dict_a2fe7522a8a3fde103f0109fa97f1383 );
-        frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = 99;
+        frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = 99;
         tmp_assign_source_8 = CALL_FUNCTION( tmp_called_name_2, tmp_args_name_1, tmp_kw_name_1 );
         Py_DECREF( tmp_called_name_2 );
         Py_DECREF( tmp_args_name_1 );
@@ -5564,7 +5565,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
             tmp_args_element_name_1 = var_column_names;
             CHECK_OBJECT( var_values );
             tmp_args_element_name_2 = var_values;
-            frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = 105;
+            frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = 105;
             {
                 PyObject *call_args[] = { tmp_args_element_name_1, tmp_args_element_name_2 };
                 tmp_dict_seq_1 = CALL_FUNCTION_WITH_ARGS2( tmp_called_name_3, call_args );
@@ -5698,11 +5699,11 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
 
     if ( exception_keeper_tb_2 == NULL )
     {
-        exception_keeper_tb_2 = MAKE_TRACEBACK( frame_bf718b2d70a6bfc55dec23dbc1ae092b, exception_keeper_lineno_2 );
+        exception_keeper_tb_2 = MAKE_TRACEBACK( frame_08f4a3a9648f3826e2f39029c72eb787, exception_keeper_lineno_2 );
     }
     else if ( exception_keeper_lineno_2 != 0 )
     {
-        exception_keeper_tb_2 = ADD_TRACEBACK( exception_keeper_tb_2, frame_bf718b2d70a6bfc55dec23dbc1ae092b, exception_keeper_lineno_2 );
+        exception_keeper_tb_2 = ADD_TRACEBACK( exception_keeper_tb_2, frame_08f4a3a9648f3826e2f39029c72eb787, exception_keeper_lineno_2 );
     }
 
     NORMALIZE_EXCEPTION( &exception_keeper_type_2, &exception_keeper_value_2, &exception_keeper_tb_2 );
@@ -5754,7 +5755,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
             tmp_args_element_name_3 = EXC_TYPE(PyThreadState_GET());
             tmp_args_element_name_4 = EXC_VALUE(PyThreadState_GET());
             tmp_args_element_name_5 = EXC_TRACEBACK(PyThreadState_GET());
-            frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = 98;
+            frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = 98;
             {
                 PyObject *call_args[] = { tmp_args_element_name_3, tmp_args_element_name_4, tmp_args_element_name_5 };
                 tmp_operand_name_1 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_4, call_args );
@@ -5800,7 +5801,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
                 exception_lineno = 98;
             }
 
-            if (exception_tb && exception_tb->tb_frame == &frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame) frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = exception_tb->tb_lineno;
+            if (exception_tb && exception_tb->tb_frame == &frame_08f4a3a9648f3826e2f39029c72eb787->m_frame) frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = exception_tb->tb_lineno;
             type_description_1 = "oooooooo";
             goto try_except_handler_6;
             branch_no_3:;
@@ -5813,7 +5814,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
             exception_lineno = 98;
         }
 
-        if (exception_tb && exception_tb->tb_frame == &frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame) frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = exception_tb->tb_lineno;
+        if (exception_tb && exception_tb->tb_frame == &frame_08f4a3a9648f3826e2f39029c72eb787->m_frame) frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = exception_tb->tb_lineno;
         type_description_1 = "oooooooo";
         goto try_except_handler_6;
         branch_end_2:;
@@ -5883,7 +5884,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
             PyObject *tmp_call_result_1;
             CHECK_OBJECT( tmp_with_1__exit );
             tmp_called_name_5 = tmp_with_1__exit;
-            frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = 98;
+            frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = 98;
             tmp_call_result_1 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_5, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_1 == NULL )
@@ -5935,7 +5936,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
             PyObject *tmp_call_result_2;
             CHECK_OBJECT( tmp_with_1__exit );
             tmp_called_name_6 = tmp_with_1__exit;
-            frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = 98;
+            frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = 98;
             tmp_call_result_2 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_6, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_2 == NULL )
@@ -6036,7 +6037,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
             type_description_1 = "oooooooo";
             goto try_except_handler_7;
         }
-        frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = 107;
+        frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = 107;
         tmp_assign_source_15 = CALL_FUNCTION_NO_ARGS( tmp_called_name_7 );
         Py_DECREF( tmp_called_name_7 );
         if ( tmp_assign_source_15 == NULL )
@@ -6142,7 +6143,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
         Py_INCREF( tmp_tuple_element_2 );
         PyTuple_SET_ITEM( tmp_args_name_2, 0, tmp_tuple_element_2 );
         tmp_kw_name_2 = PyDict_Copy( const_dict_a2fe7522a8a3fde103f0109fa97f1383 );
-        frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = 108;
+        frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = 108;
         tmp_assign_source_19 = CALL_FUNCTION( tmp_called_name_8, tmp_args_name_2, tmp_kw_name_2 );
         Py_DECREF( tmp_called_name_8 );
         Py_DECREF( tmp_args_name_2 );
@@ -6440,11 +6441,11 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
 
     if ( exception_keeper_tb_7 == NULL )
     {
-        exception_keeper_tb_7 = MAKE_TRACEBACK( frame_bf718b2d70a6bfc55dec23dbc1ae092b, exception_keeper_lineno_7 );
+        exception_keeper_tb_7 = MAKE_TRACEBACK( frame_08f4a3a9648f3826e2f39029c72eb787, exception_keeper_lineno_7 );
     }
     else if ( exception_keeper_lineno_7 != 0 )
     {
-        exception_keeper_tb_7 = ADD_TRACEBACK( exception_keeper_tb_7, frame_bf718b2d70a6bfc55dec23dbc1ae092b, exception_keeper_lineno_7 );
+        exception_keeper_tb_7 = ADD_TRACEBACK( exception_keeper_tb_7, frame_08f4a3a9648f3826e2f39029c72eb787, exception_keeper_lineno_7 );
     }
 
     NORMALIZE_EXCEPTION( &exception_keeper_type_7, &exception_keeper_value_7, &exception_keeper_tb_7 );
@@ -6496,7 +6497,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
             tmp_args_element_name_6 = EXC_TYPE(PyThreadState_GET());
             tmp_args_element_name_7 = EXC_VALUE(PyThreadState_GET());
             tmp_args_element_name_8 = EXC_TRACEBACK(PyThreadState_GET());
-            frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = 107;
+            frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = 107;
             {
                 PyObject *call_args[] = { tmp_args_element_name_6, tmp_args_element_name_7, tmp_args_element_name_8 };
                 tmp_operand_name_2 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_9, call_args );
@@ -6542,7 +6543,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
                 exception_lineno = 107;
             }
 
-            if (exception_tb && exception_tb->tb_frame == &frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame) frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = exception_tb->tb_lineno;
+            if (exception_tb && exception_tb->tb_frame == &frame_08f4a3a9648f3826e2f39029c72eb787->m_frame) frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = exception_tb->tb_lineno;
             type_description_1 = "oooooooo";
             goto try_except_handler_11;
             branch_no_8:;
@@ -6555,7 +6556,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
             exception_lineno = 107;
         }
 
-        if (exception_tb && exception_tb->tb_frame == &frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame) frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = exception_tb->tb_lineno;
+        if (exception_tb && exception_tb->tb_frame == &frame_08f4a3a9648f3826e2f39029c72eb787->m_frame) frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = exception_tb->tb_lineno;
         type_description_1 = "oooooooo";
         goto try_except_handler_11;
         branch_end_7:;
@@ -6625,7 +6626,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
             PyObject *tmp_call_result_3;
             CHECK_OBJECT( tmp_with_2__exit );
             tmp_called_name_10 = tmp_with_2__exit;
-            frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = 107;
+            frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = 107;
             tmp_call_result_3 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_10, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_3 == NULL )
@@ -6677,7 +6678,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
             PyObject *tmp_call_result_4;
             CHECK_OBJECT( tmp_with_2__exit );
             tmp_called_name_11 = tmp_with_2__exit;
-            frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = 107;
+            frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = 107;
             tmp_call_result_4 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_11, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_4 == NULL )
@@ -6799,7 +6800,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
         tmp_dict_value_3 = var_column_names;
         tmp_res = PyDict_SetItem( tmp_kw_name_3, tmp_dict_key_3, tmp_dict_value_3 );
         assert( !(tmp_res != 0) );
-        frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame.f_lineno = 114;
+        frame_08f4a3a9648f3826e2f39029c72eb787->m_frame.f_lineno = 114;
         tmp_call_result_5 = CALL_FUNCTION_WITH_KEYARGS( tmp_called_name_12, tmp_kw_name_3 );
         Py_DECREF( tmp_called_name_12 );
         Py_DECREF( tmp_kw_name_3 );
@@ -6818,7 +6819,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
     }
 
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_bf718b2d70a6bfc55dec23dbc1ae092b );
+    RESTORE_FRAME_EXCEPTION( frame_08f4a3a9648f3826e2f39029c72eb787 );
 #endif
 
     // Put the previous frame back on top.
@@ -6829,21 +6830,21 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
     frame_exception_exit_1:;
 
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_bf718b2d70a6bfc55dec23dbc1ae092b );
+    RESTORE_FRAME_EXCEPTION( frame_08f4a3a9648f3826e2f39029c72eb787 );
 #endif
 
     if ( exception_tb == NULL )
     {
-        exception_tb = MAKE_TRACEBACK( frame_bf718b2d70a6bfc55dec23dbc1ae092b, exception_lineno );
+        exception_tb = MAKE_TRACEBACK( frame_08f4a3a9648f3826e2f39029c72eb787, exception_lineno );
     }
-    else if ( exception_tb->tb_frame != &frame_bf718b2d70a6bfc55dec23dbc1ae092b->m_frame )
+    else if ( exception_tb->tb_frame != &frame_08f4a3a9648f3826e2f39029c72eb787->m_frame )
     {
-        exception_tb = ADD_TRACEBACK( exception_tb, frame_bf718b2d70a6bfc55dec23dbc1ae092b, exception_lineno );
+        exception_tb = ADD_TRACEBACK( exception_tb, frame_08f4a3a9648f3826e2f39029c72eb787, exception_lineno );
     }
 
     // Attachs locals to frame if any.
     Nuitka_Frame_AttachLocals(
-        (struct Nuitka_FrameObject *)frame_bf718b2d70a6bfc55dec23dbc1ae092b,
+        (struct Nuitka_FrameObject *)frame_08f4a3a9648f3826e2f39029c72eb787,
         type_description_1,
         par_export,
         par_stock,
@@ -6857,13 +6858,13 @@ static PyObject *impl_packages$amazon_data_upload$$$function_3_asinUpload( struc
 
 
     // Release cached frame.
-    if ( frame_bf718b2d70a6bfc55dec23dbc1ae092b == cache_frame_bf718b2d70a6bfc55dec23dbc1ae092b )
+    if ( frame_08f4a3a9648f3826e2f39029c72eb787 == cache_frame_08f4a3a9648f3826e2f39029c72eb787 )
     {
-        Py_DECREF( frame_bf718b2d70a6bfc55dec23dbc1ae092b );
+        Py_DECREF( frame_08f4a3a9648f3826e2f39029c72eb787 );
     }
-    cache_frame_bf718b2d70a6bfc55dec23dbc1ae092b = NULL;
+    cache_frame_08f4a3a9648f3826e2f39029c72eb787 = NULL;
 
-    assertFrameObject( frame_bf718b2d70a6bfc55dec23dbc1ae092b );
+    assertFrameObject( frame_08f4a3a9648f3826e2f39029c72eb787 );
 
     // Put the previous frame back on top.
     popFrameStack();
@@ -7003,7 +7004,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
     PyObject *tmp_with_1__exit = NULL;
     nuitka_bool tmp_with_1__indicator = NUITKA_BOOL_UNASSIGNED;
     PyObject *tmp_with_1__source = NULL;
-    struct Nuitka_FrameObject *frame_684baf0425d7755c517c92ae6281d29d;
+    struct Nuitka_FrameObject *frame_429a5dce964d398b289205348fcb4130;
     NUITKA_MAY_BE_UNUSED char const *type_description_1 = NULL;
     PyObject *exception_type = NULL;
     PyObject *exception_value = NULL;
@@ -7037,7 +7038,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
     PyObject *exception_keeper_value_5;
     PyTracebackObject *exception_keeper_tb_5;
     NUITKA_MAY_BE_UNUSED int exception_keeper_lineno_5;
-    static struct Nuitka_FrameObject *cache_frame_684baf0425d7755c517c92ae6281d29d = NULL;
+    static struct Nuitka_FrameObject *cache_frame_429a5dce964d398b289205348fcb4130 = NULL;
     PyObject *tmp_return_value = NULL;
     PyObject *exception_keeper_type_6;
     PyObject *exception_keeper_value_6;
@@ -7058,14 +7059,14 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
         var_Data = tmp_assign_source_2;
     }
     // Tried code:
-    MAKE_OR_REUSE_FRAME( cache_frame_684baf0425d7755c517c92ae6281d29d, codeobj_684baf0425d7755c517c92ae6281d29d, module_packages$amazon_data_upload, sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *) );
-    frame_684baf0425d7755c517c92ae6281d29d = cache_frame_684baf0425d7755c517c92ae6281d29d;
+    MAKE_OR_REUSE_FRAME( cache_frame_429a5dce964d398b289205348fcb4130, codeobj_429a5dce964d398b289205348fcb4130, module_packages$amazon_data_upload, sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *)+sizeof(void *) );
+    frame_429a5dce964d398b289205348fcb4130 = cache_frame_429a5dce964d398b289205348fcb4130;
 
     // Push the new frame as the currently active one.
-    pushFrameStack( frame_684baf0425d7755c517c92ae6281d29d );
+    pushFrameStack( frame_429a5dce964d398b289205348fcb4130 );
 
     // Mark the frame object as in use, ref count 1 will be up for reuse.
-    assert( Py_REFCNT( frame_684baf0425d7755c517c92ae6281d29d ) == 2 ); // Frame stack
+    assert( Py_REFCNT( frame_429a5dce964d398b289205348fcb4130 ) == 2 ); // Frame stack
 
     // Framed code:
     // Tried code:
@@ -7109,7 +7110,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
             type_description_1 = "ooooooooo";
             goto try_except_handler_2;
         }
-        frame_684baf0425d7755c517c92ae6281d29d->m_frame.f_lineno = 126;
+        frame_429a5dce964d398b289205348fcb4130->m_frame.f_lineno = 126;
         tmp_assign_source_4 = CALL_FUNCTION_NO_ARGS( tmp_called_name_1 );
         Py_DECREF( tmp_called_name_1 );
         if ( tmp_assign_source_4 == NULL )
@@ -7210,7 +7211,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
         Py_INCREF( tmp_tuple_element_1 );
         PyTuple_SET_ITEM( tmp_args_name_1, 0, tmp_tuple_element_1 );
         tmp_kw_name_1 = PyDict_Copy( const_dict_a2fe7522a8a3fde103f0109fa97f1383 );
-        frame_684baf0425d7755c517c92ae6281d29d->m_frame.f_lineno = 127;
+        frame_429a5dce964d398b289205348fcb4130->m_frame.f_lineno = 127;
         tmp_assign_source_8 = CALL_FUNCTION( tmp_called_name_2, tmp_args_name_1, tmp_kw_name_1 );
         Py_DECREF( tmp_called_name_2 );
         Py_DECREF( tmp_args_name_1 );
@@ -7377,7 +7378,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
                 type_description_1 = "ooooooooo";
                 goto try_except_handler_5;
             }
-            frame_684baf0425d7755c517c92ae6281d29d->m_frame.f_lineno = 131;
+            frame_429a5dce964d398b289205348fcb4130->m_frame.f_lineno = 131;
             {
                 PyObject *call_args[] = { tmp_args_element_name_1 };
                 tmp_call_result_1 = CALL_FUNCTION_WITH_ARGS1( tmp_called_name_3, call_args );
@@ -7467,7 +7468,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
             tmp_args_element_name_2 = var_column_names;
             CHECK_OBJECT( var_values );
             tmp_args_element_name_3 = var_values;
-            frame_684baf0425d7755c517c92ae6281d29d->m_frame.f_lineno = 138;
+            frame_429a5dce964d398b289205348fcb4130->m_frame.f_lineno = 138;
             {
                 PyObject *call_args[] = { tmp_args_element_name_2, tmp_args_element_name_3 };
                 tmp_dict_seq_1 = CALL_FUNCTION_WITH_ARGS2( tmp_called_name_4, call_args );
@@ -7636,7 +7637,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
         tmp_dict_key_2 = const_str_plain_name;
         CHECK_OBJECT( par_feature );
         tmp_called_instance_1 = par_feature;
-        frame_684baf0425d7755c517c92ae6281d29d->m_frame.f_lineno = 140;
+        frame_429a5dce964d398b289205348fcb4130->m_frame.f_lineno = 140;
         tmp_dict_value_2 = CALL_METHOD_NO_ARGS( tmp_called_instance_1, const_str_plain_upper );
         if ( tmp_dict_value_2 == NULL )
         {
@@ -7658,7 +7659,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
         tmp_dict_value_3 = var_column_names;
         tmp_res = PyDict_SetItem( tmp_kw_name_2, tmp_dict_key_3, tmp_dict_value_3 );
         assert( !(tmp_res != 0) );
-        frame_684baf0425d7755c517c92ae6281d29d->m_frame.f_lineno = 140;
+        frame_429a5dce964d398b289205348fcb4130->m_frame.f_lineno = 140;
         tmp_call_result_2 = CALL_FUNCTION_WITH_KEYARGS( tmp_called_name_5, tmp_kw_name_2 );
         Py_DECREF( tmp_called_name_5 );
         Py_DECREF( tmp_kw_name_2 );
@@ -7697,11 +7698,11 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
 
     if ( exception_keeper_tb_2 == NULL )
     {
-        exception_keeper_tb_2 = MAKE_TRACEBACK( frame_684baf0425d7755c517c92ae6281d29d, exception_keeper_lineno_2 );
+        exception_keeper_tb_2 = MAKE_TRACEBACK( frame_429a5dce964d398b289205348fcb4130, exception_keeper_lineno_2 );
     }
     else if ( exception_keeper_lineno_2 != 0 )
     {
-        exception_keeper_tb_2 = ADD_TRACEBACK( exception_keeper_tb_2, frame_684baf0425d7755c517c92ae6281d29d, exception_keeper_lineno_2 );
+        exception_keeper_tb_2 = ADD_TRACEBACK( exception_keeper_tb_2, frame_429a5dce964d398b289205348fcb4130, exception_keeper_lineno_2 );
     }
 
     NORMALIZE_EXCEPTION( &exception_keeper_type_2, &exception_keeper_value_2, &exception_keeper_tb_2 );
@@ -7753,7 +7754,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
             tmp_args_element_name_4 = EXC_TYPE(PyThreadState_GET());
             tmp_args_element_name_5 = EXC_VALUE(PyThreadState_GET());
             tmp_args_element_name_6 = EXC_TRACEBACK(PyThreadState_GET());
-            frame_684baf0425d7755c517c92ae6281d29d->m_frame.f_lineno = 126;
+            frame_429a5dce964d398b289205348fcb4130->m_frame.f_lineno = 126;
             {
                 PyObject *call_args[] = { tmp_args_element_name_4, tmp_args_element_name_5, tmp_args_element_name_6 };
                 tmp_operand_name_1 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_6, call_args );
@@ -7799,7 +7800,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
                 exception_lineno = 126;
             }
 
-            if (exception_tb && exception_tb->tb_frame == &frame_684baf0425d7755c517c92ae6281d29d->m_frame) frame_684baf0425d7755c517c92ae6281d29d->m_frame.f_lineno = exception_tb->tb_lineno;
+            if (exception_tb && exception_tb->tb_frame == &frame_429a5dce964d398b289205348fcb4130->m_frame) frame_429a5dce964d398b289205348fcb4130->m_frame.f_lineno = exception_tb->tb_lineno;
             type_description_1 = "ooooooooo";
             goto try_except_handler_6;
             branch_no_3:;
@@ -7812,7 +7813,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
             exception_lineno = 126;
         }
 
-        if (exception_tb && exception_tb->tb_frame == &frame_684baf0425d7755c517c92ae6281d29d->m_frame) frame_684baf0425d7755c517c92ae6281d29d->m_frame.f_lineno = exception_tb->tb_lineno;
+        if (exception_tb && exception_tb->tb_frame == &frame_429a5dce964d398b289205348fcb4130->m_frame) frame_429a5dce964d398b289205348fcb4130->m_frame.f_lineno = exception_tb->tb_lineno;
         type_description_1 = "ooooooooo";
         goto try_except_handler_6;
         branch_end_2:;
@@ -7882,7 +7883,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
             PyObject *tmp_call_result_3;
             CHECK_OBJECT( tmp_with_1__exit );
             tmp_called_name_7 = tmp_with_1__exit;
-            frame_684baf0425d7755c517c92ae6281d29d->m_frame.f_lineno = 126;
+            frame_429a5dce964d398b289205348fcb4130->m_frame.f_lineno = 126;
             tmp_call_result_3 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_7, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_3 == NULL )
@@ -7934,7 +7935,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
             PyObject *tmp_call_result_4;
             CHECK_OBJECT( tmp_with_1__exit );
             tmp_called_name_8 = tmp_with_1__exit;
-            frame_684baf0425d7755c517c92ae6281d29d->m_frame.f_lineno = 126;
+            frame_429a5dce964d398b289205348fcb4130->m_frame.f_lineno = 126;
             tmp_call_result_4 = CALL_FUNCTION_WITH_ARGS3( tmp_called_name_8, &PyTuple_GET_ITEM( const_tuple_none_none_none_tuple, 0 ) );
 
             if ( tmp_call_result_4 == NULL )
@@ -7984,7 +7985,7 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
     try_end_5:;
 
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_684baf0425d7755c517c92ae6281d29d );
+    RESTORE_FRAME_EXCEPTION( frame_429a5dce964d398b289205348fcb4130 );
 #endif
 
     // Put the previous frame back on top.
@@ -7995,21 +7996,21 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
     frame_exception_exit_1:;
 
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_684baf0425d7755c517c92ae6281d29d );
+    RESTORE_FRAME_EXCEPTION( frame_429a5dce964d398b289205348fcb4130 );
 #endif
 
     if ( exception_tb == NULL )
     {
-        exception_tb = MAKE_TRACEBACK( frame_684baf0425d7755c517c92ae6281d29d, exception_lineno );
+        exception_tb = MAKE_TRACEBACK( frame_429a5dce964d398b289205348fcb4130, exception_lineno );
     }
-    else if ( exception_tb->tb_frame != &frame_684baf0425d7755c517c92ae6281d29d->m_frame )
+    else if ( exception_tb->tb_frame != &frame_429a5dce964d398b289205348fcb4130->m_frame )
     {
-        exception_tb = ADD_TRACEBACK( exception_tb, frame_684baf0425d7755c517c92ae6281d29d, exception_lineno );
+        exception_tb = ADD_TRACEBACK( exception_tb, frame_429a5dce964d398b289205348fcb4130, exception_lineno );
     }
 
     // Attachs locals to frame if any.
     Nuitka_Frame_AttachLocals(
-        (struct Nuitka_FrameObject *)frame_684baf0425d7755c517c92ae6281d29d,
+        (struct Nuitka_FrameObject *)frame_429a5dce964d398b289205348fcb4130,
         type_description_1,
         par_flatfile,
         par_feature,
@@ -8024,13 +8025,13 @@ static PyObject *impl_packages$amazon_data_upload$$$function_4_featureUpload( st
 
 
     // Release cached frame.
-    if ( frame_684baf0425d7755c517c92ae6281d29d == cache_frame_684baf0425d7755c517c92ae6281d29d )
+    if ( frame_429a5dce964d398b289205348fcb4130 == cache_frame_429a5dce964d398b289205348fcb4130 )
     {
-        Py_DECREF( frame_684baf0425d7755c517c92ae6281d29d );
+        Py_DECREF( frame_429a5dce964d398b289205348fcb4130 );
     }
-    cache_frame_684baf0425d7755c517c92ae6281d29d = NULL;
+    cache_frame_429a5dce964d398b289205348fcb4130 = NULL;
 
-    assertFrameObject( frame_684baf0425d7755c517c92ae6281d29d );
+    assertFrameObject( frame_429a5dce964d398b289205348fcb4130 );
 
     // Put the previous frame back on top.
     popFrameStack();
@@ -8176,7 +8177,7 @@ static PyObject *MAKE_FUNCTION_packages$amazon_data_upload$$$function_1_amazonSk
 #if PYTHON_VERSION >= 300
         NULL,
 #endif
-        codeobj_c7ca8c785e74cb95c6f1c74b515ac193,
+        codeobj_f26c802bdd88e2388fdabbdfaa3931d4,
         NULL,
 #if PYTHON_VERSION >= 300
         NULL,
@@ -8200,7 +8201,7 @@ static PyObject *MAKE_FUNCTION_packages$amazon_data_upload$$$function_2_amazonDa
 #if PYTHON_VERSION >= 300
         NULL,
 #endif
-        codeobj_71a303f3694f0f0b7f000a5eb1d32902,
+        codeobj_3e20433acced9e0aebaa5a9a4d6abf87,
         NULL,
 #if PYTHON_VERSION >= 300
         NULL,
@@ -8224,7 +8225,7 @@ static PyObject *MAKE_FUNCTION_packages$amazon_data_upload$$$function_3_asinUplo
 #if PYTHON_VERSION >= 300
         NULL,
 #endif
-        codeobj_bf718b2d70a6bfc55dec23dbc1ae092b,
+        codeobj_08f4a3a9648f3826e2f39029c72eb787,
         NULL,
 #if PYTHON_VERSION >= 300
         NULL,
@@ -8248,7 +8249,7 @@ static PyObject *MAKE_FUNCTION_packages$amazon_data_upload$$$function_4_featureU
 #if PYTHON_VERSION >= 300
         NULL,
 #endif
-        codeobj_684baf0425d7755c517c92ae6281d29d,
+        codeobj_429a5dce964d398b289205348fcb4130,
         NULL,
 #if PYTHON_VERSION >= 300
         NULL,
@@ -8533,7 +8534,7 @@ MOD_INIT_DECL( packages$amazon_data_upload )
 #endif
 
     // Temp variables if any
-    struct Nuitka_FrameObject *frame_3fea4146f05da63540d03627bfa4f5e0;
+    struct Nuitka_FrameObject *frame_554b9186f0a8f9fd7f4432d6e37293fa;
     NUITKA_MAY_BE_UNUSED char const *type_description_1 = NULL;
     bool tmp_result;
     PyObject *exception_type = NULL;
@@ -8565,12 +8566,12 @@ MOD_INIT_DECL( packages$amazon_data_upload )
         UPDATE_STRING_DICT0( moduledict_packages$amazon_data_upload, (Nuitka_StringObject *)const_str_plain___file__, tmp_assign_source_2 );
     }
     // Frame without reuse.
-    frame_3fea4146f05da63540d03627bfa4f5e0 = MAKE_MODULE_FRAME( codeobj_3fea4146f05da63540d03627bfa4f5e0, module_packages$amazon_data_upload );
+    frame_554b9186f0a8f9fd7f4432d6e37293fa = MAKE_MODULE_FRAME( codeobj_554b9186f0a8f9fd7f4432d6e37293fa, module_packages$amazon_data_upload );
 
     // Push the new frame as the currently active one, and we should be exclusively
     // owning it.
-    pushFrameStack( frame_3fea4146f05da63540d03627bfa4f5e0 );
-    assert( Py_REFCNT( frame_3fea4146f05da63540d03627bfa4f5e0 ) == 2 );
+    pushFrameStack( frame_554b9186f0a8f9fd7f4432d6e37293fa );
+    assert( Py_REFCNT( frame_554b9186f0a8f9fd7f4432d6e37293fa ) == 2 );
 
     // Framed code:
     {
@@ -8644,7 +8645,7 @@ MOD_INIT_DECL( packages$amazon_data_upload )
         tmp_locals_name_1 = Py_None;
         tmp_fromlist_name_1 = Py_None;
         tmp_level_name_1 = const_int_0;
-        frame_3fea4146f05da63540d03627bfa4f5e0->m_frame.f_lineno = 1;
+        frame_554b9186f0a8f9fd7f4432d6e37293fa->m_frame.f_lineno = 1;
         tmp_assign_source_4 = IMPORT_MODULE5( tmp_name_name_1, tmp_globals_name_1, tmp_locals_name_1, tmp_fromlist_name_1, tmp_level_name_1 );
         if ( tmp_assign_source_4 == NULL )
         {
@@ -8672,7 +8673,7 @@ MOD_INIT_DECL( packages$amazon_data_upload )
         tmp_locals_name_2 = Py_None;
         tmp_fromlist_name_2 = const_tuple_str_plain_isfile_tuple;
         tmp_level_name_2 = const_int_0;
-        frame_3fea4146f05da63540d03627bfa4f5e0->m_frame.f_lineno = 2;
+        frame_554b9186f0a8f9fd7f4432d6e37293fa->m_frame.f_lineno = 2;
         tmp_import_name_from_1 = IMPORT_MODULE5( tmp_name_name_2, tmp_globals_name_2, tmp_locals_name_2, tmp_fromlist_name_2, tmp_level_name_2 );
         if ( tmp_import_name_from_1 == NULL )
         {
@@ -8712,7 +8713,7 @@ MOD_INIT_DECL( packages$amazon_data_upload )
         tmp_locals_name_3 = Py_None;
         tmp_fromlist_name_3 = Py_None;
         tmp_level_name_3 = const_int_0;
-        frame_3fea4146f05da63540d03627bfa4f5e0->m_frame.f_lineno = 3;
+        frame_554b9186f0a8f9fd7f4432d6e37293fa->m_frame.f_lineno = 3;
         tmp_assign_source_6 = IMPORT_MODULE5( tmp_name_name_3, tmp_globals_name_3, tmp_locals_name_3, tmp_fromlist_name_3, tmp_level_name_3 );
         assert( !(tmp_assign_source_6 == NULL) );
         UPDATE_STRING_DICT1( moduledict_packages$amazon_data_upload, (Nuitka_StringObject *)const_str_plain_sys, tmp_assign_source_6 );
@@ -8730,7 +8731,7 @@ MOD_INIT_DECL( packages$amazon_data_upload )
         tmp_locals_name_4 = Py_None;
         tmp_fromlist_name_4 = const_tuple_str_plain_variation_upload_tuple;
         tmp_level_name_4 = const_int_0;
-        frame_3fea4146f05da63540d03627bfa4f5e0->m_frame.f_lineno = 4;
+        frame_554b9186f0a8f9fd7f4432d6e37293fa->m_frame.f_lineno = 4;
         tmp_import_name_from_2 = IMPORT_MODULE5( tmp_name_name_4, tmp_globals_name_4, tmp_locals_name_4, tmp_fromlist_name_4, tmp_level_name_4 );
         if ( tmp_import_name_from_2 == NULL )
         {
@@ -8772,7 +8773,7 @@ MOD_INIT_DECL( packages$amazon_data_upload )
         tmp_locals_name_5 = Py_None;
         tmp_fromlist_name_5 = const_tuple_str_plain_SortedDict_tuple;
         tmp_level_name_5 = const_int_0;
-        frame_3fea4146f05da63540d03627bfa4f5e0->m_frame.f_lineno = 6;
+        frame_554b9186f0a8f9fd7f4432d6e37293fa->m_frame.f_lineno = 6;
         tmp_import_name_from_3 = IMPORT_MODULE5( tmp_name_name_5, tmp_globals_name_5, tmp_locals_name_5, tmp_fromlist_name_5, tmp_level_name_5 );
         if ( tmp_import_name_from_3 == NULL )
         {
@@ -8822,11 +8823,11 @@ MOD_INIT_DECL( packages$amazon_data_upload )
 
     if ( exception_keeper_tb_1 == NULL )
     {
-        exception_keeper_tb_1 = MAKE_TRACEBACK( frame_3fea4146f05da63540d03627bfa4f5e0, exception_keeper_lineno_1 );
+        exception_keeper_tb_1 = MAKE_TRACEBACK( frame_554b9186f0a8f9fd7f4432d6e37293fa, exception_keeper_lineno_1 );
     }
     else if ( exception_keeper_lineno_1 != 0 )
     {
-        exception_keeper_tb_1 = ADD_TRACEBACK( exception_keeper_tb_1, frame_3fea4146f05da63540d03627bfa4f5e0, exception_keeper_lineno_1 );
+        exception_keeper_tb_1 = ADD_TRACEBACK( exception_keeper_tb_1, frame_554b9186f0a8f9fd7f4432d6e37293fa, exception_keeper_lineno_1 );
     }
 
     NORMALIZE_EXCEPTION( &exception_keeper_type_1, &exception_keeper_value_1, &exception_keeper_tb_1 );
@@ -8866,7 +8867,7 @@ MOD_INIT_DECL( packages$amazon_data_upload )
             PyObject *tmp_call_result_1;
             tmp_called_name_1 = LOOKUP_BUILTIN( const_str_plain_print );
             assert( tmp_called_name_1 != NULL );
-            frame_3fea4146f05da63540d03627bfa4f5e0->m_frame.f_lineno = 8;
+            frame_554b9186f0a8f9fd7f4432d6e37293fa->m_frame.f_lineno = 8;
             tmp_call_result_1 = CALL_FUNCTION_WITH_ARGS1( tmp_called_name_1, &PyTuple_GET_ITEM( const_tuple_str_digest_b75e9ef8a0531a535d7e58a0cba37323_tuple, 0 ) );
 
             if ( tmp_call_result_1 == NULL )
@@ -8900,7 +8901,7 @@ MOD_INIT_DECL( packages$amazon_data_upload )
             exception_lineno = 5;
         }
 
-        if (exception_tb && exception_tb->tb_frame == &frame_3fea4146f05da63540d03627bfa4f5e0->m_frame) frame_3fea4146f05da63540d03627bfa4f5e0->m_frame.f_lineno = exception_tb->tb_lineno;
+        if (exception_tb && exception_tb->tb_frame == &frame_554b9186f0a8f9fd7f4432d6e37293fa->m_frame) frame_554b9186f0a8f9fd7f4432d6e37293fa->m_frame.f_lineno = exception_tb->tb_lineno;
 
         goto try_except_handler_2;
         branch_end_1:;
@@ -8934,26 +8935,26 @@ MOD_INIT_DECL( packages$amazon_data_upload )
 
     // Restore frame exception if necessary.
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_3fea4146f05da63540d03627bfa4f5e0 );
+    RESTORE_FRAME_EXCEPTION( frame_554b9186f0a8f9fd7f4432d6e37293fa );
 #endif
     popFrameStack();
 
-    assertFrameObject( frame_3fea4146f05da63540d03627bfa4f5e0 );
+    assertFrameObject( frame_554b9186f0a8f9fd7f4432d6e37293fa );
 
     goto frame_no_exception_1;
 
     frame_exception_exit_1:;
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_3fea4146f05da63540d03627bfa4f5e0 );
+    RESTORE_FRAME_EXCEPTION( frame_554b9186f0a8f9fd7f4432d6e37293fa );
 #endif
 
     if ( exception_tb == NULL )
     {
-        exception_tb = MAKE_TRACEBACK( frame_3fea4146f05da63540d03627bfa4f5e0, exception_lineno );
+        exception_tb = MAKE_TRACEBACK( frame_554b9186f0a8f9fd7f4432d6e37293fa, exception_lineno );
     }
-    else if ( exception_tb->tb_frame != &frame_3fea4146f05da63540d03627bfa4f5e0->m_frame )
+    else if ( exception_tb->tb_frame != &frame_554b9186f0a8f9fd7f4432d6e37293fa->m_frame )
     {
-        exception_tb = ADD_TRACEBACK( exception_tb, frame_3fea4146f05da63540d03627bfa4f5e0, exception_lineno );
+        exception_tb = ADD_TRACEBACK( exception_tb, frame_554b9186f0a8f9fd7f4432d6e37293fa, exception_lineno );
     }
 
     // Put the previous frame back on top.

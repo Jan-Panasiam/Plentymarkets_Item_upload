@@ -43,9 +43,10 @@ extern PyObject *const_str_plain___all__;
 extern PyObject *const_int_pos_1;
 extern PyObject *const_str_plain_SortedItemsView;
 static PyObject *const_str_plain___build__;
+static PyObject *const_str_digest_d633a6eb172b5c2d11046e89de383483;
 extern PyObject *const_str_plain___file__;
 extern PyObject *const_str_plain_SortedDict;
-extern PyObject *const_str_plain___version__;
+static PyObject *const_str_plain___version__;
 static PyObject *const_str_digest_72c6ae501e3d6797f9f30ea230c4ea9f;
 extern PyObject *const_str_plain_path;
 extern PyObject *const_tuple_str_plain_SortedSet_tuple;
@@ -58,11 +59,10 @@ extern PyObject *const_str_plain_SortedValuesView;
 static PyObject *const_str_plain___author__;
 extern PyObject *const_str_plain_origin;
 static PyObject *const_str_digest_82b820451be11adebfaa34e133657d64;
-extern PyObject *const_str_digest_5bfaf90dbd407b4fc29090c8f6415242;
+static PyObject *const_str_digest_5bfaf90dbd407b4fc29090c8f6415242;
 extern PyObject *const_str_plain_SortedKeysView;
 extern PyObject *const_str_plain_sortedcontainers;
 static PyObject *const_str_plain___license__;
-static PyObject *const_str_digest_5fb197b9b6e95c35ecbfe68dc2636fd2;
 extern PyObject *const_str_plain___path__;
 extern PyObject *const_str_plain_sortedset;
 extern PyObject *const_tuple_empty;
@@ -74,7 +74,7 @@ static PyObject *const_tuple_8243ed8238dc12f1d476556126f624b4_tuple;
 static PyObject *const_tuple_baf7ace65fadc69d9d4382b889137f09_tuple;
 static PyObject *const_str_digest_8a538a59ce8fe44e281b361b1f345407;
 static PyObject *const_str_digest_e28de25f797a85811aa4f5f500d234cc;
-extern PyObject *const_str_plain_dirname;
+static PyObject *const_str_plain_dirname;
 extern PyObject *const_str_plain___doc__;
 extern PyObject *const_str_plain___cached__;
 extern PyObject *const_str_plain_SortedListWithKey;
@@ -86,13 +86,15 @@ static bool constants_created = false;
 /* Function to create module private constants. */
 static void createModuleConstants( void )
 {
-    const_str_plain___copyright__ = UNSTREAM_STRING_ASCII( &constant_bin[ 64609 ], 13, 1 );
-    const_str_plain_sorteddict = UNSTREAM_STRING_ASCII( &constant_bin[ 64622 ], 10, 1 );
-    const_str_digest_830b29dc1e99b9b7996b45708b034bb3 = UNSTREAM_STRING_ASCII( &constant_bin[ 64632 ], 11, 0 );
-    const_str_digest_c732b0001bd9466f3f59e4e065102217 = UNSTREAM_STRING_ASCII( &constant_bin[ 64643 ], 10, 0 );
-    const_str_plain___build__ = UNSTREAM_STRING_ASCII( &constant_bin[ 64653 ], 9, 1 );
-    const_str_digest_72c6ae501e3d6797f9f30ea230c4ea9f = UNSTREAM_STRING_ASCII( &constant_bin[ 64662 ], 1560, 0 );
-    const_str_plain_NUITKA_PACKAGE_sortedcontainers = UNSTREAM_STRING_ASCII( &constant_bin[ 66222 ], 31, 1 );
+    const_str_plain___copyright__ = UNSTREAM_STRING_ASCII( &constant_bin[ 4938 ], 13, 1 );
+    const_str_plain_sorteddict = UNSTREAM_STRING_ASCII( &constant_bin[ 4951 ], 10, 1 );
+    const_str_digest_830b29dc1e99b9b7996b45708b034bb3 = UNSTREAM_STRING_ASCII( &constant_bin[ 4961 ], 11, 0 );
+    const_str_digest_c732b0001bd9466f3f59e4e065102217 = UNSTREAM_STRING_ASCII( &constant_bin[ 4972 ], 10, 0 );
+    const_str_plain___build__ = UNSTREAM_STRING_ASCII( &constant_bin[ 4982 ], 9, 1 );
+    const_str_digest_d633a6eb172b5c2d11046e89de383483 = UNSTREAM_STRING_ASCII( &constant_bin[ 4991 ], 28, 0 );
+    const_str_plain___version__ = UNSTREAM_STRING_ASCII( &constant_bin[ 5019 ], 11, 1 );
+    const_str_digest_72c6ae501e3d6797f9f30ea230c4ea9f = UNSTREAM_STRING_ASCII( &constant_bin[ 5030 ], 1560, 0 );
+    const_str_plain_NUITKA_PACKAGE_sortedcontainers = UNSTREAM_STRING_ASCII( &constant_bin[ 6590 ], 31, 1 );
     const_list_8448343342a4d875dadf9bf7a12a0303_list = PyList_New( 8 );
     PyList_SET_ITEM( const_list_8448343342a4d875dadf9bf7a12a0303_list, 0, const_str_plain_SortedList ); Py_INCREF( const_str_plain_SortedList );
     PyList_SET_ITEM( const_list_8448343342a4d875dadf9bf7a12a0303_list, 1, const_str_plain_SortedKeyList ); Py_INCREF( const_str_plain_SortedKeyList );
@@ -108,11 +110,11 @@ static void createModuleConstants( void )
     PyTuple_SET_ITEM( const_tuple_5dabbeb90e8e9f5e7ee296c7a891b9ec_tuple, 1, const_str_plain_SortedKeysView ); Py_INCREF( const_str_plain_SortedKeysView );
     PyTuple_SET_ITEM( const_tuple_5dabbeb90e8e9f5e7ee296c7a891b9ec_tuple, 2, const_str_plain_SortedItemsView ); Py_INCREF( const_str_plain_SortedItemsView );
     PyTuple_SET_ITEM( const_tuple_5dabbeb90e8e9f5e7ee296c7a891b9ec_tuple, 3, const_str_plain_SortedValuesView ); Py_INCREF( const_str_plain_SortedValuesView );
-    const_str_plain___author__ = UNSTREAM_STRING_ASCII( &constant_bin[ 66253 ], 10, 1 );
-    const_str_digest_82b820451be11adebfaa34e133657d64 = UNSTREAM_STRING_ASCII( &constant_bin[ 66263 ], 5, 0 );
-    const_str_plain___license__ = UNSTREAM_STRING_ASCII( &constant_bin[ 66268 ], 11, 1 );
-    const_str_digest_5fb197b9b6e95c35ecbfe68dc2636fd2 = UNSTREAM_STRING_ASCII( &constant_bin[ 66279 ], 28, 0 );
-    const_str_plain___title__ = UNSTREAM_STRING_ASCII( &constant_bin[ 66307 ], 9, 1 );
+    const_str_plain___author__ = UNSTREAM_STRING_ASCII( &constant_bin[ 6621 ], 10, 1 );
+    const_str_digest_82b820451be11adebfaa34e133657d64 = UNSTREAM_STRING_ASCII( &constant_bin[ 6631 ], 5, 0 );
+    const_str_digest_5bfaf90dbd407b4fc29090c8f6415242 = UNSTREAM_STRING_ASCII( &constant_bin[ 6636 ], 9, 0 );
+    const_str_plain___license__ = UNSTREAM_STRING_ASCII( &constant_bin[ 6645 ], 11, 1 );
+    const_str_plain___title__ = UNSTREAM_STRING_ASCII( &constant_bin[ 6656 ], 9, 1 );
     const_tuple_8243ed8238dc12f1d476556126f624b4_tuple = PyTuple_New( 2 );
     PyTuple_SET_ITEM( const_tuple_8243ed8238dc12f1d476556126f624b4_tuple, 0, const_str_plain_NUITKA_PACKAGE_sortedcontainers ); Py_INCREF( const_str_plain_NUITKA_PACKAGE_sortedcontainers );
     PyTuple_SET_ITEM( const_tuple_8243ed8238dc12f1d476556126f624b4_tuple, 1, const_str_digest_5bfaf90dbd407b4fc29090c8f6415242 ); Py_INCREF( const_str_digest_5bfaf90dbd407b4fc29090c8f6415242 );
@@ -120,8 +122,9 @@ static void createModuleConstants( void )
     PyTuple_SET_ITEM( const_tuple_baf7ace65fadc69d9d4382b889137f09_tuple, 0, const_str_plain_SortedList ); Py_INCREF( const_str_plain_SortedList );
     PyTuple_SET_ITEM( const_tuple_baf7ace65fadc69d9d4382b889137f09_tuple, 1, const_str_plain_SortedKeyList ); Py_INCREF( const_str_plain_SortedKeyList );
     PyTuple_SET_ITEM( const_tuple_baf7ace65fadc69d9d4382b889137f09_tuple, 2, const_str_plain_SortedListWithKey ); Py_INCREF( const_str_plain_SortedListWithKey );
-    const_str_digest_8a538a59ce8fe44e281b361b1f345407 = UNSTREAM_STRING_ASCII( &constant_bin[ 66316 ], 22, 0 );
-    const_str_digest_e28de25f797a85811aa4f5f500d234cc = UNSTREAM_STRING_ASCII( &constant_bin[ 66338 ], 25, 0 );
+    const_str_digest_8a538a59ce8fe44e281b361b1f345407 = UNSTREAM_STRING_ASCII( &constant_bin[ 6665 ], 22, 0 );
+    const_str_digest_e28de25f797a85811aa4f5f500d234cc = UNSTREAM_STRING_ASCII( &constant_bin[ 6687 ], 25, 0 );
+    const_str_plain_dirname = UNSTREAM_STRING_ASCII( &constant_bin[ 6712 ], 7, 1 );
 
     constants_created = true;
 }
@@ -138,12 +141,12 @@ void checkModuleConstants_sortedcontainers( void )
 #endif
 
 // The module code objects.
-static PyCodeObject *codeobj_88a9a4d113c747f733615f83a07e2310;
+static PyCodeObject *codeobj_4d46643e85a32878b43c496eaf2e0276;
 
 static void createModuleCodeObjects(void)
 {
-    module_filename_obj = MAKE_RELATIVE_PATH( const_str_digest_5fb197b9b6e95c35ecbfe68dc2636fd2 );
-    codeobj_88a9a4d113c747f733615f83a07e2310 = MAKE_CODEOBJ( module_filename_obj, const_str_digest_e28de25f797a85811aa4f5f500d234cc, 1, const_tuple_empty, 0, 0, CO_NOFREE );
+    module_filename_obj = MAKE_RELATIVE_PATH( const_str_digest_d633a6eb172b5c2d11046e89de383483 );
+    codeobj_4d46643e85a32878b43c496eaf2e0276 = MAKE_CODEOBJ( module_filename_obj, const_str_digest_e28de25f797a85811aa4f5f500d234cc, 1, const_tuple_empty, 0, 0, CO_NOFREE );
 }
 
 // The module function declarations.
@@ -424,7 +427,7 @@ MOD_INIT_DECL( sortedcontainers )
     // Temp variables if any
     PyObject *tmp_import_from_1__module = NULL;
     PyObject *tmp_import_from_2__module = NULL;
-    struct Nuitka_FrameObject *frame_88a9a4d113c747f733615f83a07e2310;
+    struct Nuitka_FrameObject *frame_4d46643e85a32878b43c496eaf2e0276;
     NUITKA_MAY_BE_UNUSED char const *type_description_1 = NULL;
     PyObject *exception_type = NULL;
     PyObject *exception_value = NULL;
@@ -452,12 +455,12 @@ MOD_INIT_DECL( sortedcontainers )
         UPDATE_STRING_DICT0( moduledict_sortedcontainers, (Nuitka_StringObject *)const_str_plain___file__, tmp_assign_source_2 );
     }
     // Frame without reuse.
-    frame_88a9a4d113c747f733615f83a07e2310 = MAKE_MODULE_FRAME( codeobj_88a9a4d113c747f733615f83a07e2310, module_sortedcontainers );
+    frame_4d46643e85a32878b43c496eaf2e0276 = MAKE_MODULE_FRAME( codeobj_4d46643e85a32878b43c496eaf2e0276, module_sortedcontainers );
 
     // Push the new frame as the currently active one, and we should be exclusively
     // owning it.
-    pushFrameStack( frame_88a9a4d113c747f733615f83a07e2310 );
-    assert( Py_REFCNT( frame_88a9a4d113c747f733615f83a07e2310 ) == 2 );
+    pushFrameStack( frame_4d46643e85a32878b43c496eaf2e0276 );
+    assert( Py_REFCNT( frame_4d46643e85a32878b43c496eaf2e0276 ) == 2 );
 
     // Framed code:
     {
@@ -467,7 +470,7 @@ MOD_INIT_DECL( sortedcontainers )
         PyObject *tmp_source_name_1;
         PyObject *tmp_args_element_name_1;
         PyObject *tmp_called_instance_1;
-        frame_88a9a4d113c747f733615f83a07e2310->m_frame.f_lineno = 1;
+        frame_4d46643e85a32878b43c496eaf2e0276->m_frame.f_lineno = 1;
         {
             PyObject *module = PyImport_ImportModule("os");
             if (likely( module != NULL ))
@@ -504,7 +507,7 @@ MOD_INIT_DECL( sortedcontainers )
             goto frame_exception_exit_1;
         }
         tmp_args_element_name_1 = module_filename_obj;
-        frame_88a9a4d113c747f733615f83a07e2310->m_frame.f_lineno = 1;
+        frame_4d46643e85a32878b43c496eaf2e0276->m_frame.f_lineno = 1;
         {
             PyObject *call_args[] = { tmp_args_element_name_1 };
             tmp_list_element_1 = CALL_FUNCTION_WITH_ARGS1( tmp_called_name_1, call_args );
@@ -524,7 +527,7 @@ MOD_INIT_DECL( sortedcontainers )
         }
         tmp_assign_source_3 = PyList_New( 2 );
         PyList_SET_ITEM( tmp_assign_source_3, 0, tmp_list_element_1 );
-        frame_88a9a4d113c747f733615f83a07e2310->m_frame.f_lineno = 1;
+        frame_4d46643e85a32878b43c496eaf2e0276->m_frame.f_lineno = 1;
         {
             PyObject *module = PyImport_ImportModule("os");
             if (likely( module != NULL ))
@@ -548,7 +551,7 @@ MOD_INIT_DECL( sortedcontainers )
 
             goto frame_exception_exit_1;
         }
-        frame_88a9a4d113c747f733615f83a07e2310->m_frame.f_lineno = 1;
+        frame_4d46643e85a32878b43c496eaf2e0276->m_frame.f_lineno = 1;
         tmp_list_element_1 = CALL_METHOD_WITH_ARGS2( tmp_called_instance_1, const_str_plain_get, &PyTuple_GET_ITEM( const_tuple_8243ed8238dc12f1d476556126f624b4_tuple, 0 ) );
 
         if ( tmp_list_element_1 == NULL )
@@ -636,7 +639,7 @@ MOD_INIT_DECL( sortedcontainers )
         tmp_locals_name_1 = Py_None;
         tmp_fromlist_name_1 = const_tuple_baf7ace65fadc69d9d4382b889137f09_tuple;
         tmp_level_name_1 = const_int_pos_1;
-        frame_88a9a4d113c747f733615f83a07e2310->m_frame.f_lineno = 49;
+        frame_4d46643e85a32878b43c496eaf2e0276->m_frame.f_lineno = 49;
         tmp_assign_source_5 = IMPORT_MODULE5( tmp_name_name_1, tmp_globals_name_1, tmp_locals_name_1, tmp_fromlist_name_1, tmp_level_name_1 );
         if ( tmp_assign_source_5 == NULL )
         {
@@ -791,7 +794,7 @@ MOD_INIT_DECL( sortedcontainers )
         tmp_locals_name_2 = Py_None;
         tmp_fromlist_name_2 = const_tuple_str_plain_SortedSet_tuple;
         tmp_level_name_2 = const_int_pos_1;
-        frame_88a9a4d113c747f733615f83a07e2310->m_frame.f_lineno = 50;
+        frame_4d46643e85a32878b43c496eaf2e0276->m_frame.f_lineno = 50;
         tmp_import_name_from_4 = IMPORT_MODULE5( tmp_name_name_2, tmp_globals_name_2, tmp_locals_name_2, tmp_fromlist_name_2, tmp_level_name_2 );
         if ( tmp_import_name_from_4 == NULL )
         {
@@ -844,7 +847,7 @@ MOD_INIT_DECL( sortedcontainers )
         tmp_locals_name_3 = Py_None;
         tmp_fromlist_name_3 = const_tuple_5dabbeb90e8e9f5e7ee296c7a891b9ec_tuple;
         tmp_level_name_3 = const_int_pos_1;
-        frame_88a9a4d113c747f733615f83a07e2310->m_frame.f_lineno = 51;
+        frame_4d46643e85a32878b43c496eaf2e0276->m_frame.f_lineno = 51;
         tmp_assign_source_10 = IMPORT_MODULE5( tmp_name_name_3, tmp_globals_name_3, tmp_locals_name_3, tmp_fromlist_name_3, tmp_level_name_3 );
         if ( tmp_assign_source_10 == NULL )
         {
@@ -1017,26 +1020,26 @@ MOD_INIT_DECL( sortedcontainers )
 
     // Restore frame exception if necessary.
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_88a9a4d113c747f733615f83a07e2310 );
+    RESTORE_FRAME_EXCEPTION( frame_4d46643e85a32878b43c496eaf2e0276 );
 #endif
     popFrameStack();
 
-    assertFrameObject( frame_88a9a4d113c747f733615f83a07e2310 );
+    assertFrameObject( frame_4d46643e85a32878b43c496eaf2e0276 );
 
     goto frame_no_exception_1;
 
     frame_exception_exit_1:;
 #if 0
-    RESTORE_FRAME_EXCEPTION( frame_88a9a4d113c747f733615f83a07e2310 );
+    RESTORE_FRAME_EXCEPTION( frame_4d46643e85a32878b43c496eaf2e0276 );
 #endif
 
     if ( exception_tb == NULL )
     {
-        exception_tb = MAKE_TRACEBACK( frame_88a9a4d113c747f733615f83a07e2310, exception_lineno );
+        exception_tb = MAKE_TRACEBACK( frame_4d46643e85a32878b43c496eaf2e0276, exception_lineno );
     }
-    else if ( exception_tb->tb_frame != &frame_88a9a4d113c747f733615f83a07e2310->m_frame )
+    else if ( exception_tb->tb_frame != &frame_4d46643e85a32878b43c496eaf2e0276->m_frame )
     {
-        exception_tb = ADD_TRACEBACK( exception_tb, frame_88a9a4d113c747f733615f83a07e2310, exception_lineno );
+        exception_tb = ADD_TRACEBACK( exception_tb, frame_4d46643e85a32878b43c496eaf2e0276, exception_lineno );
     }
 
     // Put the previous frame back on top.

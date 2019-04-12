@@ -32,9 +32,9 @@ PyDictObject *moduledict_packages;
 
 /* The declarations of module constants used, if any. */
 extern PyObject *const_str_plain_packages;
-static PyObject *const_str_digest_f6d41726cc50690d779cb8161d9bc2ff;
+static PyObject *const_list_str_digest_1bda25c5d79fb6a061f21d518dfd4498_list;
+static PyObject *const_str_digest_1bda25c5d79fb6a061f21d518dfd4498;
 extern PyObject *const_int_0;
-static PyObject *const_list_str_digest_f6d41726cc50690d779cb8161d9bc2ff_list;
 static PyObject *const_str_plain__frozen_importlib_external;
 extern PyObject *const_str_plain___path__;
 static PyObject *const_str_plain__NamespacePath;
@@ -45,11 +45,11 @@ static bool constants_created = false;
 /* Function to create module private constants. */
 static void createModuleConstants( void )
 {
-    const_str_digest_f6d41726cc50690d779cb8161d9bc2ff = UNSTREAM_STRING_ASCII( &constant_bin[ 53746 ], 52, 0 );
-    const_list_str_digest_f6d41726cc50690d779cb8161d9bc2ff_list = PyList_New( 1 );
-    PyList_SET_ITEM( const_list_str_digest_f6d41726cc50690d779cb8161d9bc2ff_list, 0, const_str_digest_f6d41726cc50690d779cb8161d9bc2ff ); Py_INCREF( const_str_digest_f6d41726cc50690d779cb8161d9bc2ff );
-    const_str_plain__frozen_importlib_external = UNSTREAM_STRING_ASCII( &constant_bin[ 53798 ], 26, 1 );
-    const_str_plain__NamespacePath = UNSTREAM_STRING_ASCII( &constant_bin[ 53824 ], 14, 1 );
+    const_list_str_digest_1bda25c5d79fb6a061f21d518dfd4498_list = PyList_New( 1 );
+    const_str_digest_1bda25c5d79fb6a061f21d518dfd4498 = UNSTREAM_STRING_ASCII( &constant_bin[ 1599 ], 68, 0 );
+    PyList_SET_ITEM( const_list_str_digest_1bda25c5d79fb6a061f21d518dfd4498_list, 0, const_str_digest_1bda25c5d79fb6a061f21d518dfd4498 ); Py_INCREF( const_str_digest_1bda25c5d79fb6a061f21d518dfd4498 );
+    const_str_plain__frozen_importlib_external = UNSTREAM_STRING_ASCII( &constant_bin[ 1667 ], 26, 1 );
+    const_str_plain__NamespacePath = UNSTREAM_STRING_ASCII( &constant_bin[ 1693 ], 14, 1 );
 
     constants_created = true;
 }
@@ -392,7 +392,7 @@ MOD_INIT_DECL( packages )
             goto module_exception_exit;
         }
         tmp_call_arg_element_1 = const_str_plain_packages;
-        tmp_call_arg_element_2 = LIST_COPY( const_list_str_digest_f6d41726cc50690d779cb8161d9bc2ff_list );
+        tmp_call_arg_element_2 = LIST_COPY( const_list_str_digest_1bda25c5d79fb6a061f21d518dfd4498_list );
         tmp_call_arg_element_3 = Py_None;
         {
             PyObject *call_args[] = { tmp_call_arg_element_1, tmp_call_arg_element_2, tmp_call_arg_element_3 };

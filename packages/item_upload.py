@@ -102,25 +102,29 @@ def itemUpload(flatfile, intern):
 
                     except Exception as err:
                         print(err)
+                        print('Error at the Values')
                     Data[row['item_sku']] = SortedDict(zip(column_names, values))
             except KeyError as err:
-                print(err)
+                print("Error at : 'if(row['parent_child'] == 'parent'):'")
                 return row['item_sku']
 
         # open the intern number csv to get the item ID
         with open(intern, mode='r') as item:
             reader = csv.DictReader(item, delimiter=";")
             for row in reader:
-                if(row['amazon_sku'] in [*Data]):
-                    Data[row['amazon_sku']]['ItemID'] = row['article_id']
-                    Data[row['amazon_sku']]['PrimaryVariationExternalID'] = row['full_number']
+                try:
+                    if(row['amazon_sku'] in [*Data]):
+                        Data[row['amazon_sku']]['ItemID'] = row['article_id']
+                        Data[row['amazon_sku']]['PrimaryVariationExternalID'] = row['full_number']
+                except KeyError as keyerr:
+                    print(keyerr)
+                    print("Keyerror at the Intern Number addition")
 
         # Write Data into new CSV for Upload
         # OUTPUT
         # --------------------------------------------------------------
 
         variation_upload.writeCSV(Data, "item", column_names)
-
 
 def itemPropertyUpload(flatfile, export):
 

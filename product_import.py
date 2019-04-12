@@ -26,15 +26,20 @@ def main():
     try:
         print("\nItem Upload\n")
         erroritem = itemUpload(sheet, intern_number)
-    except:
-        print("Item Upload failed!")
-        print("Here: ", erroritem)
+    except Exception as exc:
+        print("Item Upload failed!\n")
+        print("Here: ", exc, '\n')
+        e = sys.exc_info()
+        for element in e:
+            print(element)
     try:
         print("\nVariation Upload\n")
         variationUpload(sheet, intern_number)
     except Exception as exc:
-        print(exc)
-        print("VariationUpload failed!")
+        print("VariationUpload failed!\n")
+        e = sys.exc_info()
+        for element in e:
+            print(element)
 
     print("###########################################################")
     print("\nUpload the files in plentymarkets, make sure that the categories are set because they are necessary for the active Upload.\n")

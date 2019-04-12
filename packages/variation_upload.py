@@ -218,6 +218,6 @@ def numberOfSizes(flatfile):
 
     sizeset.discard('')
 
-    print("lenght of set %0, content of set %1",len(sizeset), sizeset)
+    print("lenght of set {0}, content of set {1}".format(len(sizeset), sizeset))
 
     return len(sizeset)

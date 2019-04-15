@@ -144,7 +144,7 @@ def EANUpload(flatfile, export, stocklist, folder):
     column_names = ['BarcodeID', 'BarcodeName', 'BarcodeType',
                     'Code', 'VariationID', 'VariationNumber']
 
-    barcode_types = {'EAN' : {'id' : 3, 'name' : 'UPC', 'type' : 'UPC'},
+    barcode_types = {'EAN' : {'id' : 1, 'name' : 'EAN', 'type' : 'GTIN_13'},
                      'FNSKU' : {'id' : 5, 'name' : 'FNSKU', 'type' : 'EAN_13'}}
     Data = {}
     with open(flatfile, mode='r') as item:

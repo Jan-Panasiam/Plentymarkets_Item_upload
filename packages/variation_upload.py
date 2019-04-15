@@ -193,7 +193,7 @@ def EANUpload(flatfile, export, stocklist, folder):
     output_path = writeCSV(Data, 'VariationBarcode', column_names, folder)
 
 
-def marketConnection(export, ebay=0, amazon=0, folder):
+def marketConnection(export, folder, ebay=0, amazon=0):
     # Enable marketconnection of items and variations by entering 1 for True
     # and 0 for False
 

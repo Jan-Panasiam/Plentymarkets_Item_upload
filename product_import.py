@@ -24,8 +24,8 @@ def main():
     intern_number = askopenfilename(initialdir="../",
                             title="The Intern Numbers as .csv",
                             filetypes=[ ("csv files", "*.csv") ])
-    upload_folder = askdirectory(initialdir"../",
-                                 title="Choose a folder for the upload files.",)
+    upload_folder = askdirectory(initialdir="../",
+                                 title="Choose a folder for the upload files.")
     erroritem = ''
     print("spreadsheet csv containing the flatfile : ", sheet)
     print("spreadsheet csv containing the intern numbers : ", intern_number)
@@ -106,7 +106,7 @@ def main():
     print("\nActivate Marketconnection for Ebay & Amazon for all variation.\n")
 
     try:
-        marketConnection(export, ebay=1, amazon=1, upload_folder)
+        marketConnection(export, upload_folder, ebay=1, amazon=1)
     except Exception as err:
         print(err)
         print("Market connection failed!")

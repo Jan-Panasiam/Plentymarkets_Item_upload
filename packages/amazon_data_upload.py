@@ -86,7 +86,7 @@ def amazonDataUpload(flatfile, export, folder):
             if(row['VariationNumber'] in [*Data]):
                 Data[row['VariationNumber']]['ItemID'] = row['ItemID']
 
-    variation_upload.writeCSV(dataobject=Data, name='amazon_data', columns=column_names, folder)
+    variation_upload.writeCSV(dataobject=Data, name='amazon_data', columns=column_names, upload_path=folder)
 
 
 def asinUpload(export, stock, folder):
@@ -111,7 +111,7 @@ def asinUpload(export, stock, folder):
             if row['MASTER'] in [*Data]:
                 Data[row['MASTER']]['ASIN'] = row['asin']
 
-    variation_upload.writeCSV(dataobject=Data, name='asin', columns=column_names, folder)
+    variation_upload.writeCSV(dataobject=Data, name='asin', columns=column_names, upload_path=folder)
 
 def featureUpload(flatfile, feature, feature_id, folder):
 
@@ -137,4 +137,4 @@ def featureUpload(flatfile, feature, feature_id, folder):
 
 				Data[row[ 'item_sku' ]] = dict(zip(column_names, values))
 
-		variation_upload.writeCSV(dataobject=Data, name=feature.upper(), columns=column_names, folder)
+		variation_upload.writeCSV(dataobject=Data, name=feature.upper(), columns=column_names, upload_path=folder)

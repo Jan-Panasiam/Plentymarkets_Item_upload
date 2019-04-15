@@ -2,6 +2,7 @@ import csv
 from sortedcontainers import SortedDict
 import re
 from os.path import isfile
+from packages import variation_upload
 
 
 def searchImage(imglink, itemid, variationid, variationlinks, target):
@@ -34,7 +35,7 @@ def searchImage(imglink, itemid, variationid, variationlinks, target):
     return variationlinks, blockEntry
 
 
-def imageUpload(flatfile, exportfile):
+def imageUpload(flatfile, exportfile, folder):
     # open the export file, scrap the important data and save it into an dictionary
     with open(exportfile, mode='r') as item:
         Data = {}
@@ -130,24 +131,5 @@ def imageUpload(flatfile, exportfile):
                     Data['IMG' + str(number)
                            ] = SortedDict(zip(names, values))
                     number = int(number) + 1
-    # create the path for the new file name use a while loop to create a new name in case if the old one is taken
-    file_number_extension = 1
-    datatype = ".csv"
-    newfile_path = "Upload/plenty_upload_" + \
-        str(file_number_extension) + datatype
 
-    while(isfile(newfile_path)):
-        file_number_extension = int(file_number_extension) + 1
-        newfile_path = "Upload/plenty_upload_" + \
-            str(file_number_extension) + datatype
-
-    # write the Data Dictionary into a new Csv file
-    with open(newfile_path, mode='a') as item:
-        writer = csv.DictWriter(item, delimiter=";", fieldnames=names)
-        writer.writeheader()
-        for row in Data:
-            writer.writerow(Data[row])
-
-    if(isfile(newfile_path)):
-        print("Upload File succesfully created into the Upload folder! Name: {0}"
-              .format(newfile_path))
+    variation_upload.writeCSV(Data, "image", names, folder )

@@ -10,7 +10,7 @@ except ImportError:
     raise ImportError
 
 
-def stockUpload(flatfile, stocklist):
+def stockUpload(flatfile, stocklist, folder):
 
     # The column header names
     column_names = ['Barcode', 'LocationID', 'LocationName', 'Reordered',
@@ -34,10 +34,10 @@ def stockUpload(flatfile, stocklist):
             if(row['MASTER'] and row['MASTER'] in [*Data]):
                 Data[row['MASTER']]['Stock'] = row['BADEL 26.12.16']
 
-    output_path = variation_upload.writeCSV(Data, 'stock', column_names)
+    output_path = variation_upload.writeCSV(Data, 'stock', column_names, folder)
 
 
-def priceUpload(flatfile, export):
+def priceUpload(flatfile, export, folder):
     # The column header names
     column_names = ['VariationID', 'IsNet', 'VariationPrice', 'SalesPriceID']
 
@@ -60,4 +60,4 @@ def priceUpload(flatfile, export):
             if(row['VariationNumber'] in [*Data]):
                 Data[row['VariationNumber']]['VariationID'] = row['VariationID']
 
-    output_path = variation_upload.writeCSV(Data, 'price', column_names)
+    output_path = variation_upload.writeCSV(Data, 'SalesPriceVariation', column_names, folder)

@@ -70,13 +70,13 @@ static bool constants_created = false;
 /* Function to create module private constants. */
 static void createModuleConstants( void )
 {
-    const_str_digest_52fa4ffbfdece4e7a30da01e0fbf9288 = UNSTREAM_STRING_ASCII( &constant_bin[ 64422 ], 14, 0 );
-    const_str_digest_47375380eb3bc90dce4323b242ca94a2 = UNSTREAM_STRING_ASCII( &constant_bin[ 64436 ], 18, 0 );
-    const_str_digest_68a3f652bbf89b5aba2ae5136bcf7c24 = UNSTREAM_STRING_ASCII( &constant_bin[ 64454 ], 24, 0 );
-    const_str_digest_1ef1ac85d7751e4149b8f11bf34541a2 = UNSTREAM_STRING_ASCII( &constant_bin[ 64462 ], 15, 0 );
+    const_str_digest_52fa4ffbfdece4e7a30da01e0fbf9288 = UNSTREAM_STRING_ASCII( &constant_bin[ 64795 ], 14, 0 );
+    const_str_digest_47375380eb3bc90dce4323b242ca94a2 = UNSTREAM_STRING_ASCII( &constant_bin[ 64809 ], 18, 0 );
+    const_str_digest_68a3f652bbf89b5aba2ae5136bcf7c24 = UNSTREAM_STRING_ASCII( &constant_bin[ 64827 ], 24, 0 );
+    const_str_digest_1ef1ac85d7751e4149b8f11bf34541a2 = UNSTREAM_STRING_ASCII( &constant_bin[ 64835 ], 15, 0 );
     const_tuple_str_plain_self_str_plain_loginManager_tuple = PyTuple_New( 2 );
     PyTuple_SET_ITEM( const_tuple_str_plain_self_str_plain_loginManager_tuple, 0, const_str_plain_self ); Py_INCREF( const_str_plain_self );
-    const_str_plain_loginManager = UNSTREAM_STRING_ASCII( &constant_bin[ 64478 ], 12, 1 );
+    const_str_plain_loginManager = UNSTREAM_STRING_ASCII( &constant_bin[ 64851 ], 12, 1 );
     PyTuple_SET_ITEM( const_tuple_str_plain_self_str_plain_loginManager_tuple, 1, const_str_plain_loginManager ); Py_INCREF( const_str_plain_loginManager );
     const_tuple_str_plain_GTKIO_tuple_empty_tuple = PyTuple_New( 2 );
     PyTuple_SET_ITEM( const_tuple_str_plain_GTKIO_tuple_empty_tuple, 0, const_str_plain_GTKIO ); Py_INCREF( const_str_plain_GTKIO );

@@ -73,28 +73,28 @@ static bool constants_created = false;
 /* Function to create module private constants. */
 static void createModuleConstants( void )
 {
-    const_str_plain_NULL_MAIN_LOOP = UNSTREAM_STRING_ASCII( &constant_bin[ 23963 ], 14, 1 );
-    const_str_digest_92a976c4650920ff5ed374c559207e27 = UNSTREAM_STRING_ASCII( &constant_bin[ 23977 ], 25, 0 );
+    const_str_plain_NULL_MAIN_LOOP = UNSTREAM_STRING_ASCII( &constant_bin[ 24141 ], 14, 1 );
+    const_str_digest_92a976c4650920ff5ed374c559207e27 = UNSTREAM_STRING_ASCII( &constant_bin[ 24155 ], 25, 0 );
     const_tuple_1e0b2627de80cd15cd2a2707b4a50786_tuple = PyTuple_New( 2 );
-    const_str_plain_NUITKA_PACKAGE_dbus_mainloop = UNSTREAM_STRING_ASCII( &constant_bin[ 24002 ], 28, 1 );
+    const_str_plain_NUITKA_PACKAGE_dbus_mainloop = UNSTREAM_STRING_ASCII( &constant_bin[ 24180 ], 28, 1 );
     PyTuple_SET_ITEM( const_tuple_1e0b2627de80cd15cd2a2707b4a50786_tuple, 0, const_str_plain_NUITKA_PACKAGE_dbus_mainloop ); Py_INCREF( const_str_plain_NUITKA_PACKAGE_dbus_mainloop );
     PyTuple_SET_ITEM( const_tuple_1e0b2627de80cd15cd2a2707b4a50786_tuple, 1, const_str_digest_5bfaf90dbd407b4fc29090c8f6415242 ); Py_INCREF( const_str_digest_5bfaf90dbd407b4fc29090c8f6415242 );
-    const_str_plain_NativeMainLoop = UNSTREAM_STRING_ASCII( &constant_bin[ 4357 ], 14, 1 );
+    const_str_plain_NativeMainLoop = UNSTREAM_STRING_ASCII( &constant_bin[ 4535 ], 14, 1 );
     const_tuple_e491f74580763f43a808aa077c589175_tuple = PyTuple_New( 7 );
     PyTuple_SET_ITEM( const_tuple_e491f74580763f43a808aa077c589175_tuple, 0, const_str_plain_NativeMainLoop ); Py_INCREF( const_str_plain_NativeMainLoop );
-    const_str_plain_WATCH_READABLE = UNSTREAM_STRING_ASCII( &constant_bin[ 24030 ], 14, 1 );
+    const_str_plain_WATCH_READABLE = UNSTREAM_STRING_ASCII( &constant_bin[ 24208 ], 14, 1 );
     PyTuple_SET_ITEM( const_tuple_e491f74580763f43a808aa077c589175_tuple, 1, const_str_plain_WATCH_READABLE ); Py_INCREF( const_str_plain_WATCH_READABLE );
-    const_str_plain_WATCH_WRITABLE = UNSTREAM_STRING_ASCII( &constant_bin[ 24044 ], 14, 1 );
+    const_str_plain_WATCH_WRITABLE = UNSTREAM_STRING_ASCII( &constant_bin[ 24222 ], 14, 1 );
     PyTuple_SET_ITEM( const_tuple_e491f74580763f43a808aa077c589175_tuple, 2, const_str_plain_WATCH_WRITABLE ); Py_INCREF( const_str_plain_WATCH_WRITABLE );
-    const_str_plain_WATCH_HANGUP = UNSTREAM_STRING_ASCII( &constant_bin[ 24058 ], 12, 1 );
+    const_str_plain_WATCH_HANGUP = UNSTREAM_STRING_ASCII( &constant_bin[ 24236 ], 12, 1 );
     PyTuple_SET_ITEM( const_tuple_e491f74580763f43a808aa077c589175_tuple, 3, const_str_plain_WATCH_HANGUP ); Py_INCREF( const_str_plain_WATCH_HANGUP );
-    const_str_plain_WATCH_ERROR = UNSTREAM_STRING_ASCII( &constant_bin[ 24070 ], 11, 1 );
+    const_str_plain_WATCH_ERROR = UNSTREAM_STRING_ASCII( &constant_bin[ 24248 ], 11, 1 );
     PyTuple_SET_ITEM( const_tuple_e491f74580763f43a808aa077c589175_tuple, 4, const_str_plain_WATCH_ERROR ); Py_INCREF( const_str_plain_WATCH_ERROR );
     PyTuple_SET_ITEM( const_tuple_e491f74580763f43a808aa077c589175_tuple, 5, const_str_plain_NULL_MAIN_LOOP ); Py_INCREF( const_str_plain_NULL_MAIN_LOOP );
     PyTuple_SET_ITEM( const_tuple_e491f74580763f43a808aa077c589175_tuple, 6, const_str_plain_glib ); Py_INCREF( const_str_plain_glib );
-    const_str_digest_ca885d114683883351fa5ece16bd8151 = UNSTREAM_STRING_ASCII( &constant_bin[ 24081 ], 51, 0 );
-    const_str_digest_94de7b62cb5a27fd11e76113d9dbc77e = UNSTREAM_STRING_ASCII( &constant_bin[ 4343 ], 13, 0 );
-    const_str_digest_2f41de8910a532e6dd306f7ed285a991 = UNSTREAM_STRING_ASCII( &constant_bin[ 24132 ], 22, 0 );
+    const_str_digest_ca885d114683883351fa5ece16bd8151 = UNSTREAM_STRING_ASCII( &constant_bin[ 24259 ], 51, 0 );
+    const_str_digest_94de7b62cb5a27fd11e76113d9dbc77e = UNSTREAM_STRING_ASCII( &constant_bin[ 4521 ], 13, 0 );
+    const_str_digest_2f41de8910a532e6dd306f7ed285a991 = UNSTREAM_STRING_ASCII( &constant_bin[ 24310 ], 22, 0 );
 
     constants_created = true;
 }

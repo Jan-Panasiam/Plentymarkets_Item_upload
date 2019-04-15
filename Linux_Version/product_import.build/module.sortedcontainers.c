@@ -86,13 +86,13 @@ static bool constants_created = false;
 /* Function to create module private constants. */
 static void createModuleConstants( void )
 {
-    const_str_plain___copyright__ = UNSTREAM_STRING_ASCII( &constant_bin[ 64609 ], 13, 1 );
-    const_str_plain_sorteddict = UNSTREAM_STRING_ASCII( &constant_bin[ 64622 ], 10, 1 );
-    const_str_digest_830b29dc1e99b9b7996b45708b034bb3 = UNSTREAM_STRING_ASCII( &constant_bin[ 64632 ], 11, 0 );
-    const_str_digest_c732b0001bd9466f3f59e4e065102217 = UNSTREAM_STRING_ASCII( &constant_bin[ 64643 ], 10, 0 );
-    const_str_plain___build__ = UNSTREAM_STRING_ASCII( &constant_bin[ 64653 ], 9, 1 );
-    const_str_digest_72c6ae501e3d6797f9f30ea230c4ea9f = UNSTREAM_STRING_ASCII( &constant_bin[ 64662 ], 1560, 0 );
-    const_str_plain_NUITKA_PACKAGE_sortedcontainers = UNSTREAM_STRING_ASCII( &constant_bin[ 66222 ], 31, 1 );
+    const_str_plain___copyright__ = UNSTREAM_STRING_ASCII( &constant_bin[ 64982 ], 13, 1 );
+    const_str_plain_sorteddict = UNSTREAM_STRING_ASCII( &constant_bin[ 64995 ], 10, 1 );
+    const_str_digest_830b29dc1e99b9b7996b45708b034bb3 = UNSTREAM_STRING_ASCII( &constant_bin[ 65005 ], 11, 0 );
+    const_str_digest_c732b0001bd9466f3f59e4e065102217 = UNSTREAM_STRING_ASCII( &constant_bin[ 65016 ], 10, 0 );
+    const_str_plain___build__ = UNSTREAM_STRING_ASCII( &constant_bin[ 65026 ], 9, 1 );
+    const_str_digest_72c6ae501e3d6797f9f30ea230c4ea9f = UNSTREAM_STRING_ASCII( &constant_bin[ 65035 ], 1560, 0 );
+    const_str_plain_NUITKA_PACKAGE_sortedcontainers = UNSTREAM_STRING_ASCII( &constant_bin[ 66595 ], 31, 1 );
     const_list_8448343342a4d875dadf9bf7a12a0303_list = PyList_New( 8 );
     PyList_SET_ITEM( const_list_8448343342a4d875dadf9bf7a12a0303_list, 0, const_str_plain_SortedList ); Py_INCREF( const_str_plain_SortedList );
     PyList_SET_ITEM( const_list_8448343342a4d875dadf9bf7a12a0303_list, 1, const_str_plain_SortedKeyList ); Py_INCREF( const_str_plain_SortedKeyList );
@@ -108,11 +108,11 @@ static void createModuleConstants( void )
     PyTuple_SET_ITEM( const_tuple_5dabbeb90e8e9f5e7ee296c7a891b9ec_tuple, 1, const_str_plain_SortedKeysView ); Py_INCREF( const_str_plain_SortedKeysView );
     PyTuple_SET_ITEM( const_tuple_5dabbeb90e8e9f5e7ee296c7a891b9ec_tuple, 2, const_str_plain_SortedItemsView ); Py_INCREF( const_str_plain_SortedItemsView );
     PyTuple_SET_ITEM( const_tuple_5dabbeb90e8e9f5e7ee296c7a891b9ec_tuple, 3, const_str_plain_SortedValuesView ); Py_INCREF( const_str_plain_SortedValuesView );
-    const_str_plain___author__ = UNSTREAM_STRING_ASCII( &constant_bin[ 66253 ], 10, 1 );
-    const_str_digest_82b820451be11adebfaa34e133657d64 = UNSTREAM_STRING_ASCII( &constant_bin[ 66263 ], 5, 0 );
-    const_str_plain___license__ = UNSTREAM_STRING_ASCII( &constant_bin[ 66268 ], 11, 1 );
-    const_str_digest_5fb197b9b6e95c35ecbfe68dc2636fd2 = UNSTREAM_STRING_ASCII( &constant_bin[ 66279 ], 28, 0 );
-    const_str_plain___title__ = UNSTREAM_STRING_ASCII( &constant_bin[ 66307 ], 9, 1 );
+    const_str_plain___author__ = UNSTREAM_STRING_ASCII( &constant_bin[ 66626 ], 10, 1 );
+    const_str_digest_82b820451be11adebfaa34e133657d64 = UNSTREAM_STRING_ASCII( &constant_bin[ 66636 ], 5, 0 );
+    const_str_plain___license__ = UNSTREAM_STRING_ASCII( &constant_bin[ 66641 ], 11, 1 );
+    const_str_digest_5fb197b9b6e95c35ecbfe68dc2636fd2 = UNSTREAM_STRING_ASCII( &constant_bin[ 66652 ], 28, 0 );
+    const_str_plain___title__ = UNSTREAM_STRING_ASCII( &constant_bin[ 66680 ], 9, 1 );
     const_tuple_8243ed8238dc12f1d476556126f624b4_tuple = PyTuple_New( 2 );
     PyTuple_SET_ITEM( const_tuple_8243ed8238dc12f1d476556126f624b4_tuple, 0, const_str_plain_NUITKA_PACKAGE_sortedcontainers ); Py_INCREF( const_str_plain_NUITKA_PACKAGE_sortedcontainers );
     PyTuple_SET_ITEM( const_tuple_8243ed8238dc12f1d476556126f624b4_tuple, 1, const_str_digest_5bfaf90dbd407b4fc29090c8f6415242 ); Py_INCREF( const_str_digest_5bfaf90dbd407b4fc29090c8f6415242 );
@@ -120,8 +120,8 @@ static void createModuleConstants( void )
     PyTuple_SET_ITEM( const_tuple_baf7ace65fadc69d9d4382b889137f09_tuple, 0, const_str_plain_SortedList ); Py_INCREF( const_str_plain_SortedList );
     PyTuple_SET_ITEM( const_tuple_baf7ace65fadc69d9d4382b889137f09_tuple, 1, const_str_plain_SortedKeyList ); Py_INCREF( const_str_plain_SortedKeyList );
     PyTuple_SET_ITEM( const_tuple_baf7ace65fadc69d9d4382b889137f09_tuple, 2, const_str_plain_SortedListWithKey ); Py_INCREF( const_str_plain_SortedListWithKey );
-    const_str_digest_8a538a59ce8fe44e281b361b1f345407 = UNSTREAM_STRING_ASCII( &constant_bin[ 66316 ], 22, 0 );
-    const_str_digest_e28de25f797a85811aa4f5f500d234cc = UNSTREAM_STRING_ASCII( &constant_bin[ 66338 ], 25, 0 );
+    const_str_digest_8a538a59ce8fe44e281b361b1f345407 = UNSTREAM_STRING_ASCII( &constant_bin[ 66689 ], 22, 0 );
+    const_str_digest_e28de25f797a85811aa4f5f500d234cc = UNSTREAM_STRING_ASCII( &constant_bin[ 66711 ], 25, 0 );
 
     constants_created = true;
 }

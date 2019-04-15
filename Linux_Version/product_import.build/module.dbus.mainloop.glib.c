@@ -62,17 +62,17 @@ static void createModuleConstants( void )
 {
     const_tuple_str_plain_DBusGMainLoop_str_plain_gthreads_init_tuple = PyTuple_New( 2 );
     PyTuple_SET_ITEM( const_tuple_str_plain_DBusGMainLoop_str_plain_gthreads_init_tuple, 0, const_str_plain_DBusGMainLoop ); Py_INCREF( const_str_plain_DBusGMainLoop );
-    const_str_plain_gthreads_init = UNSTREAM_STRING_ASCII( &constant_bin[ 24154 ], 13, 1 );
+    const_str_plain_gthreads_init = UNSTREAM_STRING_ASCII( &constant_bin[ 24332 ], 13, 1 );
     PyTuple_SET_ITEM( const_tuple_str_plain_DBusGMainLoop_str_plain_gthreads_init_tuple, 1, const_str_plain_gthreads_init ); Py_INCREF( const_str_plain_gthreads_init );
-    const_str_digest_f10e2ec87b7dc4cd78c14bbcc06032c1 = UNSTREAM_STRING_ASCII( &constant_bin[ 24167 ], 46, 0 );
-    const_str_digest_1731cab4002b1018dc1016edf82d774b = UNSTREAM_STRING_ASCII( &constant_bin[ 24213 ], 21, 0 );
-    const_str_plain__dbus_glib_bindings = UNSTREAM_STRING_ASCII( &constant_bin[ 24234 ], 19, 1 );
+    const_str_digest_f10e2ec87b7dc4cd78c14bbcc06032c1 = UNSTREAM_STRING_ASCII( &constant_bin[ 24345 ], 46, 0 );
+    const_str_digest_1731cab4002b1018dc1016edf82d774b = UNSTREAM_STRING_ASCII( &constant_bin[ 24391 ], 21, 0 );
+    const_str_plain__dbus_glib_bindings = UNSTREAM_STRING_ASCII( &constant_bin[ 24412 ], 19, 1 );
     const_tuple_str_plain_DBusGMainLoop_str_plain_threads_init_tuple = PyTuple_New( 2 );
     PyTuple_SET_ITEM( const_tuple_str_plain_DBusGMainLoop_str_plain_threads_init_tuple, 0, const_str_plain_DBusGMainLoop ); Py_INCREF( const_str_plain_DBusGMainLoop );
     PyTuple_SET_ITEM( const_tuple_str_plain_DBusGMainLoop_str_plain_threads_init_tuple, 1, const_str_plain_threads_init ); Py_INCREF( const_str_plain_threads_init );
-    const_str_digest_e440ee50d1c3006574b2b526fb1003e1 = UNSTREAM_STRING_ASCII( &constant_bin[ 24253 ], 169, 0 );
-    const_str_digest_5aab96487d1936ff2c462fb158533f25 = UNSTREAM_STRING_ASCII( &constant_bin[ 24422 ], 27, 0 );
-    const_str_plain__dbus_gthreads_initialized = UNSTREAM_STRING_ASCII( &constant_bin[ 24449 ], 26, 1 );
+    const_str_digest_e440ee50d1c3006574b2b526fb1003e1 = UNSTREAM_STRING_ASCII( &constant_bin[ 24431 ], 169, 0 );
+    const_str_digest_5aab96487d1936ff2c462fb158533f25 = UNSTREAM_STRING_ASCII( &constant_bin[ 24600 ], 27, 0 );
+    const_str_plain__dbus_gthreads_initialized = UNSTREAM_STRING_ASCII( &constant_bin[ 24627 ], 26, 1 );
 
     constants_created = true;
 }

@@ -12,7 +12,7 @@ except ImportError:
     raise ImportError
 
 
-def itemUpload(flatfile, intern):
+def itemUpload(flatfile, intern, folder):
     # The column headers for the output file as expected from the
     # plentymarkets dataformat
     column_names = ['ItemID', 'PrimaryVariationCustomNumber',
@@ -45,7 +45,6 @@ def itemUpload(flatfile, intern):
         for row in reader:
             # transform the text format to integer in order to adjust the
             # height, width, length numbers from centimeter to milimeter
-
             try:
                 if(row['parent_child'] == 'parent'):
                     try:
@@ -124,9 +123,9 @@ def itemUpload(flatfile, intern):
         # OUTPUT
         # --------------------------------------------------------------
 
-        variation_upload.writeCSV(Data, "item", column_names)
+        variation_upload.writeCSV(Data, "item", column_names, folder)
 
-def itemPropertyUpload(flatfile, export):
+def itemPropertyUpload(flatfile, export, folder):
 
     with open(flatfile, mode='r') as item:
         reader = csv.DictReader(item, delimiter=';', lineterminator='\n')
@@ -207,5 +206,5 @@ def itemPropertyUpload(flatfile, export):
 
                         Data[row['VariationNumber'] + str( number )] = dict(zip(column_names,
                                                             values))
-    variation_upload.writeCSV(Data, "property", column_names)
+    variation_upload.writeCSV(Data, "Item_Merkmale", column_names, folder)
 

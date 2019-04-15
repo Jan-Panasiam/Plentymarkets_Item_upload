@@ -1,5 +1,7 @@
 import csv
 from os.path import isfile
+from tkinter.filedialog import askdirectory
+import os
 try:
     from sortedcontainers import SortedDict
 except ImportError:
@@ -7,20 +9,28 @@ except ImportError:
     raise ImportError
 
 
-def writeCSV(dataobject, name, columns):
+def writeCSV(dataobject, name, columns, upload_path):
     '''Write Data into new CSV for Upload
         OUTPUT
+    '''
+    '''
+    uploadpath = os.getcwd() + '/Upload'
+    if not os.path.exists(uploadpath):
+        print("=#="*10 + '\n')
+        printf("Please choose a folder for the Upload files\n")
+        print("=#="*10 + '\n')
+        uploadpath = askdirectory(title="Choose a folder for the Upload files!")
     '''
 
     output_path_number = 1
     datatype = ".csv"
-    output_path = "Upload/" + name + "_upload_" + \
-        str(output_path_number) + datatype
+    output_name = "/" + name + "_upload_" + str(output_path_number) + datatype
+    output_path = upload_path + output_name
 
     while(isfile(output_path)):
         output_path_number = int(output_path_number) + 1
-        output_path = "Upload/" + name + "_upload_" + \
-            str(output_path_number) + datatype
+        output_name = "/" + name + "_upload_" + str(output_path_number) + datatype
+        output_path = upload_path + output_name
 
     with open(output_path, mode='a') as item:
         writer = csv.DictWriter(item, delimiter=";", fieldnames=columns)
@@ -34,7 +44,7 @@ def writeCSV(dataobject, name, columns):
     return output_path
 
 
-def variationUpload(flatfile, intern_number):
+def variationUpload(flatfile, intern_number, folder):
 
     # The column header names
     names = ['ItemID', 'VariationID', 'VariationNumber', 'VariationName', 'Position',
@@ -101,12 +111,12 @@ def variationUpload(flatfile, intern_number):
                     Data[row['amazon_sku']]['Position'] = row['position']
                     Data[row['amazon_sku']]['ExternalID'] = row['full_number']
 
-    output_path = writeCSV(Data, 'variation', names)
+    output_path = writeCSV(Data, 'variation', names, folder)
 
     return output_path
 
 
-def setActive(flatfile, export):
+def setActive(flatfile, export, folder):
     # because of a regulation of the plentyMarkets system the active status has to be
     # delivered as an extra upload
     column_names = ['Active', 'VariationID']
@@ -124,10 +134,10 @@ def setActive(flatfile, export):
         for row in reader:
             if(row['VariationNumber'] in [*Data]):
                 Data[row['VariationNumber']]['VariationID'] = row['VariationID']
-    output_path = writeCSV(Data, 'active', column_names)
+    output_path = writeCSV(Data, 'SetActive', column_names, folder)
 
 
-def EANUpload(flatfile, export, stocklist):
+def EANUpload(flatfile, export, stocklist, folder):
     # open the flatfile get the ean for an sku and save it into a dictionary with
     # columnheaders of the plentymarket dataformat
 
@@ -180,10 +190,10 @@ def EANUpload(flatfile, export, stocklist):
                     if(code):
                         Data[row['MASTER'] + barcode]['Code'] = code
 
-    output_path = writeCSV(Data, 'Barcode', column_names)
+    output_path = writeCSV(Data, 'VariationBarcode', column_names, folder)
 
 
-def marketConnection(export, ebay=0, amazon=0):
+def marketConnection(export, ebay=0, amazon=0, folder):
     # Enable marketconnection of items and variations by entering 1 for True
     # and 0 for False
 
@@ -201,7 +211,7 @@ def marketConnection(export, ebay=0, amazon=0):
                 Data[row['VariationNumber']] = dict(zip(column_names, values))
 
 
-    output_path = writeCSV(Data, 'market_connect', column_names)
+    output_path = writeCSV(Data, 'marketConnection', column_names, folder)
 
 def numberOfSizes(flatfile):
     # open the flatfile and read the size of each variation, put all of them in a set

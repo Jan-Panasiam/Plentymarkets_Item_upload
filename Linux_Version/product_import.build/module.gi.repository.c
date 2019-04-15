@@ -71,12 +71,12 @@ static bool constants_created = false;
 /* Function to create module private constants. */
 static void createModuleConstants( void )
 {
-    const_str_plain_NUITKA_PACKAGE_gi_repository = UNSTREAM_STRING_ASCII( &constant_bin[ 51905 ], 28, 1 );
-    const_str_plain_meta_path = UNSTREAM_STRING_ASCII( &constant_bin[ 51933 ], 9, 1 );
+    const_str_plain_NUITKA_PACKAGE_gi_repository = UNSTREAM_STRING_ASCII( &constant_bin[ 52083 ], 28, 1 );
+    const_str_plain_meta_path = UNSTREAM_STRING_ASCII( &constant_bin[ 52111 ], 9, 1 );
     const_tuple_str_plain_DynamicImporter_tuple = PyTuple_New( 1 );
     PyTuple_SET_ITEM( const_tuple_str_plain_DynamicImporter_tuple, 0, const_str_plain_DynamicImporter ); Py_INCREF( const_str_plain_DynamicImporter );
-    const_str_digest_8f95551d37969c5f95015e918e838603 = UNSTREAM_STRING_ASCII( &constant_bin[ 51942 ], 22, 0 );
-    const_str_digest_03b795a3937010da10f7a96d4258ca81 = UNSTREAM_STRING_ASCII( &constant_bin[ 51964 ], 25, 0 );
+    const_str_digest_8f95551d37969c5f95015e918e838603 = UNSTREAM_STRING_ASCII( &constant_bin[ 52120 ], 22, 0 );
+    const_str_digest_03b795a3937010da10f7a96d4258ca81 = UNSTREAM_STRING_ASCII( &constant_bin[ 52142 ], 25, 0 );
     const_tuple_str_digest_66f7aeb02c13e91a30a18f0ea911888b_tuple = PyTuple_New( 1 );
     PyTuple_SET_ITEM( const_tuple_str_digest_66f7aeb02c13e91a30a18f0ea911888b_tuple, 0, const_str_digest_66f7aeb02c13e91a30a18f0ea911888b ); Py_INCREF( const_str_digest_66f7aeb02c13e91a30a18f0ea911888b );
     const_tuple_f8b7b4ed70bd5864ef5170077720b8c9_tuple = PyTuple_New( 2 );

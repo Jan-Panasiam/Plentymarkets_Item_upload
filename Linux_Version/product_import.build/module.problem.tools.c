@@ -72,16 +72,16 @@ static bool constants_created = false;
 /* Function to create module private constants. */
 static void createModuleConstants( void )
 {
-    const_str_digest_e9480640b8997841e4b2ee49a5790308 = UNSTREAM_STRING_ASCII( &constant_bin[ 61197 ], 13, 0 );
-    const_str_digest_dc59ccedcb8e86646f0eb79b95ebaa0a = UNSTREAM_STRING_ASCII( &constant_bin[ 61210 ], 16, 0 );
-    const_str_plain_class_name = UNSTREAM_STRING_ASCII( &constant_bin[ 61226 ], 10, 1 );
-    const_str_plain_capitalize = UNSTREAM_STRING_ASCII( &constant_bin[ 61236 ], 10, 1 );
-    const_str_plain_probdir = UNSTREAM_STRING_ASCII( &constant_bin[ 61246 ], 7, 1 );
-    const_str_digest_499979b635b7c845abd599857a0e57d4 = UNSTREAM_STRING_ASCII( &constant_bin[ 61253 ], 22, 0 );
+    const_str_digest_e9480640b8997841e4b2ee49a5790308 = UNSTREAM_STRING_ASCII( &constant_bin[ 61570 ], 13, 0 );
+    const_str_digest_dc59ccedcb8e86646f0eb79b95ebaa0a = UNSTREAM_STRING_ASCII( &constant_bin[ 61583 ], 16, 0 );
+    const_str_plain_class_name = UNSTREAM_STRING_ASCII( &constant_bin[ 61599 ], 10, 1 );
+    const_str_plain_capitalize = UNSTREAM_STRING_ASCII( &constant_bin[ 61609 ], 10, 1 );
+    const_str_plain_probdir = UNSTREAM_STRING_ASCII( &constant_bin[ 61619 ], 7, 1 );
+    const_str_digest_499979b635b7c845abd599857a0e57d4 = UNSTREAM_STRING_ASCII( &constant_bin[ 61626 ], 22, 0 );
     const_tuple_d1d8fb94505c5290365af41c2389814a_tuple = PyTuple_New( 7 );
     PyTuple_SET_ITEM( const_tuple_d1d8fb94505c5290365af41c2389814a_tuple, 0, const_str_plain_probdir ); Py_INCREF( const_str_plain_probdir );
     PyTuple_SET_ITEM( const_tuple_d1d8fb94505c5290365af41c2389814a_tuple, 1, const_str_plain_proxy ); Py_INCREF( const_str_plain_proxy );
-    const_str_plain_by_typ = UNSTREAM_STRING_ASCII( &constant_bin[ 61275 ], 6, 1 );
+    const_str_plain_by_typ = UNSTREAM_STRING_ASCII( &constant_bin[ 61648 ], 6, 1 );
     PyTuple_SET_ITEM( const_tuple_d1d8fb94505c5290365af41c2389814a_tuple, 2, const_str_plain_by_typ ); Py_INCREF( const_str_plain_by_typ );
     PyTuple_SET_ITEM( const_tuple_d1d8fb94505c5290365af41c2389814a_tuple, 3, const_str_plain_typ ); Py_INCREF( const_str_plain_typ );
     PyTuple_SET_ITEM( const_tuple_d1d8fb94505c5290365af41c2389814a_tuple, 4, const_str_plain_reason ); Py_INCREF( const_str_plain_reason );

@@ -1,3 +1,7 @@
+Version 15.04.2019 Sebastian Fricke V0.1
+
+
+
 1. Open the Folder for the Input Files:
             =========DE============
 ---Öffne den Ordner für Eingabe Datein:

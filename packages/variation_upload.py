@@ -1,5 +1,6 @@
 import csv
 from os.path import isfile
+import sys
 from tkinter.filedialog import askdirectory
 import os
 try:
@@ -57,12 +58,11 @@ def variationUpload(flatfile, intern_number, folder):
 
     # create a Data Dictionary and fill it with the necessary values from the flatfile
     Data = SortedDict()
+    item_name = ''
 
     with open(flatfile, mode='r') as item:
         reader = csv.DictReader(item, delimiter=";")
         for row in reader:
-            if(row['parent_child'] == 'parent'):
-                item_name = row['item_name']
             if(row['parent_child'] == 'child'):
                 try:
                     if(row['package_height'] and
@@ -88,7 +88,7 @@ def variationUpload(flatfile, intern_number, folder):
                 if(row['size_name'] and number_sizes > 1):
                     attributes += ';size_name:' + row['size_name']
                 try:
-                    values = ['', '', row['item_sku'], item_name, '',
+                    values = ['', '', row['item_sku'], row['item_name'], '',
                               int(row['package_length']) * 10,
                               int(row['package_width']) * 10,
                               int(row['package_height']) * 10,
@@ -96,7 +96,7 @@ def variationUpload(flatfile, intern_number, folder):
                               row['standard_price'], 'Badel', 'Y', 'Y', '']
                 except Exception as err:
                     print(err)
-                    exit()
+                    sys.exit()
                 Data[row['item_sku']] = SortedDict(zip(names, values))
 
     # open the intern numbers csv and fill in the remaining missing fields by using the

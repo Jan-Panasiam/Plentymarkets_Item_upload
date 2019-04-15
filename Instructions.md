@@ -1,10 +1,10 @@
-Version 15.04.2019 Sebastian Fricke V0.1
+﻿Version 15.04.2019 Sebastian Fricke V0.1
 
 
 
 1. Open the Folder for the Input Files:
             =========DE============
----Öffne den Ordner für Eingabe Datein:
+---Öffne den Ordner für Eingabe Dateien:
 
     Save the flatfile part of the desired item as .csv and paste
     the height, length, width and weigth to the parent
@@ -16,7 +16,8 @@ Version 15.04.2019 Sebastian Fricke V0.1
     and the amzon_sku to a new .csv add the postion from 0 upwards
             =========DE============
 ----Öffne die Intern_Number Liste und kopiere die full_number, article_id
-    und die amazon_sku zu einem neuen .csv und ergänze die Position von 0 ab.
+    und die amazon_sku zu einem neuen .csv und ergänze in der 4. Spalte "position".
+    (Ganze Zahlen ab 0).
 
     Open your Amazon Storage Report and save the SKU(MASTER), asin, quantity(Badel 26...)
     and fnsku colums in a new .csv
@@ -42,6 +43,13 @@ Version 15.04.2019 Sebastian Fricke V0.1
 --------Mögliche Fehler:   Wenn die Skript Fehlermeldung einen key error enthält, ist in der Input Datei
                            möglicherweise ein Fehler, höchstwarscheinlich die falschen Spaltennamen, vergleiche
                            mit der Beispiel Datei.
+
+		Fehlermeldung: local variable 'item_name' referenced before assignment
+
+
+<class 'NameError'>
+name 'exit' is not defined
+<traceback object at 0x03544F08>
 
 3. Upload the file item_upload to plentymarkets via the dynamic import for every new upload choose the option
     "create a new data set"

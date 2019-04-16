@@ -128,13 +128,15 @@ def featureUpload(flatfile, feature, feature_id, folder):
 
 		for row in reader:
 			if(row['parent_child'] == 'child'):
-				print(row['item_sku'] + "\t")
-				values = [
-							row['item_sku'], feature_id,
-							'1', '1',
-							row[feature]
-						]
+				if(feature in [*row]):
+					values = [
+								row['item_sku'], feature_id,
+								'1', '1',
+								row[feature]
+							]
 
-				Data[row[ 'item_sku' ]] = dict(zip(column_names, values))
+					Data[row[ 'item_sku' ]] = dict(zip(column_names, values))
+				else:
+					print("The feature:\t{0}\twas not found, in the flatfile!\n".format(feature))
 
 		variation_upload.writeCSV(dataobject=Data, name=feature.upper(), columns=column_names, upload_path=folder)

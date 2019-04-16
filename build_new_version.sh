@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 cd Linux_Version/
 if [ -f $PWD/product_import.dist ]; then

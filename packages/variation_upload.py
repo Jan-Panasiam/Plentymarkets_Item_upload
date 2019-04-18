@@ -1,4 +1,5 @@
 import csv
+import re
 from os.path import isfile
 import sys
 from tkinter.filedialog import askdirectory
@@ -9,6 +10,10 @@ except ImportError:
     print("the sortedcontainers module is required to run this program.")
     raise ImportError
 
+class EmptyFieldWarning(Exception):
+    def __init__(self, errorargs):
+        Exception.__init__(self, "Following field/s are empty {0}".format(errorargs))
+        self.errorargs = errorargs
 
 def writeCSV(dataobject, name, columns, upload_path):
     '''Write Data into new CSV for Upload
@@ -64,39 +69,52 @@ def variationUpload(flatfile, intern_number, folder):
         reader = csv.DictReader(item, delimiter=";")
         for row in reader:
             if(row['parent_child'] == 'child'):
+                pack_height = 0
+                pack_length = 0
+                pack_width = 0
+                pack_weight = 0
+                attributes = ''
+
                 try:
                     if(row['package_height'] and
                     row['package_length'] and
                     row['package_width']):
 
-                        row['package_height'] = int(row['package_height'])
-                        row['package_length'] = int(row['package_length'])
-                        row['package_width'] = int(row['package_width'])
+                        pack_height = int(row['package_height'])
+                        pack_length = int(row['package_length'])
+                        pack_width = int(row['package_width'])
                 except ValueError as err:
-                    row['package_height'] = int(float(row['package_height']))
-                    row['package_length'] = int(float(row['package_length']))
-                    row['package_width'] = int(float(row['package_width']))
-                except ValueError as err:
-                    print(err)
-                    print(
-                        '/nPlease copy the values for height, length, width and weight\n',
-                        'from the children to the parent variation in the flatfile.\n')
-                    exit()
+                    pack_height = int(float(row['package_height']))
+                    pack_length = int(float(row['package_length']))
+                    pack_width = int(float(row['package_width']))
+                except ValueError:
+                    print("\nYour file doesn't include the proportions of the item\n\
+                          at the parent, please add them later manually.\n")
+
+                if(row['package_weight']):
+                    pack_weight = int(row['package_weight'])
+
+                if(not(pack_width or pack_length or pack_height or pack_weight)):
+                    raise EmptyFieldWarning('package properties')
 
                 if(row['color_name']):
                     attributes = 'color_name:' + row['color_name']
+
                 if(row['size_name'] and number_sizes > 1):
                     attributes += ';size_name:' + row['size_name']
+
+                if(not(attributes)):
+                    raise EmptyFieldWarning('plentymarkets attributes')
+
                 try:
                     values = ['', '', row['item_sku'], row['item_name'], '',
-                              int(row['package_length']) * 10,
-                              int(row['package_width']) * 10,
-                              int(row['package_height']) * 10,
-                              row['package_weight'], attributes,
+                              pack_length * 10,
+                              pack_width * 10,
+                              pack_height * 10,
+                              pack_weight, attributes,
                               row['standard_price'], 'Badel', 'Y', 'Y', '']
                 except Exception as err:
                     print(err)
-                    sys.exit()
                 Data[row['item_sku']] = SortedDict(zip(names, values))
 
     # open the intern numbers csv and fill in the remaining missing fields by using the
@@ -131,9 +149,22 @@ def setActive(flatfile, export, folder):
 
     with open(export, mode='r') as item:
         reader = csv.DictReader(item, delimiter=';')
+        wrong_delimiter = False
+
         for row in reader:
+            if( '\t' in [*row] ):
+                wrong_delimiter = True
+                break
             if(row['VariationNumber'] in [*Data]):
                 Data[row['VariationNumber']]['VariationID'] = row['VariationID']
+
+        if(wrong_delimiter):
+            reader = csv.DictReader(item, delimiter='\t')
+
+            for row in reader:
+                if(row['VariationNumber' in [*Data]]):
+                    Data[row['VariationNumber']]['VariationID'] = row['VariationID']
+
     output_path = writeCSV(Data, 'SetActive', column_names, folder)
 
 
@@ -159,6 +190,8 @@ def EANUpload(flatfile, export, stocklist, folder):
                     if(barcode == 'EAN'):
                         code = row['external_product_id']
 
+                    if(not(barcode)):
+                        raise EmptyFieldWarning('barcode(EAN)')
                     values = [
                                 barcode_types[barcode]['id'], barcode_types[barcode]['name'],
                                 barcode_types[barcode]['type'], code,
@@ -186,6 +219,9 @@ def EANUpload(flatfile, export, stocklist, folder):
                     code = ''
                     if(barcode == 'FNSKU'):
                         code = row['fnsku']
+
+                    if(not(code)):
+                        raise EmptyFieldWarning('barcode(FNSKU)')
 
                     if(code):
                         Data[row['MASTER'] + barcode]['Code'] = code

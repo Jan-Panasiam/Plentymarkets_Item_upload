@@ -5,11 +5,11 @@ import platform
 import os
 import ntpath
 from packages.item_upload import itemUpload, itemPropertyUpload, WrongEncodingException
-from packages.variation_upload import variationUpload, setActive, EANUpload, marketConnection
+from packages.variation_upload import variationUpload, setActive, EANUpload, marketConnection, EmptyFieldWarning
 from packages.stock_upload import priceUpload
 from packages.amazon_data_upload import amazonSkuUpload, amazonDataUpload, asinUpload, featureUpload
 from packages.image_upload import imageUpload
-from packages.log_files import fileNotFoundLog, keyErrorLog, wrongEncodingLog, unboundLocalLog
+from packages.log_files import fileNotFoundLog, keyErrorLog, wrongEncodingLog, unboundLocalLog, emptyFieldWarningLog
 
 
 def main():
@@ -87,7 +87,7 @@ def main():
     try:
         print("\nItem Upload\n")
         itemUpload(sheet, intern_number, upload_folder)
-    except WrongEncodingException as wexc:
+    except WrongEncodingException:
         wrongEncodingLog(log_path=log_folder, step_number=step, step_desc=step_name[step], file_name="flatfile")
     except KeyError as kexc:
         keyErrorLog(log_path=log_folder, step_number=step, step_desc=step_name[step], key_name=kexc, file_name=ntpath.basename(sheet))
@@ -97,6 +97,8 @@ def main():
         fileNotFoundLog(log_path=log_folder, step_number=step, step_desc=step_name[step], file_name="flatfile")
     except UnboundLocalError as uexc:
         unboundLocalLog(log_path=log_folder, step_number=step, step_desc=step_name[step], filename=ntpath.basename(sheet), variable_name=uexc.args)
+    except EmptyFieldWarning as eexc:
+        emptyFieldWarningLog(log_path=log_folder, step_number=step, step_desc=step_name[step], field_name=eexc.errorargs, file_name=ntpath.basename(sheet))
     except Exception as exc:
         print("Item Upload failed!\n")
         print("Here: ", exc, '\n')
@@ -114,6 +116,8 @@ def main():
         keyErrorLog(log_path=log_folder, step_number=step, step_desc=step_name[step], key_name=kexc, file_name=ntpath.basename(sheet))
     except UnboundLocalError as uexc:
         unboundLocalLog(log_path=log_folder, step_number=step, step_desc=step_name[step], filename=ntpath.basename(sheet), variable_name=uexc.args)
+    except EmptyFieldWarning as eexc:
+        emptyFieldWarningLog(log_path=log_folder, step_number=step, step_desc=step_name[step], field_name=eexc.errorargs, file_name=ntpath.basename(sheet))
     except Exception as exc:
         print("VariationUpload failed!\n")
         e = sys.exc_info()
@@ -148,6 +152,9 @@ def main():
         featureUpload(flatfile=sheet, feature='sleeve_type', feature_id=8, folder=upload_folder)
         featureUpload(flatfile=sheet, feature='pattern_type', feature_id=11, folder=upload_folder)
         featureUpload(flatfile=sheet, feature='collar_style', feature_id=12, folder=upload_folder)
+        featureUpload(flatfile=sheet, feature='closure_type', feature_id=14, folder=upload_folder)
+        featureUpload(flatfile=sheet, feature='style_name', feature_id=15, folder=upload_folder)
+        featureUpload(flatfile=sheet, feature='care_instructions', feature_id=16, folder=upload_folder)
         step += 1
         setActive(sheet, export, upload_folder)
         step += 1
@@ -158,10 +165,11 @@ def main():
         keyErrorLog(log_path=log_folder, step_number=step, step_desc=step_name[step], key_name=kexc, file_name=ntpath.basename(sheet))
     except UnboundLocalError as uexc:
         unboundLocalLog(log_path=log_folder, step_number=step, step_desc=step_name[step], filename=ntpath.basename(sheet), variable_name=uexc.args)
+    except EmptyFieldWarning as eexc:
+        emptyFieldWarningLog(log_path=log_folder, step_number=step, step_desc=step_name[step], field_name=eexc.errorargs, file_name=ntpath.basename(sheet))
     except OSError as err:
         print(err)
         print("Missing Data, check if you have\n - a flatfile\n - a intern file table\n - export file from plentymarkets\n - a sheet with the stock numbers!\n")
-        sys.exit()
 
     print("\nOpen your amazon storage report and save it as an csv.\n")
 
@@ -191,6 +199,8 @@ def main():
         keyErrorLog(log_path=log_folder, step_number=step, step_desc=step_name[step], key_name=kexc, file_name=ntpath.basename(sheet))
     except UnboundLocalError as uexc:
         unboundLocalLog(log_path=log_folder, step_number=step, step_desc=step_name[step], filename=ntpath.basename(sheet), variable_name=uexc.args)
+    except EmptyFieldWarning as eexc:
+        emptyFieldWarningLog(log_path=log_folder, step_number=step, step_desc=step_name[step], field_name=eexc.errorargs, file_name=ntpath.basename(sheet))
 
     print("\nCreate a upload file for the additional Information to Amazon Products like bullet points, lifestyle etc.\n")
 
@@ -201,6 +211,8 @@ def main():
         keyErrorLog(log_path=log_folder, step_number=step, step_desc=step_name[step], key_name=kexc, file_name=ntpath.basename(sheet))
     except UnboundLocalError as uexc:
         unboundLocalLog(log_path=log_folder, step_number=step, step_desc=step_name[step], filename=ntpath.basename(sheet), variable_name=uexc.args)
+    except EmptyFieldWarning as eexc:
+        emptyFieldWarningLog(log_path=log_folder, step_number=step, step_desc=step_name[step], field_name=eexc.errorargs, file_name=ntpath.basename(sheet))
 
     print("\nCollect the ASIN Numbers matching to the Variationnumber(Sku) and format them into the dataformat format.\n")
 
@@ -211,6 +223,8 @@ def main():
         keyErrorLog(log_path=log_folder, step_number=step, step_desc=step_name[step], key_name=kexc, file_name=ntpath.basename(sheet))
     except UnboundLocalError as uexc:
         unboundLocalLog(log_path=log_folder, step_number=step, step_desc=step_name[step], filename=ntpath.basename(sheet), variable_name=uexc.args)
+    except EmptyFieldWarning as eexc:
+        emptyFieldWarningLog(log_path=log_folder, step_number=step, step_desc=step_name[step], field_name=eexc.errorargs, file_name=ntpath.basename(sheet))
 
     print("\nCollect the imagelinks from the flatfile, sorts them and assigns the variation ID.\n")
 
@@ -234,6 +248,8 @@ def main():
         keyErrorLog(log_path=log_folder, step_number=step, step_desc=step_name[step], key_name=kexc, file_name=ntpath.basename(sheet))
     except UnboundLocalError as uexc:
         unboundLocalLog(log_path=log_folder, step_number=step, step_desc=step_name[step], filename=ntpath.basename(sheet), variable_name=uexc.args)
+    except EmptyFieldWarning as eexc:
+        emptyFieldWarningLog(log_path=log_folder, step_number=step, step_desc=step_name[step], field_name=eexc.errorargs, file_name=ntpath.basename(sheet))
     except Exception as err:
         print(err)
         print("Market connection failed!")

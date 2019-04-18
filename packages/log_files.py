@@ -41,3 +41,6 @@ def unboundLocalLog(log_path, step_number, step_desc, variable_name, file_name):
     unboundLocalLogger = function_logger(log_path, logging.ERROR, logging.ERROR)
     unboundLocalLogger.error("ERROR : In the file {2}, the variable {3} was used before any value was assigned to it.\nAt Step {0} : {1}."
                              .format(step_number, step_desc, file_name, variable_name))
+def emptyFieldWarningLog(log_path, step_number, step_desc, field_name, file_name):
+    emptyFieldLogger = function_logger(log_path, logging.WARN, logging.WARN)
+    emptyFieldLogger.warning("EMPTY FIELD: In the file {3}, the field {2} is empty! At Step {0} : {1}.".format(step_number, step_desc, field_name, file_name))

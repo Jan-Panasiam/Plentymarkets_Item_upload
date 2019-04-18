@@ -10,6 +10,10 @@ except ImportError:
     print("the sortedcontainers module is required to run this program.")
     raise ImportError
 
+class EmptyFieldWarning(Exception):
+    def __init__(self, errorargs):
+        Exception.__init__(self, "Following field/s are empty {0}".format(errorargs))
+        self.errorargs = errorargs
 
 def writeCSV(dataobject, name, columns, upload_path):
     '''Write Data into new CSV for Upload
@@ -69,6 +73,8 @@ def variationUpload(flatfile, intern_number, folder):
                 pack_length = 0
                 pack_width = 0
                 pack_weight = 0
+                attributes = ''
+
                 try:
                     if(row['package_height'] and
                     row['package_length'] and
@@ -88,11 +94,17 @@ def variationUpload(flatfile, intern_number, folder):
                 if(row['package_weight']):
                     pack_weight = int(row['package_weight'])
 
+                if(not(pack_width or pack_length or pack_height or pack_weight)):
+                    raise EmptyFieldWarning('package properties')
+
                 if(row['color_name']):
                     attributes = 'color_name:' + row['color_name']
 
                 if(row['size_name'] and number_sizes > 1):
                     attributes += ';size_name:' + row['size_name']
+
+                if(not(attributes)):
+                    raise EmptyFieldWarning('plentymarkets attributes')
 
                 try:
                     values = ['', '', row['item_sku'], row['item_name'], '',
@@ -178,6 +190,8 @@ def EANUpload(flatfile, export, stocklist, folder):
                     if(barcode == 'EAN'):
                         code = row['external_product_id']
 
+                    if(not(barcode)):
+                        raise EmptyFieldWarning('barcode(EAN)')
                     values = [
                                 barcode_types[barcode]['id'], barcode_types[barcode]['name'],
                                 barcode_types[barcode]['type'], code,
@@ -205,6 +219,9 @@ def EANUpload(flatfile, export, stocklist, folder):
                     code = ''
                     if(barcode == 'FNSKU'):
                         code = row['fnsku']
+
+                    if(not(code)):
+                        raise EmptyFieldWarning('barcode(FNSKU)')
 
                     if(code):
                         Data[row['MASTER'] + barcode]['Code'] = code

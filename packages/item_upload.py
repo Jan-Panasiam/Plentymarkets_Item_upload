@@ -89,8 +89,12 @@ def itemUpload(flatfile, intern, folder):
     #                        except Exception as err:
     #                            print(err)
     #                            print("The combination of the keywords failed!")
+                    keywords = ''
                     if(row['generic_keywords']):
                         keywords = row[ 'generic_keywords' ]
+
+                    if(not(keywords)):
+                        raise variation_upload.EmptyFieldWarning('generic_keywords')
 
                     try:
                         values = ['', row['item_sku'], row['package_length'] * 10,

@@ -64,7 +64,8 @@ def amazonDataUpload(flatfile, export, folder):
                     for key in type_id:
                         if(row['feed_product_type'].lower() == key):
                             product_type = type_id[key]
-
+                if(not(product_type)):
+                    raise variation_upload.EmptyFieldWarning('product_type')
                 values = [product_type, '1',
                           '0','1']
 

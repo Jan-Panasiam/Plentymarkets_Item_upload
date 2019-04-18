@@ -11,6 +11,9 @@ except ImportError:
     print("the sortedcontainers module is required to run this program.")
     raise ImportError
 
+class WrongEncodingException(Exception):
+    pass
+
 
 def itemUpload(flatfile, intern, folder):
     # The column headers for the output file as expected from the
@@ -99,7 +102,11 @@ def itemUpload(flatfile, intern, folder):
                                 row['product_description'], keywords, 'de',
                                 '', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 9, 1]
 
+                    except KeyError:
+                        raise KeyError
                     except Exception as err:
+                        if(str(err).strip("'") == 'feed_product_type'):
+                            raise WrongEncodingException("Wrong encoding for this script, please use UTF-8!")
                         print(err)
                         print('Error at the Values')
                     Data[row['item_sku']] = SortedDict(zip(column_names, values))

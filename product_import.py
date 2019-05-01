@@ -254,7 +254,7 @@ def main():
 
     step += 1
     try:
-        marketConnection(export, upload_folder, ebay=1, amazon=1)
+        marketConnection(export, upload_folder, ebay=1, amazon=1, shop=1)
     except KeyError as kexc:
         keyErrorLog(log_path=log_folder, step_number=step, step_desc=step_name[step], key_name=kexc, file_name=ntpath.basename(sheet))
     except UnboundLocalError as uexc:

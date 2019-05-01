@@ -230,12 +230,12 @@ def EANUpload(flatfile, export, stocklist, folder):
     output_path = writeCSV(Data, 'VariationBarcode', column_names, folder)
 
 
-def marketConnection(export, folder, ebay=0, amazon=0):
+def marketConnection(export, folder, ebay=0, amazon=0, shop=0):
     # Enable marketconnection of items and variations by entering 1 for True
     # and 0 for False
 
     column_names = ['VariationID', 'VariationCustomNumber',
-                    'webApi', 'AmazonFBAGermany', 'AmazonFBA', 'eBayGermany', 'Ebay']
+                    'webApi', 'AmazonFBAGermany', 'AmazonFBA', 'eBayGermany', 'Ebay', 'MandantShop']
 
     Data = {}
     with open(export, mode='r') as item:
@@ -244,7 +244,7 @@ def marketConnection(export, folder, ebay=0, amazon=0):
         for row in reader:
             if row['VariationID'] and row['VariationNumber']:
                 values = [row['VariationID'], row['VariationNumber'],
-                          '1', amazon, amazon, ebay, ebay]
+                          '1', amazon, amazon, ebay, ebay, shop]
                 Data[row['VariationNumber']] = dict(zip(column_names, values))
 
 

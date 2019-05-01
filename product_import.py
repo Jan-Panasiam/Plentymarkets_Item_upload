@@ -39,6 +39,21 @@ def main():
                  'Image_upload',
                  'Marketconnection_upload']
 
+    # define the features for plentymarkets
+    features = {
+                'color_map':1,
+                'item_name':13,
+                'sleeve_type':8,
+                'pattern_type':11,
+                'collar_style':12,
+                'closure_type':14,
+                'style_name':15,
+                'care_instructions':16,
+                'package_length':17,
+                'package_width':18,
+                'package_height':19,
+                'package_weight':20
+                }
     #app = UploadGUI(None)
     #app.title("Amazon Flatfile to PlentyMarkets Upload")
     # app.mainloop()
@@ -147,14 +162,9 @@ def main():
     try:
         print("Active, properties , features & price Upload")
         step += 1
-        featureUpload(flatfile=sheet, feature='color_map', feature_id=1, folder=upload_folder)
-        featureUpload(flatfile=sheet, feature='item_name', feature_id=13, folder=upload_folder)
-        featureUpload(flatfile=sheet, feature='sleeve_type', feature_id=8, folder=upload_folder)
-        featureUpload(flatfile=sheet, feature='pattern_type', feature_id=11, folder=upload_folder)
-        featureUpload(flatfile=sheet, feature='collar_style', feature_id=12, folder=upload_folder)
-        featureUpload(flatfile=sheet, feature='closure_type', feature_id=14, folder=upload_folder)
-        featureUpload(flatfile=sheet, feature='style_name', feature_id=15, folder=upload_folder)
-        featureUpload(flatfile=sheet, feature='care_instructions', feature_id=16, folder=upload_folder)
+        for name in features:
+            featureUpload(flatfile=sheet, feature=name, feature_id=features[name], folder=upload_folder)
+
         step += 1
         setActive(sheet, export, upload_folder)
         step += 1

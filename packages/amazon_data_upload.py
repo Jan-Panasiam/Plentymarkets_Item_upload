@@ -111,7 +111,6 @@ def asinUpload(export, stock, folder):
         for row in reader:
             if row['MASTER'] in [*Data]:
                 Data[row['MASTER']]['ASIN'] = row['asin']
-
     variation_upload.writeCSV(dataobject=Data, name='asin', columns=column_names, upload_path=folder)
 
 def featureUpload(flatfile, feature, feature_id, folder):

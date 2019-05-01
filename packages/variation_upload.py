@@ -221,7 +221,8 @@ def EANUpload(flatfile, export, stocklist, folder):
                         code = row['fnsku']
 
                     if(not(code)):
-                        raise EmptyFieldWarning('barcode(FNSKU)')
+                        #raise EmptyFieldWarning('barcode(FNSKU)')
+                        print("Keine FNSKU\n")
 
                     if(code):
                         Data[row['MASTER'] + barcode]['Code'] = code

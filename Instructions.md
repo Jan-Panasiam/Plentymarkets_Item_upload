@@ -1,5 +1,12 @@
-﻿Version 15.04.2019 Sebastian Fricke V0.1
+﻿Version 15.04.2019 Magdalena Zöllner V0.2
 
+
+Hinweise zur Erstellung der .csv Dateien auf Windwos:
+	Verwende LibreOfficeCalc!
+	Beim Kopieren aus Excel-Listen immer nur die Werte einfügen (Strg+Shift+V  Format: UTF-16   Trennzeichen: Tab)
+	Speichern unter .csv   Format: UTF-8   Trennzeichen: Semikolon
+	Prüfe unbedingt die (langen) Zahlen (InternNumbers/SKU, Modelnummer, EAN, Preis und Maße)! 
+	Hier schleichen sich durch die verschiedenen Formatierungen gerne Fehler ein!
 
 
 1. Open the Folder for the Input Files:
@@ -44,12 +51,6 @@
                            möglicherweise ein Fehler, höchstwarscheinlich die falschen Spaltennamen, vergleiche
                            mit der Beispiel Datei.
 
-		Fehlermeldung: local variable 'item_name' referenced before assignment
-
-
-<class 'NameError'>
-name 'exit' is not defined
-<traceback object at 0x03544F08>
 
 3. Upload the file item_upload to plentymarkets via the dynamic import for every new upload choose the option
     "create a new data set"

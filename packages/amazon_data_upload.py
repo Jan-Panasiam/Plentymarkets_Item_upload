@@ -115,28 +115,30 @@ def asinUpload(export, stock, folder):
 
 def featureUpload(flatfile, feature, feature_id, folder):
 
-	column_names = [
-						'Variation.number', 'VariationEigenschaften.id',
-						'VariationEigenschaften.cast', 'VariationEigenschaften.linked',
-						'VariationEigenschaften.value'
-				   ]
+    column_names = [
+                        'Variation.number', 'VariationEigenschaften.id',
+                        'VariationEigenschaften.cast', 'VariationEigenschaften.linked',
+                        'VariationEigenschaften.value'
+                   ]
 
-	Data = {}
+    Data = {}
 
-	with open(flatfile, mode = 'r') as item:
-		reader = csv.DictReader(item, delimiter = ';')
+    with open(flatfile, mode = 'r') as item:
+        reader = csv.DictReader(item, delimiter = ';')
 
-		for row in reader:
-			if(row['parent_child'] == 'child'):
-				if(feature in [*row]):
-					values = [
-								row['item_sku'], feature_id,
-								'1', '1',
-								row[feature]
-							]
+        for row in reader:
+            if(row['parent_child'] == 'child'):
+                if(feature in [*row]):
+                    if(row[feature]):
+                        values = [
+                                    row['item_sku'], feature_id,
+                                    '1', '1',
+                                    row[feature]
+                                 ]
 
-					Data[row[ 'item_sku' ]] = dict(zip(column_names, values))
-				else:
-					print("The feature:\t{0}\twas not found, in the flatfile!\n".format(feature))
+                        Data[row[ 'item_sku' ]] = dict(zip(column_names, values))
+                else:
+                    print("The feature:\t{0}\twas not found, in the flatfile!\n".format(feature))
 
-		variation_upload.writeCSV(dataobject=Data, name=feature.upper(), columns=column_names, upload_path=folder)
+        if(Data):
+            variation_upload.writeCSV(dataobject=Data, name=feature.upper(), columns=column_names, upload_path=folder)

@@ -42,6 +42,7 @@ def main():
     # define the features for plentymarkets
     features = {
                 'color_map':1,
+                'model':4,
                 'item_name':13,
                 'sleeve_type':8,
                 'pattern_type':11,

@@ -39,7 +39,7 @@ def writeCSV(dataobject, name, columns, upload_path):
         output_path = upload_path + output_name
 
     with open(output_path, mode='a') as item:
-        writer = csv.DictWriter(item, delimiter=";", fieldnames=columns)
+        writer = csv.DictWriter(item, delimiter=";", fieldnames=columns, lineterminator='\n')
         writer.writeheader()
         for row in dataobject:
             writer.writerow(dataobject[row])
@@ -65,7 +65,7 @@ def variationUpload(flatfile, intern_number, folder):
     Data = SortedDict()
     item_name = ''
 
-    with open(flatfile, mode='r') as item:
+    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=";")
         for row in reader:
             if(row['parent_child'] == 'child'):
@@ -119,7 +119,7 @@ def variationUpload(flatfile, intern_number, folder):
 
     # open the intern numbers csv and fill in the remaining missing fields by using the
     # item_sku as dict key
-    with open(intern_number, mode='r') as item:
+    with open(intern_number['path'], mode='r', encoding=intern_number['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';')
         for row in reader:
             # check if the sku is within the keys of the Data Dictionary
@@ -140,14 +140,14 @@ def setActive(flatfile, export, folder):
     column_names = ['Active', 'VariationID']
     Data = {}
     # open the flatfile to get the sku names
-    with open(flatfile, mode='r') as item:
+    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';')
 
         for row in reader:
             values = ['Y', '']
             Data[row['item_sku']] = dict(zip(column_names, values))
 
-    with open(export, mode='r') as item:
+    with open(export['path'], mode='r', encoding=export['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';')
         wrong_delimiter = False
 
@@ -178,7 +178,7 @@ def EANUpload(flatfile, export, stocklist, folder):
     barcode_types = {'EAN' : {'id' : 1, 'name' : 'EAN', 'type' : 'GTIN_13'},
                      'FNSKU' : {'id' : 5, 'name' : 'FNSKU', 'type' : 'EAN_13'}}
     Data = {}
-    with open(flatfile, mode='r') as item:
+    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=";")
 
         for row in reader:
@@ -200,7 +200,7 @@ def EANUpload(flatfile, export, stocklist, folder):
                     Data[row['item_sku'] + barcode] = dict(zip(column_names, values))
 
     # open the exported file to get the variation id
-    with open(export, mode='r') as item:
+    with open(export['path'], mode='r', encoding=export['encoding']) as item:
         reader = csv.DictReader(item, delimiter=";")
 
         for row in reader:
@@ -208,7 +208,7 @@ def EANUpload(flatfile, export, stocklist, folder):
                 if(row['VariationNumber'] + barcode in [*Data]):
                     Data[row['VariationNumber'] + barcode]['VariationID'] = row['VariationID']
 
-    with open(stocklist, mode='r') as item:
+    with open(stocklist['path'], mode='r', encoding=stocklist['encoding']) as item:
         reader = csv.DictReader(item, delimiter=";")
 
         for row in reader:
@@ -234,7 +234,7 @@ def marketConnection(export, folder, ebay=0, amazon=0, shop=0):
                     'webApi', 'AmazonFBAGermany', 'AmazonFBA', 'eBayGermany', 'Ebay', 'MandantShop']
 
     Data = {}
-    with open(export, mode='r') as item:
+    with open(export['path'], mode='r', encoding=export['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';')
 
         for row in reader:
@@ -253,7 +253,7 @@ def numberOfSizes(flatfile):
     length_set = 0
     sizeset = set()
 
-    with open(flatfile, mode='r') as item:
+    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';')
 
         for row in reader:

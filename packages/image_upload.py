@@ -37,7 +37,7 @@ def searchImage(imglink, itemid, variationid, variationlinks, target):
 
 def imageUpload(flatfile, exportfile, folder):
     # open the export file, scrap the important data and save it into an dictionary
-    with open(exportfile, mode='r') as item:
+    with open(exportfile['path'], mode='r', encoding=exportfile['encoding']) as item:
         Data = {}
         reader = csv.DictReader(item, delimiter=';')
         names = ['variation_id', 'item_id']
@@ -61,7 +61,7 @@ def imageUpload(flatfile, exportfile, folder):
     # combine it with the data out of the export file and save all into a
     # multidimensional dictionary
     count = 0
-    with open(flatfile, mode='r') as item:
+    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         links = SortedDict()
         # for i in range(2):
         # next(item)

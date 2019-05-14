@@ -14,6 +14,18 @@ except ImportError:
 class WrongEncodingException(Exception):
     pass
 
+def check_encoding(file_dict):
+    try:
+        with open(file_dict['path'], mode='rb') as item:
+            try:
+                raw_data = item.read(10000)
+            except Exception as err:
+                print("ERROR: {0}\n".format(err))
+            file_dict['encoding'] = chardet.detect(raw_data)['encoding']
+    except Exception as err:
+        print("Error : {0}\n".format(err))
+
+    return file_dict
 
 def itemUpload(flatfile, intern, folder):
     # The column headers for the output file as expected from the
@@ -34,16 +46,13 @@ def itemUpload(flatfile, intern, folder):
                     'PrimaryVariationAvailability',
                     'ItemMarking1', 'ItemMarking2']
 
-    # default values: CategoryLevel5Name : '' , CategoryLevel6Name : '',
-    # ItemOriginCountry : '62' , ItemProducer : 'PANASIAM',
-    # ItemProducerID : '3'
 
     # Unpack File and scrap data
     # INPUT
     # --------------------------------------------------------------
     Data = SortedDict()
 
-    with open(flatfile, mode='r') as item:
+    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=";")
         for row in reader:
             # transform the text format to integer in order to adjust the
@@ -119,7 +128,7 @@ def itemUpload(flatfile, intern, folder):
                 return row['item_sku']
 
         # open the intern number csv to get the item ID
-        with open(intern, mode='r') as item:
+        with open(intern['path'], mode='r', encoding=intern['encoding']) as item:
             reader = csv.DictReader(item, delimiter=";")
             for row in reader:
                 try:
@@ -138,7 +147,7 @@ def itemUpload(flatfile, intern, folder):
 
 def itemPropertyUpload(flatfile, export, folder):
 
-    with open(flatfile, mode='r') as item:
+    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';', lineterminator='\n')
 
         # define the names of the property fields within the flatfile
@@ -195,7 +204,7 @@ def itemPropertyUpload(flatfile, export, folder):
 
                 properties[row['item_sku']] = dict(zip(property_names, values))
 
-    with open(export, mode='r') as item:
+    with open(export['path'], mode='r', encoding=export['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';', lineterminator='\n')
 
         column_names = ['PropertyItemID', 'ItemID', 'PrimaryVariationCustomNumber',

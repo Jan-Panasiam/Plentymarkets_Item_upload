@@ -20,7 +20,7 @@ def stockUpload(flatfile, stocklist, folder):
     # flatfile
     Data = SortedDict()
 
-    with open(flatfile, mode='r') as item:
+    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = DictReader(item, delimiter=";")
         for row in reader:
             if(row['external_product_id']):
@@ -28,7 +28,7 @@ def stockUpload(flatfile, stocklist, folder):
                           '', '', '', '104']
                 Data[row['item_sku']] = SortedDict(zip(column_names, values))
 
-    with open(stocklist, mode='r') as item:
+    with open(stocklist['path'], mode='r', encoding=stocklist['encoding']) as item:
         reader = DictReader(item, delimiter=";")
         for row in reader:
             if(row['MASTER'] and row['MASTER'] in [*Data]):
@@ -52,7 +52,7 @@ def priceUpload(flatfile, export, folder):
     # flatfile
     Data = SortedDict()
 
-    with open(flatfile, mode='r') as item:
+    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = DictReader(item, delimiter=";")
         for row in reader:
             # Make sure that there is price even at parents
@@ -84,7 +84,7 @@ def priceUpload(flatfile, export, folder):
             else:
                 print("{0} doesn't have a price!\n".format(row['item_sku']))
 
-    with open(export, mode='r') as item:
+    with open(export['path'], mode='r', encoding=export['encoding']) as item:
         reader = DictReader(item, delimiter=";")
         for row in reader:
             for price in prices:
@@ -92,7 +92,7 @@ def priceUpload(flatfile, export, folder):
                     Data[row['VariationNumber'] + '_' + price]['VariationID'] = row['VariationID']
 
     # Open the flatfile again to check for items that didn't have variationID
-    with open(flatfile, mode='r') as item:
+    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = DictReader(item,delimiter=';')
         for row in reader:
             for price in prices:

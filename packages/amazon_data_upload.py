@@ -15,7 +15,7 @@ def amazonSkuUpload(flatfile, export, folder):
                     'MarketAccountID', 'SKU', 'ParentSKU']
     Data = SortedDict()
 
-    with open(export, mode='r') as item:
+    with open(export['path'], mode='r', encoding=export['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';')
         item_number = 1
         for row in reader:
@@ -24,7 +24,7 @@ def amazonSkuUpload(flatfile, export, folder):
                 Data[row['VariationNumber']] = SortedDict(
                     zip(column_names, values))
 
-    with open(flatfile, mode='r') as item:
+    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';')
         for row in reader:
             if(row['item_sku'] in [*Data]):
@@ -43,7 +43,7 @@ def amazonDataUpload(flatfile, export, folder):
 
     Data = SortedDict()
 
-    with open(flatfile, mode='r') as item:
+    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=";")
 
         type_id = {
@@ -80,7 +80,7 @@ def amazonDataUpload(flatfile, export, folder):
                             print(err)
 
 
-    with open(export, mode='r') as item:
+    with open(export['path'], mode='r', encoding=export['encoding']) as item:
         reader = csv.DictReader(item, delimiter=";")
 
         for row in reader:
@@ -96,7 +96,7 @@ def asinUpload(export, stock, folder):
 
     Data = {}
 
-    with open(export, mode='r') as item:
+    with open(export['path'], mode='r', encoding=export['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';')
 
         for row in reader:
@@ -105,7 +105,7 @@ def asinUpload(export, stock, folder):
 
                 Data[row['VariationNumber']] = dict(zip(column_names, values))
 
-    with open(stock, mode='r') as item:
+    with open(stock['path'], mode='r', encoding=stock['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';')
 
         for row in reader:
@@ -123,7 +123,7 @@ def featureUpload(flatfile, feature, feature_id, folder):
 
     Data = {}
 
-    with open(flatfile, mode = 'r') as item:
+    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter = ';')
 
         for row in reader:

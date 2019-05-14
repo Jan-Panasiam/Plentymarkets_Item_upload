@@ -1,5 +1,6 @@
 import tkinter
 import tkinter.filedialog
+from tkinter import messagebox as tmb
 
 class DropdownChooser(tkinter.Frame):
     def __init__(self, master, *args, **kwargs):
@@ -132,5 +133,7 @@ class CategoryChooser(tkinter.Tk):
         self.newpath = tkinter.filedialog.askdirectory()
 
     def close_app(self):
-        self.withdraw()
-
+        if(self.data['name'] and self.data['categories']):
+            self.withdraw()
+        else:
+            tmb.showerror("NO INPUT", "Please enter a name and atleast one category!")

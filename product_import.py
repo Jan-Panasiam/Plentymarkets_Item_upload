@@ -119,14 +119,14 @@ def main():
                                 title="Amazon Flatfile as .csv",
                                 filetypes=[ ("csv files", "*.csv") ])
 
-        sheet['encoding'] = check_encoding(sheet)
+        sheet = check_encoding(sheet)
 
         step += 1
         intern_number['path'] = askopenfilename(initialdir=recent_path,
                                 title="The Intern Numbers as .csv",
                                 filetypes=[ ("csv files", "*.csv") ])
 
-        intern_number['encoding'] = check_encoding(intern_number)
+        intern_number = check_encoding(intern_number)
 
         step += 1
         try:
@@ -150,6 +150,7 @@ def main():
             if(exc == 'item_sku'):
                 print("It is very likely that you don't have the proper headers, use the english ones!\n")
             e = sys.exc_info()
+            print("Error @ FILE: {0}, LINE: {1}\n".format( e[2].tb_frame.f_code.co_filename, e[2].tb_lineno ))
             for element in e:
                 print(element)
 
@@ -166,6 +167,7 @@ def main():
         except Exception as exc:
             print("VariationUpload failed!\n")
             e = sys.exc_info()
+            print("Error @ FILE: {0}, LINE: {1}\n".format( e[2].tb_frame.f_code.co_filename, e[2].tb_lineno ))
             for element in e:
                 print(element)
 
@@ -183,7 +185,7 @@ def main():
                                     title="The Export File from Plentymarkets as .csv",
                                     filetypes=[ ("csv files", "*.csv") ])
 
-            export['encoding'] = check_encoding(export)
+            export = check_encoding(export)
         except OSError as fexc:
             fileNotFoundLog(log_path=log_folder, step_number=step, step_desc=step_name[step], file_name=fexc)
         except Exception as exc:
@@ -222,7 +224,7 @@ def main():
                                     title="The Stockreport from Amazon as .csv",
                                     filetypes=[ ("csv files", "*.csv") ])
 
-            stocklist['encoding'] = check_encoding(stocklist)
+            stocklist = check_encoding(stocklist)
             print("spreadsheet csv containing the FNSKU and ASIN : ", stocklist)
         except OSError as fexc:
             fileNotFoundLog(log_path=log_folder, step_number=step, step_desc=step_name[step], file_name=fexc)

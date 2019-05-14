@@ -1,5 +1,6 @@
 import csv
 import re
+import chardet
 from os.path import isfile
 from sys import exit
 from packages import variation_upload

@@ -1,4 +1,5 @@
 import os
+import sys
 import inspect
 import logging
 
@@ -24,8 +25,8 @@ def function_logger(path, file_level, console_level = None):
 
 def fileNotFoundLog(log_path, step_number, step_desc, file_name):
     fileNotFoundLogger = function_logger(log_path, logging.ERROR, logging.ERROR)
-    fileNotFoundLogger.error("ERROR : The required file {2} was not found at Step {0} : {1}"
-                             .format(step_number, step_desc, file_name))
+    fileNotFoundLogger.error("ERROR : The required file {2} was not found at Step {0} line no: {3} : {1}"
+                             .format(step_number, step_desc, file_name, sys.exc_info()[2].tb_lineno))
 
 def keyErrorLog(log_path, step_number, step_desc, key_name, file_name):
     keyErrorLogger = function_logger(log_path, logging.ERROR, logging.ERROR)

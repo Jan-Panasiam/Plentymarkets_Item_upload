@@ -1,7 +1,7 @@
 import csv
 from os.path import isfile
 import sys
-from packages import variation_upload
+from packages import barcode
 try:
     from sortedcontainers import SortedDict
 except ImportError:
@@ -9,37 +9,30 @@ except ImportError:
     raise ImportError
 
 
-def amazonSkuUpload(flatfile, export, folder):
+def amazonSkuUpload(flatfile):
 
-    column_names = ['VariationID', 'MarketID',
-                    'MarketAccountID', 'SKU', 'ParentSKU']
+    column_names = [ 'MarketID', 'MarketAccountID',
+                     'SKU', 'ParentSKU' ]
+
+    # Define constant values
+    marketid = 104 # Amazon FBA Germany
+    accountid = 0  # bkkasia.germany@gmail.com
+
     Data = SortedDict()
-
-    with open(export['path'], mode='r', encoding=export['encoding']) as item:
-        reader = csv.DictReader(item, delimiter=';')
-        item_number = 1
-        for row in reader:
-            if(row['VariationID']):
-                values = [row['VariationID'], '104', '0', '', '']
-                Data[row['VariationNumber']] = SortedDict(
-                    zip(column_names, values))
 
     with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';')
         for row in reader:
-            if(row['item_sku'] in [*Data]):
-                Data[row['item_sku']]['SKU'] = row['item_sku']
-                Data[row['item_sku']]['ParentSKU'] = row['parent_sku']
+            values = [ marketid, accountid,
+                        row['item_sku'], row['parent_sku'] ]
+            Data[row['item_sku']] = SortedDict(zip(column_names, values))
 
-    output_path = variation_upload.writeCSV(Data, 'VariationSKUListe', column_names, folder)
+    return Data
 
 
-def amazonDataUpload(flatfile, export, folder):
+def amazonDataUpload(flatfile):
 
-    column_names = [
-                        'ItemAmazonProductType', 'ItemAmazonFBA',
-                        'ItemID','ItemShippingWithAmazonFBA'
-                   ]
+    column_names = [ 'ItemAmazonProductType', 'ItemAmazonFBA', 'ItemShippingWithAmazonFBA' ]
 
     Data = SortedDict()
 
@@ -65,9 +58,8 @@ def amazonDataUpload(flatfile, export, folder):
                         if(row['feed_product_type'].lower() == key):
                             product_type = type_id[key]
                 if(not(product_type)):
-                    raise variation_upload.EmptyFieldWarning('product_type')
-                values = [product_type, '1',
-                          '0','1']
+                    raise barcode.EmptyFieldWarning('product_type')
+                values = [product_type, '1', '1']
 
                 Data[row['item_sku']] = SortedDict(zip(column_names, values))
 
@@ -79,41 +71,9 @@ def amazonDataUpload(flatfile, export, folder):
                         except Exception as err:
                             print(err)
 
+    return Data
 
-    with open(export['path'], mode='r', encoding=export['encoding']) as item:
-        reader = csv.DictReader(item, delimiter=";")
-
-        for row in reader:
-            if(row['VariationNumber'] in [*Data]):
-                Data[row['VariationNumber']]['ItemID'] = row['ItemID']
-
-    variation_upload.writeCSV(dataobject=Data, name='amazon_data', columns=column_names, upload_path=folder)
-
-
-def asinUpload(export, stock, folder):
-
-    column_names = ['ASIN', 'MarketplaceCountry', 'Position', 'VariationID']
-
-    Data = {}
-
-    with open(export['path'], mode='r', encoding=export['encoding']) as item:
-        reader = csv.DictReader(item, delimiter=';')
-
-        for row in reader:
-            if row['VariationID']:
-                values = [ '', '1', '0', row['VariationID'] ]
-
-                Data[row['VariationNumber']] = dict(zip(column_names, values))
-
-    with open(stock['path'], mode='r', encoding=stock['encoding']) as item:
-        reader = csv.DictReader(item, delimiter=';')
-
-        for row in reader:
-            if row['MASTER'] in [*Data]:
-                Data[row['MASTER']]['ASIN'] = row['asin']
-    variation_upload.writeCSV(dataobject=Data, name='asin', columns=column_names, upload_path=folder)
-
-def featureUpload(flatfile, feature, feature_id, folder):
+def featureUpload(flatfile, features, folder):
 
     column_names = [
                         'Variation.number', 'VariationEigenschaften.id',
@@ -128,17 +88,24 @@ def featureUpload(flatfile, feature, feature_id, folder):
 
         for row in reader:
             if(row['parent_child'] == 'child'):
-                if(feature in [*row]):
-                    if(row[feature]):
-                        values = [
-                                    row['item_sku'], feature_id,
-                                    '1', '1',
-                                    row[feature]
-                                 ]
+                for feature in features:
+                    if(row['item_sku'] == '101012000221'):
+                        print("1. Feature: {0}, value: {1}".format(feature, row[feature]))
+                    if(feature in [*row]):
+                        if(row['item_sku'] == '101012000221'):
+                            print("2. Feature: {0}, value: {1}".format(feature, row[feature]))
+                        if(row[feature]):
+                            if(row['item_sku'] == '101012000221'):
+                                print("3. Feature: {0}, value: {1}".format(feature, row[feature]))
+                            values = [
+                                        row['item_sku'], features[feature],
+                                        '1', '1',
+                                        row[feature]
+                                    ]
 
-                        Data[row[ 'item_sku' ]] = dict(zip(column_names, values))
-                else:
-                    print("The feature:\t{0}\twas not found, in the flatfile!\n".format(feature))
+                            Data[row[ 'item_sku' ] + feature] = dict(zip(column_names, values))
+                    else:
+                        print("The feature:\t{0}\twas not found, in the flatfile!\n".format(feature))
 
         if(Data):
-            variation_upload.writeCSV(dataobject=Data, name=feature.upper(), columns=column_names, upload_path=folder)
+            barcode.writeCSV(dataobject=Data, name="features".upper(), columns=column_names, upload_path=folder)

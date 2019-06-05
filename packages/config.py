@@ -18,13 +18,16 @@ def config_creation():
         with open(configpath, mode='w') as item:
             item.write('upload_folder=\n')
             item.write('data_folder=\n')
+            item.write('attribute_file=\n')
+            item.write('file_change_date=\n')
     if(os.path.isfile(configpath)):
         return configpath
     else:
         return None
 
 def config_read(configpath):
-    folder = { 'upload_folder':'', 'data_folder':''}
+    config = {'upload_folder':'', 'data_folder':'',
+              'attribute_file':'', 'file_change_date':''}
     if(not(configpath)):
         configpath = config_creation()
     with open(configpath, mode='r') as item:
@@ -34,16 +37,20 @@ def config_read(configpath):
             option = "".join(row[0]).split('=')
 
             if(option[0].strip(' ') == 'upload_folder'):
-                folder[ 'upload_folder' ] = option[1].strip(' ')
+                config[ 'upload_folder' ] = option[1].strip(' ')
             if(option[0].strip(' ') == 'data_folder'):
-                folder[ 'data_folder' ] = option[1].strip(' ')
+                config[ 'data_folder' ] = option[1].strip(' ')
+            if(option[0].strip(' ') == 'attribute_file'):
+                config[ 'attribute_file' ] = option[1].strip(' ')
+            if(option[0].strip(' ') == 'file_change_date'):
+                config[ 'file_change_date' ] = option[1].strip(' ')
 
-    return folder
+    return config
 
 def config_write(configpath, data):
     # read the current content of the config
     with open(configpath, mode='w') as item:
-        writer = csv.DictWriter(item, delimiter='=', lineterminator='\n', fieldnames=['title', 'path'])
+        writer = csv.DictWriter(item, delimiter='=', lineterminator='\n', fieldnames=['title', 'value'])
 
         for row in data:
             writer.writerow(data[row])

@@ -12,7 +12,6 @@ def missingColor(flatfile, attributefile):
     # Get the highest position number
     highest_number = int(0)
 
-    print('Inside missingcolor: {0}'.format(attributefile))
     with open(attributefile['path'], mode = 'r', encoding=attributefile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';')
 

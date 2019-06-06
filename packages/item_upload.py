@@ -38,10 +38,12 @@ def check_encoding(file_dict):
     try:
         with open(file_dict['path'], mode='rb') as item:
             try:
-                raw_data = item.read(10000)
+                raw_data = item.read()
             except Exception as err:
                 print("ERROR: {0}\n".format(err))
             file_dict['encoding'] = chardet.detect(raw_data)['encoding']
+            print("chardet data for {0}\n{1}\n".format(file_dict['path'], chardet.detect(raw_data)))
+
     except Exception as err:
         print("Error : {0}\n".format(err))
 
@@ -90,149 +92,155 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
     # PACKAGE PROPERTIES
     package_properties = get_properties(flatfile)
 
-    # FILL DICTIONARY
-    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
-        reader = csv.DictReader(item, delimiter=";")
-
-        for row in reader:
-            # transform the text format to integer in order to adjust the
-            # height, width, length numbers from centimeter to milimeter
-            try:
-                # SET KEYWORDS
-                keywords = ''
-                if(row['generic_keywords']):
-                    keywords = row[ 'generic_keywords' ]
-
-                if(not(keywords)):
-                    raise barcode.EmptyFieldWarning('generic_keywords')
-
-                # SET ATTRIBUTES
-                attributes = ''
-                if(row['parent_child'] == 'child'):
-                    attributes = get_attributes(dataset=row, sets=color_size_sets)
-
-
-                try:
-                    values = [
-                                '', row['parent_sku'], row['item_sku'],
-                                package_properties[ 'length' ] * 10, package_properties[ 'width' ] * 10,
-                                package_properties[ 'height' ] * 10, package_properties[ 'weight' ],
-                                row['item_name'], '104',
-                                attributes,
-                                '62', keywords,
-                                row['brand_name'].upper(), '3',
-                                input_data['name'], row['product_description'],
-                                '', 'true', # externalID & active
-                                '3', input_data['categories'],
-                                input_data['categories'][0:2], input_data['categories'][0:2],
-                                'Y', 'Y', # mandant
-                                '', '',   # barcode
-                                'Y', 'Y', # marketconnection
-                                'Y', 'Y', # marketconnection
-                                'Y', 'Y', # marketconnection
-                                '', '',   # market & accout id amazonsku
-                                '', '',   # sku & parentsku amazonsku
-                                '', '', '',# producttype & fba amazon
-                                '','','','','',# prices
-                                '', '', '', #asin
-                                '', '', '', '', #image
-                                '', '' # image
-                              ]
-
-                except KeyError:
-                    raise KeyError
-                    print('Error at the Values')
-                Data[row['item_sku']] = SortedDict(zip(column_names, values))
-            except KeyError as err:
-                print("Error at : 'if(row['parent_child'] == 'parent'):'")
-                return row['item_sku']
-
-        # open the intern number csv to get the item ID
-        with open(intern['path'], mode='r', encoding=intern['encoding']) as item:
+    try:
+        # FILL DICTIONARY
+        with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
             reader = csv.DictReader(item, delimiter=";")
+
             for row in reader:
+                # transform the text format to integer in order to adjust the
+                # height, width, length numbers from centimeter to milimeter
                 try:
-                    if(row['amazon_sku'] in [*Data]):
-                        Data[row['amazon_sku']]['ItemID'] = row['article_id']
-                        Data[row['amazon_sku']]['ExternalID'] = row['full_number']
-                except KeyError as keyerr:
-                    print(keyerr)
-                    print("Keyerror at the Intern Number addition")
+                    # SET KEYWORDS
+                    keywords = ''
+                    if(row['generic_keywords']):
+                        keywords = row[ 'generic_keywords' ]
 
-        # Include the barcodes & asin
-        barcode_data = barcode.barcode_Upload(flatfile, stocklist)
+                    if(not(keywords)):
+                        raise barcode.EmptyFieldWarning('generic_keywords')
 
-        for row in barcode_data:
-            try:
-                if(row in [*Data]):
-                    Data[row]['EAN_Barcode'] = barcode_data[row]['EAN_Barcode']
-                    Data[row]['FNSKU_Barcode'] = barcode_data[row]['FNSKU_Barcode']
-                    Data[row]['ASIN-countrycode'] = barcode_data[row]['ASIN-countrycode']
-                    Data[row]['ASIN-type'] = barcode_data[row]['ASIN-type']
-                    Data[row]['ASIN-value'] = barcode_data[row]['ASIN-value']
-            except Exception as err:
-                print("ERROR @ Barcode Part for {0}.\n{1}.\n".format(row, err))
-
-        # Include the amazonsku
-        sku_data = amazon_data_upload.amazonSkuUpload(flatfile)
-
-        for row in sku_data:
-            try:
-                if(row in [*Data]):
-                    Data[row]['marketid'] = sku_data[row]['MarketID']
-                    Data[row]['accountid'] = sku_data[row]['MarketAccountID']
-                    Data[row]['amazon_sku'] = sku_data[row]['SKU']
-                    Data[row]['amazon_parentsku'] = sku_data[row]['ParentSKU']
-            except Exception as err:
-                print("ERROR @ SKU Part for {0}.\n{1}.\n".format(row, err))
-
-        # Include the amazonsku
-        ama_data = amazon_data_upload.amazonDataUpload(flatfile)
-
-        for row in ama_data:
-            try:
-                if(row in [*Data]):
-                    Data[row]['amazon-producttype'] = ama_data[row]['ItemAmazonProductType']
-                    Data[row]['fba-enabled'] = ama_data[row]['ItemAmazonFBA']
-                    Data[row]['fba-shipping'] = ama_data[row]['ItemShippingWithAmazonFBA']
-            except Exception as err:
-                print("ERROR @ AmazonData Part for {0}.\n{1}.\n".format(row, err))
-
-        # Include the price
-        price_data = price_upload.priceUpload(flatfile)
-
-        for row in price_data:
-            try:
-                if(row in [*Data]):
-                    Data[row]['price-price'] = price_data[row]['price']
-                    Data[row]['ebay-price'] = price_data[row]['ebay']
-                    Data[row]['amazon-price'] = price_data[row]['amazon']
-                    Data[row]['webshop-price'] = price_data[row]['webshop']
-                    Data[row]['etsy-price'] = price_data[row]['etsy']
-            except Exception as err:
-                print("ERROR @ Price Part for {0}.\n{1}.\n".format(row, err))
-
-        # Include the images
-        image_data = image_upload.imageUpload(flatfile, attributefile)
-
-        for index, row in enumerate( image_data ):
-            try:
-                if(row in [*Data]):
-                    Data[row]['Multi-URL'] = image_data[row]['Multi-URL']
-                    Data[row]['connect-variation'] = image_data[row]['connect-variation']
-                    Data[row]['mandant'] = image_data[row]['mandant']
-                    Data[row]['availability'] = image_data[row]['availability']
-                    Data[row]['listing'] = image_data[row]['listing']
-                    Data[row]['connect-color'] = image_data[row]['connect-color']
-            except Exception as err:
-                print("ERROR @ Image Part for {0}.\n{1}.\n".format(row, err))
+                    # SET ATTRIBUTES
+                    attributes = ''
+                    if(row['parent_child'] == 'child'):
+                        attributes = get_attributes(dataset=row, sets=color_size_sets)
 
 
-        # Write Data into new CSV for Upload
-        # OUTPUT
-        # --------------------------------------------------------------
+                    try:
+                        values = [
+                                    '', row['parent_sku'], row['item_sku'],
+                                    package_properties[ 'length' ] * 10, package_properties[ 'width' ] * 10,
+                                    package_properties[ 'height' ] * 10, package_properties[ 'weight' ],
+                                    row['item_name'], '104',
+                                    attributes,
+                                    '62', keywords,
+                                    row['brand_name'].upper(), '3',
+                                    input_data['name'], row['product_description'],
+                                    '', 'true', # externalID & active
+                                    '3', input_data['categories'],
+                                    input_data['categories'][0:2], input_data['categories'][0:2],
+                                    'Y', 'Y', # mandant
+                                    '', '',   # barcode
+                                    'Y', 'Y', # marketconnection
+                                    'Y', 'Y', # marketconnection
+                                    'Y', 'Y', # marketconnection
+                                    '', '',   # market & accout id amazonsku
+                                    '', '',   # sku & parentsku amazonsku
+                                    '', '', '',# producttype & fba amazon
+                                    '','','','','',# prices
+                                    '', '', '', #asin
+                                    '', '', '', '', #image
+                                    '', '' # image
+                                  ]
+
+                    except KeyError:
+                        raise KeyError
+                        print('Error at the Values')
+                    Data[row['item_sku']] = SortedDict(zip(column_names, values))
+                except KeyError as err:
+                    print("Error at : 'if(row['parent_child'] == 'parent'):'")
+                    return row['item_sku']
+
+            # open the intern number csv to get the item ID
+            with open(intern['path'], mode='r', encoding=intern['encoding']) as item:
+                reader = csv.DictReader(item, delimiter=";")
+                for row in reader:
+                    try:
+                        if(row['amazon_sku'] in [*Data]):
+                            Data[row['amazon_sku']]['ItemID'] = row['article_id']
+                            Data[row['amazon_sku']]['ExternalID'] = row['full_number']
+                    except KeyError as keyerr:
+                        print(keyerr)
+                        print("Keyerror at the Intern Number addition")
+
+            # Include the barcodes & asin
+            barcode_data = barcode.barcode_Upload(flatfile, stocklist)
+
+            for row in barcode_data:
+                try:
+                    if(row in [*Data]):
+                        Data[row]['EAN_Barcode'] = barcode_data[row]['EAN_Barcode']
+                        Data[row]['FNSKU_Barcode'] = barcode_data[row]['FNSKU_Barcode']
+                        Data[row]['ASIN-countrycode'] = barcode_data[row]['ASIN-countrycode']
+                        Data[row]['ASIN-type'] = barcode_data[row]['ASIN-type']
+                        Data[row]['ASIN-value'] = barcode_data[row]['ASIN-value']
+                except Exception as err:
+                    print("ERROR @ Barcode Part for {0}.\n{1}.\n".format(row, err))
+
+            # Include the amazonsku
+            sku_data = amazon_data_upload.amazonSkuUpload(flatfile)
+
+            for row in sku_data:
+                try:
+                    if(row in [*Data]):
+                        Data[row]['marketid'] = sku_data[row]['MarketID']
+                        Data[row]['accountid'] = sku_data[row]['MarketAccountID']
+                        Data[row]['amazon_sku'] = sku_data[row]['SKU']
+                        Data[row]['amazon_parentsku'] = sku_data[row]['ParentSKU']
+                except Exception as err:
+                    print("ERROR @ SKU Part for {0}.\n{1}.\n".format(row, err))
+
+            # Include the amazonsku
+            ama_data = amazon_data_upload.amazonDataUpload(flatfile)
+
+            for row in ama_data:
+                try:
+                    if(row in [*Data]):
+                        Data[row]['amazon-producttype'] = ama_data[row]['ItemAmazonProductType']
+                        Data[row]['fba-enabled'] = ama_data[row]['ItemAmazonFBA']
+                        Data[row]['fba-shipping'] = ama_data[row]['ItemShippingWithAmazonFBA']
+                except Exception as err:
+                    print("ERROR @ AmazonData Part for {0}.\n{1}.\n".format(row, err))
+
+            # Include the price
+            price_data = price_upload.priceUpload(flatfile)
+
+            for row in price_data:
+                try:
+                    if(row in [*Data]):
+                        Data[row]['price-price'] = price_data[row]['price']
+                        Data[row]['ebay-price'] = price_data[row]['ebay']
+                        Data[row]['amazon-price'] = price_data[row]['amazon']
+                        Data[row]['webshop-price'] = price_data[row]['webshop']
+                        Data[row]['etsy-price'] = price_data[row]['etsy']
+                except Exception as err:
+                    print("ERROR @ Price Part for {0}.\n{1}.\n".format(row, err))
+
+            # Include the images
+            image_data = image_upload.imageUpload(flatfile, attributefile)
+
+            for index, row in enumerate( image_data ):
+                try:
+                    if(row in [*Data]):
+                        Data[row]['Multi-URL'] = image_data[row]['Multi-URL']
+                        Data[row]['connect-variation'] = image_data[row]['connect-variation']
+                        Data[row]['mandant'] = image_data[row]['mandant']
+                        Data[row]['availability'] = image_data[row]['availability']
+                        Data[row]['listing'] = image_data[row]['listing']
+                        Data[row]['connect-color'] = image_data[row]['connect-color']
+                except Exception as err:
+                    print("ERROR @ Image Part for {0}.\n{1}.\n".format(row, err))
+
+
+            # Write Data into new CSV for Upload
+            # OUTPUT
+            # --------------------------------------------------------------
 
         barcode.writeCSV(Data, "item", column_names, folder)
+    except UnicodeDecodeError as err:
+        print("Decode Error at line: {0}, err: {1}".format(sys.exc_info()[2].tb_lineno, err))
+        print("press ENTER to continue..")
+        input()
+        sys.exit()
 
 def itemPropertyUpload(flatfile, folder):
 

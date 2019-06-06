@@ -41,8 +41,14 @@ def writeCSV(dataobject, name, columns, upload_path):
     with open(output_path, mode='a') as item:
         writer = csv.DictWriter(item, delimiter=";", fieldnames=columns, lineterminator='\n')
         writer.writeheader()
-        for row in dataobject:
-            writer.writerow(dataobject[row])
+        try:
+            for row in dataobject:
+                writer.writerow(dataobject[row])
+        except Exception as err:
+            print("ERROR @ writeCSV : line : {0}, Error: {1}".format(sys.exc_info()[2].tb_lineno, err))
+            print("Press ENTER to continue..")
+            input()
+            sys.exit()
 
     if(isfile(output_path)):
         print("Upload file successfully created under {0}".format(output_path))

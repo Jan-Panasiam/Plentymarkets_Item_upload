@@ -43,6 +43,7 @@ def main():
     features = {
                 'color_map':1,
                 'model':4,
+                'neck_size':5,
                 'sleeve_type':8,
                 'pattern_type':11,
                 'collar_style':12,

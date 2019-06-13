@@ -171,72 +171,97 @@ class DropdownChooser(tkinter.Frame):
         self.grid()
 
         self.optionvar = tkinter.StringVar(self)
+        self.activityvar = tkinter.StringVar(self)
         self.resultvar = tkinter.StringVar(self)
 
         self.options = {'Men.Aladinhose':'34',
                         'Men.Sommerhose':'36',
                         'Men.Stoffhose':'35',
+                        'Men.Shorts':'37',
                         'Men.Fischerhose':'85',
                         'Men.Hemden': '38',
-                        'Men.Jacken' :'41',
-                        'Men.Hoodie' : '40',
                         'Men.Tshirt' :'39',
+                        'Men.Hoodie' : '40',
+                        'Men.Jacken' :'41',
                         'Women.Kleid' :'62',
-                        'Women.Skirt' :'87',
-                        'Women.Sarong-K' :'64',
                         'Women.Tunika' :'63',
-                        'Women.Top' :'65',
-                        'Women.Jacken' :'84',
-                        'Women.Sarong-O' :'69',
-                        'Women.Hoodie' :'68',
-                        'Women.Tshirt' :'66',
+                        'Women.Sarong-K' :'64',
+                        'Women.Skirt' :'87',
                         'Women.Aladinhose' :'53',
-                        'Women.Fischerhose' :'96',
-                        'Women.Legging' :'73',
-                        'Women.Hosenrock' :'72',
-                        'Women.Sommerhose' :'71',
                         'Women.Stoffhose' :'70',
-                        'Acce.Men.Patch' :'80',
-                        'Acce.Men.Halstuch' :'91',
-                        'Acce.Men.Sarong' :'89',
-                        'Acce.Men.Suncatcher' :'83',
-                        'Acce.Men.Kissen' :'82',
-                        'Acce.Men.Airbrush' :'81',
-                        'Acce.Women.Patch' :'76',
-                        'Acce.Women.Halstuch' :'90',
-                        'Acce.Women.Sarong' :'88',
-                        'Acce.Women.Suncatcher' :'79',
-                        'Acce.Women.Kissen' :'78',
-                        'Acce.Women.Airbrush' :'77',
-                        'Bags.Men.Schultertasche' :'58',
-                        'Bags.Men.Rucksack' :'59',
-                        'Bags.Women.Schultertasche' :'60',
-                        'Bags.Women.Rucksack':'61'}
+                        'Women.Sommerhose' :'71',
+                        'Women.Hosenrock' :'72',
+                        'Women.Legging' :'73',
+                        'Women.Fischerhose' :'96',
+                        'Women.Top' :'65',
+                        'Women.Tshirt/Hemden' :'66',
+                        'Women.Hoodie' :'68',
+                        'Women.Sarong-O' :'69',
+                        'Women.Jacken' :'84',
+                        'Accessoires.Taschen':'58',
+                        'Accessoires.Patch':'76',
+                        'Accessoires.Backdrop':'77',
+                        'Accessoires.Kissen':'78',
+                        'Accessoires.Suncatcher':'79',
+                        'Accessoires.Halstuch':'90'
+                        }
+
+        self.activities = {
+                           'Women.Yoga': '95',
+                           'Women.Retreat': '96',
+                           'Women.Summerwear': '97',
+                           'Women.Festival': '98',
+                           'Men.Yoga': '99',
+                           'Men.Retreat': '100',
+                           'Men.Summerwear': '101',
+                           'Men.Festival': '102'
+                           }
 
         self.optionvar.set('category')
+        self.activityvar.set('activities')
+
+        self.menu_header_major = tkinter.Label(self, text='Major category')
+        self.menu_header_major.grid(row=0, column=0, sticky='NESW')
+
+        self.menu_header_activity = tkinter.Label(self, text='Activity category')
+        self.menu_header_activity.grid(row=0, column=1, sticky='NESW')
 
         self.dropdown_menu = tkinter.OptionMenu(self, self.optionvar, *[ *self.options ])
-        self.dropdown_menu.grid(row=0, column=0, sticky="EW")
+        self.dropdown_menu.grid(row=1, column=0, sticky="EW", padx=50)
+
+        self.activity_menu = tkinter.OptionMenu(self, self.activityvar, *[ *self.activities ])
+        self.activity_menu.grid(row=1, column=1, sticky="EW", padx=50)
 
         self.optionvar.trace('w', self.change_dropdown)
+        self.activityvar.trace('w', self.change_dropdown)
         self.resultvar.trace('w', self.add_desc)
 
         # Create a textbox to show the result of the choosing
         self.resultbox = tkinter.Entry(self, textvariable=self.resultvar, width=50, bg="white")
-        self.resultbox.grid(row=1, column=0, columnspan=2, sticky="EW")
+        self.resultbox.grid(row=2, column=0, columnspan=2, sticky="EW", padx=50)
 
         # Create a label with an info about the standard category which hides if the entry is empty
         self.category_info = tkinter.Label(self, text="The first category in the list will be used as standard category!")
 
     def change_dropdown(self, *args):
         if( not( self.resultbox.get() ) ):
+            if(not( self.activityvar.get() == 'activities' )):
+                print(self.activityvar.get())
+                tmb.showerror("No Major category!",
+                              "Please enter first a major category, so that the first gets set as standard category. After that add a activity category!")
+                self.activityvar.set('activities')
+
             self. resultbox.insert(tkinter.INSERT, self.options[ self.optionvar.get() ] )
         else:
-            self.resultbox.insert(tkinter.INSERT, ', ' + self.options[ self.optionvar.get() ] )
+            if(self.optionvar.get() and not( re.search( self.options[ self.optionvar.get() ] ,self.resultbox.get()) ) ):
+                self.resultbox.insert(tkinter.INSERT, ', ' + self.options[ self.optionvar.get() ] )
+            if(self.activityvar.get() and not( self.activityvar.get() == 'activities' )):
+                if(not( re.search( self.activities[ self.activityvar.get() ] ,self.resultbox.get()) ) ):
+                    self.resultbox.insert(tkinter.INSERT, ', ' + self.activities[ self.activityvar.get() ] )
 
     def add_desc(self, *args):
         if(len(self.resultvar.get())>1):
-            self.category_info.grid(row=2, columnspan=2, sticky="EW")
+            self.category_info.grid(row=3, columnspan=2, sticky="EW")
         else:
             self.category_info.grid_remove()
 
@@ -348,7 +373,6 @@ class CategoryChooser(tkinter.Tk):
                 self.toplevelWarning = tkinter.Toplevel(self)
                 self.toplevelWarning.title("Warning missing Colors")
                 self.toplevelWarning.lift(self)
-                #self.toplevel_positiondown = int( self.winfo_screenheight()/1.3 - self.window_h)
                 self.toplevelWarning.geometry("+{}+{}".format(self.positionright, self.positiondown))
                 self.warningbox = WarningBox(self.toplevelWarning, colorlist)
         except Exception as err:

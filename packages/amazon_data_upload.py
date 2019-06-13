@@ -89,14 +89,8 @@ def featureUpload(flatfile, features, folder):
         for row in reader:
             if(row['parent_child'] == 'child'):
                 for feature in features:
-                    if(row['item_sku'] == '101012000221'):
-                        print("1. Feature: {0}, value: {1}".format(feature, row[feature]))
                     if(feature in [*row]):
-                        if(row['item_sku'] == '101012000221'):
-                            print("2. Feature: {0}, value: {1}".format(feature, row[feature]))
                         if(row[feature]):
-                            if(row['item_sku'] == '101012000221'):
-                                print("3. Feature: {0}, value: {1}".format(feature, row[feature]))
                             values = [
                                         row['item_sku'], features[feature],
                                         '1', '1',

@@ -10,6 +10,7 @@ from packages.amazon_data_upload import featureUpload
 from packages.log_files import fileNotFoundLog, keyErrorLog, wrongEncodingLog, unboundLocalLog, emptyFieldWarningLog
 from packages.gui.category_chooser import CategoryChooser
 from packages.config import config_creation, config_read, config_write
+from packages.image_upload import imageUpload
 
 
 def main():
@@ -23,6 +24,7 @@ def main():
     sheet = {'path':'', 'encoding':''}
     intern_number = {'path':'', 'encoding':''}
     stocklist = {'path':'', 'encoding':''}
+    plenty_export = {'path':'', 'encoding':''}
     attributefile = {'path':'', 'encoding':''}
     step = int(0)
     fexc = ''
@@ -36,7 +38,9 @@ def main():
                  'import-stocklist',
                  'item-upload',
                  'feature_upload',
-                 'property_upload'
+                 'property_upload',
+                 'import-exportfile',
+                 'image-upload'
                  ]
 
     # define the features for plentymarkets
@@ -237,7 +241,20 @@ def main():
             print(err)
             print("Missing Data, check if you have\n - a flatfile\n - a intern file table\n - export file from plentymarkets\n - a sheet with the stock numbers!\n")
 
+        # IMPORT Export FIlE
+        step += 1
+        plenty_export['path'] = askopenfilename(initialdir=recent_path,
+                                title="Export File from Plentymarkets",
+                                filetypes=[ ("csv files", "*.csv") ])
+
+        plenty_export = check_encoding(sheet)
+
+        step += 1
+        imageUpload(flatfile=sheet, attributefile=attributefile, exportfile=plenty_export, uploadfolder=upload_folder)
         del fexc
+        # A stop in the script flow to interrupt a console window from closing itself
+        print('press ENTER to close the script...')
+        input()
     else:
         print("Choose a category and a name.\n")
 if __name__ == '__main__':

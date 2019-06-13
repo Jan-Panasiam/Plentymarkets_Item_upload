@@ -49,6 +49,20 @@ def check_encoding(file_dict):
 
     return file_dict
 
+def get_variationid(exportfile, sku):
+
+    variationid = 0
+    with open(exportfile['path'], mode = 'r', encoding = exportfile['encoding']) as item:
+        reader = csv.DictReader(item, delimiter = ';')
+
+        for row in reader:
+            if(row['VariationNo'] == sku):
+                variationid = row['VariationId']
+        if(not(variationid)):
+            print("No Variation ID found for {0}\n".format(sku))
+
+    return variationid
+
 def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
     # The column headers for the output file as expected from the
     # plentymarkets dataformat
@@ -71,10 +85,11 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                     'marketid', 'accountid',
                     'amazon_sku', 'amazon_parentsku',
                     'amazon-producttype', 'fba-enabled', 'fba-shipping',
-                    'price-price', 'ebay-price', 'amazon-price', 'webshop-price', 'etsy-price',
+                    'price-price', 'ebay-price', 'amazon-price',
+                    'webshop-price', 'etsy-price', 'cdiscount-price',
                     'ASIN-countrycode', 'ASIN-type', 'ASIN-value',
-                    'Multi-URL', 'connect-variation', 'mandant', 'availability', 'listing',
-                    'connect-color']
+                    'Item-Flag-1'
+                    ]
 
 
     # Unpack File and scrap data
@@ -103,6 +118,8 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                 try:
                     # SET KEYWORDS
                     keywords = ''
+                    # Item Flags for new products to download the correct export
+                    item_flag = ''
                     if(row['generic_keywords']):
                         keywords = row[ 'generic_keywords' ]
 
@@ -114,6 +131,8 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                     if(row['parent_child'] == 'child'):
                         attributes = get_attributes(dataset=row, sets=color_size_sets)
 
+                    if(row['parent_child'] == 'parent'):
+                        item_flag = 21
 
                     try:
                         values = [
@@ -136,10 +155,9 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                                     '', '',   # market & accout id amazonsku
                                     '', '',   # sku & parentsku amazonsku
                                     '', '', '',# producttype & fba amazon
-                                    '','','','','',# prices
+                                    '','','','','','',# prices
                                     '', '', '', #asin
-                                    '', '', '', '', #image
-                                    '', '' # image
+                                    item_flag
                                   ]
 
                     except KeyError:
@@ -214,22 +232,6 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                         Data[row]['etsy-price'] = price_data[row]['etsy']
                 except Exception as err:
                     print("ERROR @ Price Part for {0}.\n{1}.\n".format(row, err))
-
-            # Include the images
-            image_data = image_upload.imageUpload(flatfile, attributefile)
-
-            for index, row in enumerate( image_data ):
-                try:
-                    if(row in [*Data]):
-                        Data[row]['Multi-URL'] = image_data[row]['Multi-URL']
-                        Data[row]['connect-variation'] = image_data[row]['connect-variation']
-                        Data[row]['mandant'] = image_data[row]['mandant']
-                        Data[row]['availability'] = image_data[row]['availability']
-                        Data[row]['listing'] = image_data[row]['listing']
-                        Data[row]['connect-color'] = image_data[row]['connect-color']
-                except Exception as err:
-                    print("ERROR @ Image Part for {0}.\n{1}.\n".format(row, err))
-
 
             # Write Data into new CSV for Upload
             # OUTPUT

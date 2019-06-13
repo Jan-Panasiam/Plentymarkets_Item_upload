@@ -2,6 +2,7 @@ import csv
 from sortedcontainers import SortedDict
 import re
 import sys
+from packages import item_upload, barcode
 
 def searchSpecialImage(image):
     if(re.search(r'( SWATCH|SIZE )', image)):
@@ -27,7 +28,7 @@ def getColorAttributeID(attributefile, product):
     return attributeid
 
 
-def imageUpload(flatfile, attributefile):
+def imageUpload(flatfile, attributefile, exportfile, uploadfolder):
 
     try:
         Data = SortedDict()
@@ -36,6 +37,7 @@ def imageUpload(flatfile, attributefile):
                         'availability', 'listing', 'connect-color']
         linkstring = ''
         attributeID = ''
+        variation_id = 0
 
         with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
             reader = csv.DictReader(item, delimiter=';')
@@ -53,6 +55,7 @@ def imageUpload(flatfile, attributefile):
                 ]
 
                 num = 1
+                variation_id = item_upload.get_variationid(exportfile=exportfile, sku=row['item_sku'])
                 try:
                     if(imglinks[0]):
                         for img in imglinks:
@@ -82,7 +85,7 @@ def imageUpload(flatfile, attributefile):
                     print("Error @ get Color Attribute ID {0}\n".format(err))
 
 
-                values=[linkstring, 1, -1,
+                values=[linkstring, variation_id, -1,
                         -1, -1, attributeID]
 
                 Data[row['item_sku']] = dict(zip(column_names, values))
@@ -90,4 +93,5 @@ def imageUpload(flatfile, attributefile):
     except Exception as err:
         print("Error @ imageupload line: {0} : {1}".format(sys.exc_info()[2].tb_lineno, err))
 
+    barcode.writeCSV(dataobject=Data, name='Image_', columns=column_names, folder=uploadfolder)
     return Data

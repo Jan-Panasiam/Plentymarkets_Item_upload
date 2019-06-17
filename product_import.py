@@ -166,6 +166,7 @@ def main():
 
     if(user_data):
         # Check if there is already a log folder within the upload folder
+        print(upload_folder)
         if( not(os.path.exists(os.path.join(upload_folder, 'log'))) ):
             log_folder = os.path.join(upload_folder, 'log')
             os.makedirs(log_folder)

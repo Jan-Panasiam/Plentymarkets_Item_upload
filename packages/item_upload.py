@@ -2,6 +2,7 @@ import csv
 import sys
 import re
 import chardet
+import collections
 from os.path import isfile
 from sys import exit
 from packages import barcode, amazon_data_upload, price_upload, image_upload
@@ -66,7 +67,7 @@ def get_variationid(exportfile, sku):
 def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
     # The column headers for the output file as expected from the
     # plentymarkets dataformat
-    column_names = ['ItemID', 'Parent-SKU', 'SKU',
+    column_names = ['Parent-SKU', 'SKU',
                     'Length', 'Width',
                     'Height', 'Weight',
                     'Name', 'MainWarehouse',
@@ -74,15 +75,14 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                     'ItemOriginCountry', 'ItemTextKeywords',
                     'ItemProducer', 'ItemProducerID',
                     'ItemTextName', 'ItemTextDescription',
-                    'ExternalID', 'VariationActive',
+                    'ExternalID',
                     'VariationAvailability', 'Category-IDs',
                     'Standard-Category', 'Standard-Category-Webshop',
                     'Mandant-Active', 'Webshop-Active',
                     'EAN_Barcode', 'FNSKU_Barcode',
                     'market-active-shop', 'market-active-ebay',
                     'market-active-ebayger', 'market-active-amafba',
-                    'market-active-amafbager', 'market-active-webapi',
-                    'marketid', 'accountid',
+                    'market-active-amafbager', 'marketid', 'accountid',
                     'amazon_sku', 'amazon_parentsku',
                     'amazon-producttype', 'fba-enabled', 'fba-shipping',
                     'price-price', 'ebay-price', 'amazon-price',
@@ -95,7 +95,8 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
     # Unpack File and scrap data
     # INPUT
     # --------------------------------------------------------------
-    Data = SortedDict()
+    Data = dict()
+    sorted_Data = collections.OrderedDict()
     package_properties = {}
     barcode_data = {}
 
@@ -136,7 +137,7 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
 
                     try:
                         values = [
-                                    '', row['parent_sku'], row['item_sku'],
+                                    row['parent_sku'], row['item_sku'],
                                     package_properties[ 'length' ] * 10, package_properties[ 'width' ] * 10,
                                     package_properties[ 'height' ] * 10, package_properties[ 'weight' ],
                                     row['item_name'], '104',
@@ -144,20 +145,20 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                                     '62', keywords,
                                     row['brand_name'].upper(), '3',
                                     input_data['name'], row['product_description'],
-                                    '', 'true', # externalID & active
+                                    '',  # externalID
                                     '3', input_data['categories'],
                                     input_data['categories'][0:2], input_data['categories'][0:2],
                                     'Y', 'Y', # mandant
                                     '', '',   # barcode
                                     'Y', 'Y', # marketconnection
                                     'Y', 'Y', # marketconnection
-                                    'Y', 'Y', # marketconnection
+                                    'Y', # marketconnection
                                     '', '',   # market & accout id amazonsku
                                     '', '',   # sku & parentsku amazonsku
                                     '', '', '',# producttype & fba amazon
                                     '','','','','','',# prices
                                     '', '', '', #asin
-                                    item_flag
+                                    item_flag # item flag 1 the sign of the item status
                                   ]
 
                     except KeyError:
@@ -233,11 +234,15 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                 except Exception as err:
                     print("ERROR @ Price Part for {0}.\n{1}.\n".format(row, err))
 
-            # Write Data into new CSV for Upload
-            # OUTPUT
-            # --------------------------------------------------------------
+        # Write Data into new CSV for Upload
+        # OUTPUT
+        # --------------------------------------------------------------
 
-        barcode.writeCSV(Data, "item", column_names, folder)
+        # Sort the dictionary to make sure that the parents are the first variant of each item
+        print("Sort Products")
+        sorted_Data = sort_Products(Data)
+
+        barcode.writeCSV(sorted_Data, "item", column_names, folder)
     except UnicodeDecodeError as err:
         print("Decode Error at line: {0}, err: {1}".format(sys.exc_info()[2].tb_lineno, err))
         print("press ENTER to continue..")
@@ -303,7 +308,7 @@ def itemPropertyUpload(flatfile, folder):
 
                 properties[row['item_sku']] = dict(zip(property_names, values))
 
-    column_names = ['SKU', 'ID-property', 'Value', 'Lang']
+    column_names = ['SKU', 'ID-property', 'Value', 'Lang', 'Active']
     Data = {}
     for index, row in enumerate( properties ):
         for prop in property_id:
@@ -318,7 +323,8 @@ def get_properties(flatfile):
     properties = {'length':0,
                   'width':0,
                   'height':0,
-                  'weight':0}
+                  'weight':0,
+                  '1'}
 
     with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=";")
@@ -389,3 +395,34 @@ def find_similar_attr(flatfile):
                         Data[row['parent_sku']]['size'].add(row['size_name'])
 
     return Data
+
+def sort_Products(dataset):
+    item_list = dataset.items()
+    new_dict = collections.OrderedDict()
+    parent_dict = collections.OrderedDict()
+    child_dict = collections.OrderedDict()
+    position_of_parent = 0
+
+    # Go through the items of the dataset
+    for item in item_list:
+        # When there is no entry in 'Parent-SKU' the item has to be a parent
+        if(not(item[0] in [* new_dict ])):
+            if(not(item[1]['Parent-SKU'])):
+                # add the parent to the new dict
+                new_dict[item[0]] = item[1]
+                # get all the children and update the itemlist without them
+                child_dict = search_child(item_list, item[0])
+                # add each child to the new dict after the parent
+                for child in child_dict:
+                    new_dict[child] = child_dict[child]
+
+    return new_dict
+
+def search_child(item_list, parent):
+    child_dict = collections.OrderedDict()
+
+    for item in item_list:
+        if(item[1]['Parent-SKU'] == parent):
+            child_dict[item[0]] = item[1]
+
+    return child_dict

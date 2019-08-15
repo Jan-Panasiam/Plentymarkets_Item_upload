@@ -33,15 +33,15 @@ def imageUpload(flatfile, attributefile, exportfile, uploadfolder):
     try:
         Data = SortedDict()
 
-        column_names = ['Multi-URL', 'connect-variation', 'mandant',
-                        'availability', 'listing', 'connect-color']
-        linkstring = ''
+        column_names = ['VariationID', 'Multi-URL', 'connect-variation', 'mandant',
+                        'listing', 'connect-color']
         attributeID = ''
         variation_id = 0
 
         with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
             reader = csv.DictReader(item, delimiter=';')
             for index, row in enumerate( reader ):
+                linkstring = ''
                 imglinks = [
                     row['main_image_url'],
                     row['other_image_url1'],
@@ -61,19 +61,23 @@ def imageUpload(flatfile, attributefile, exportfile, uploadfolder):
                         for img in imglinks:
                             if(not(searchSpecialImage(img))):
                                 if(not(linkstring)):
-                                    linkstring += img + ';' + str( num )
-                                    num += 1
+                                    if(img):
+                                        linkstring += img + ';' + str( num )
+                                        num += 1
                                 else:
-                                    linkstring += ',' + img + ';' + str( num )
-                                    num += 1
+                                    if(img):
+                                        linkstring += ',' + img + ';' + str( num )
+                                        num += 1
                             if(searchSpecialImage(img)):
                                 print("\n{0} is a special image\n".format(img))
                                 if(not(linkstring)):
-                                    linkstring += img + ';' + str( num )
-                                    num += 1
+                                    if(img):
+                                        linkstring += img + ';' + str( num )
+                                        num += 1
                                 else:
-                                    linkstring += ',' + img + ';' + str( num )
-                                    num += 1
+                                    if(img):
+                                        linkstring += ',' + img + ';' + str( num )
+                                        num += 1
 
 
                 except Exception as err:
@@ -85,13 +89,13 @@ def imageUpload(flatfile, attributefile, exportfile, uploadfolder):
                     print("Error @ get Color Attribute ID {0}\n".format(err))
 
 
-                values=[linkstring, variation_id, -1,
-                        -1, -1, attributeID]
+                values=[variation_id, linkstring, 1, -1,
+                        -1, attributeID]
 
                 Data[row['item_sku']] = dict(zip(column_names, values))
 
     except Exception as err:
         print("Error @ imageupload line: {0} : {1}".format(sys.exc_info()[2].tb_lineno, err))
 
-    barcode.writeCSV(dataobject=Data, name='Image_', columns=column_names, folder=uploadfolder)
+    barcode.writeCSV(dataobject=Data, name='Image_', columns=column_names, upload_path=uploadfolder)
     return Data

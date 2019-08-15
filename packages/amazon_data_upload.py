@@ -48,28 +48,21 @@ def amazonDataUpload(flatfile):
             'bags':27
         }
 
+        values = ''
         product_type = ''
 
         for row in reader:
-            if(row['parent_child'] == 'parent'):
+            # go through the variations until the values are filled
+            if(row['feed_product_type'].lower() in [*type_id]):
+                for key in type_id:
+                    if(row['feed_product_type'].lower() == key):
+                        product_type = type_id[key]
+            if(not(product_type)):
+                raise barcode.EmptyFieldWarning('product_type')
 
-                if(row['feed_product_type'].lower() in [*type_id]):
-                    for key in type_id:
-                        if(row['feed_product_type'].lower() == key):
-                            product_type = type_id[key]
-                if(not(product_type)):
-                    raise barcode.EmptyFieldWarning('product_type')
-                values = [product_type, '1', '1']
+            values = [product_type, '1', '1']
 
-                Data[row['item_sku']] = SortedDict(zip(column_names, values))
-
-            if(row['parent_child'] == 'child' and row['parent_sku'] in [*Data]):
-                for key in column_names:
-                    if(not(Data[ row[ 'parent_sku' ] ][ key ])):
-                        try:
-                            Data[ row[ 'parent_sku' ] ][ key ] = row[ key ]
-                        except Exception as err:
-                            print(err)
+            Data[row['item_sku']] = SortedDict(zip(column_names, values))
 
     return Data
 

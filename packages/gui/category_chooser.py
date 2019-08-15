@@ -7,6 +7,37 @@ from tkinter import messagebox as tmb
 from packages import color as clr
 from packages import item_upload
 
+class MarkingDropdown(tkinter.Frame):
+    def __init__(self, master, *args, **kwargs):
+        tkinter.Frame.__init__(self, master, *args, **kwargs)
+        self.master = master
+        self.args = args
+        self.kwargs = kwargs
+        self.initialize()
+
+    def initialize(self):
+        self.grid()
+
+        self.optionvar = tkinter.StringVar(self)
+        self.resultvar = tkinter.StringVar(self)
+
+        self.options = {
+            'Neu':'14',
+            'Alt':'9',
+            'Item im Upload Prozess':'28'
+        }
+
+        self.optionvar.set('marking')
+
+        self.dropdown_menu = tkinter.OptionMenu(self, self.optionvar, *[ *self.options ])
+        self.dropdown_menu.grid(row=1, column=0, sticky="EW", padx=50)
+
+        self.optionvar.trace('w', self.change_dropdown)
+
+    def change_dropdown(self, *args):
+        if(self.optionvar.get() and not( self.optionvar.get() == 'marking' )):
+            self.resultvar = self.options[ self.optionvar.get() ]
+
 class LabelBox(tkinter.Frame):
     def __init__(self, master, similar_names):
         tkinter.Frame.__init__(self, master)
@@ -290,7 +321,7 @@ class CategoryChooser(tkinter.Tk):
         self.atrpath = atrpath
         self.atrdate = atrdate
         self.newpath = {'upload-path':'', 'attribute-path':''}
-        self.data = {'name':'', 'categories':''}
+        self.data = {'name':'', 'categories':'', 'marking':''}
         self.protocol("WM_WINDOW_DELETE", self.close_app)
         self.missingcolors = {}
         # Window position properties
@@ -340,13 +371,22 @@ class CategoryChooser(tkinter.Tk):
         self.namechooser = tkinter.Entry(self, width=50, bg="white")
         self.namechooser.grid(row=6, columnspan=3, pady=10, padx=10)
 
-        self.accept = tkinter.Button(self, text="Accept",
-                                     command=lambda: self.get_input(self.dropdown.resultbox.get(), self.namechooser.get()))
-        self.accept.grid(row=7, column=3, pady=10, padx=10)
+        self.markingdesc = DescBox(master=self, desctext="Choose a marking for the product")
+        self.markingdesc.grid(row=7, columnspan=3, pady=10, padx=10)
 
-    def get_input(self, categories, name):
+        self.markingchooser = MarkingDropdown(master=self)
+        self.markingchooser.grid(row=8, columnspan=3, pady=10, padx=10)
+
+        self.accept = tkinter.Button(self, text="Accept",
+                                     command=lambda: self.get_input(self.dropdown.resultbox.get(),
+                                                                    self.namechooser.get(),
+                                                                    self.markingchooser.resultvar))
+        self.accept.grid(row=9, column=3, pady=10, padx=10)
+
+    def get_input(self, categories, name, marking):
         self.data['name'] = name
         self.data['categories'] = categories
+        self.data['marking'] = marking
         # Close the gui after accepting the input to stop the mainloop
         self.close_app()
 

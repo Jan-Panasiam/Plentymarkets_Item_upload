@@ -132,9 +132,6 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                     if(row['parent_child'] == 'child'):
                         attributes = get_attributes(dataset=row, sets=color_size_sets)
 
-                    if(row['parent_child'] == 'parent'):
-                        item_flag = 21
-
                     try:
                         values = [
                                     row['parent_sku'], row['item_sku'],
@@ -166,7 +163,8 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                         print('Error at the Values')
                     Data[row['item_sku']] = SortedDict(zip(column_names, values))
                 except KeyError as err:
-                    print("Error at : 'if(row['parent_child'] == 'parent'):'")
+                    print("Error inside parent_child == parent\nline:{0}err:{1}"
+                          .format(sys.exc_info[2].tb_lineno, err))
                     return row['item_sku']
 
             # open the intern number csv to get the item ID
@@ -324,7 +322,7 @@ def get_properties(flatfile):
                   'width':0,
                   'height':0,
                   'weight':0,
-                  '1'}
+                  }
 
     with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=";")
@@ -365,13 +363,21 @@ def get_properties(flatfile):
 def get_attributes(dataset, sets):
 
     output_string = ''
-    if(len(sets[dataset['parent_sku']]['color']) > 1):
-        output_string = 'color_name:' + dataset['color_name']
-    if(len(sets[dataset['parent_sku']]['size']) > 1):
-        if(not(output_string)):
-            output_string = 'size_name:' + dataset['size_name']
-        else:
-            output_string = output_string + ';size_name:' + dataset['size_name']
+    try:
+        if(len(sets[dataset['parent_sku']]['color']) > 1):
+            output_string = 'color_name:' + dataset['color_name']
+    except Exception as err:
+        print("Error @ adding color to string (get_attributes)\nerr:{0}"
+              .format(err))
+    try:
+        if(len(sets[dataset['parent_sku']]['size']) > 1):
+            if(not(output_string)):
+                output_string = 'size_name:' + dataset['size_name']
+            else:
+                output_string = output_string + ';size_name:' + dataset['size_name']
+    except Exception as err:
+        print("Error @ adding size to string\nerr:{0}"
+              .format(err))
     return output_string
 
 def find_similar_attr(flatfile):

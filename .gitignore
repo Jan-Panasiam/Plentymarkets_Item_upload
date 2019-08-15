@@ -1,0 +1,12 @@
+/Input_files
+/Windows_version
+/todo.md
+/Upload
+main.py
+/log
+/Linux_Version
+config.txt
+clean_upload.sh
+build_new_version.sh
+/__pycache__
+/packages/__pycache__/

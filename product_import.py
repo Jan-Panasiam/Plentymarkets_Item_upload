@@ -92,6 +92,13 @@ def main():
                                                       title="Choose a folder from where to upload")
     # END of CONFIG READING
 
+    # If the config is fresh built load in the attribute file manually
+    if(not(attributefile['path'])):
+        attributefile['path'] = askopenfilename(initialdir=recent_path,
+                                                title="Color Attributes from PlentyMarkets",
+                                                filetypes=[ ("csv files", "*.csv") ])
+        attributefile = check_encoding(attributefile)
+
     # Import Flatfile
     step += 1
     sheet['path'] = askopenfilename(initialdir=recent_path,

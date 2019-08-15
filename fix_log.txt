@@ -1,0 +1,1 @@
+2019-08-15 - Fix of error occuring when trying to execute a fresh built script on a windows machine within a subsequent empty configuration

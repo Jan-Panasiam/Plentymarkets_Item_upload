@@ -3,6 +3,7 @@ from tkinter.filedialog import askopenfilename
 import sys
 import platform
 import os
+import time
 import ntpath
 from packages.item_upload import itemUpload, WrongEncodingException, check_encoding, check_flatfile, itemPropertyUpload
 from packages.barcode import EmptyFieldWarning
@@ -129,7 +130,9 @@ def main():
     while (LOOP_ACTIVE):
         if(cchooser):
             cchooser.update()
-        if(cchooser.data['name'] and cchooser.data['categories']):
+            time.sleep(0.3)
+        if(cchooser.data['name'] and cchooser.data['categories'] and\
+           cchooser.data['marking']):
             LOOP_ACTIVE = False
             cchooser.destroy()
     # END GUI
@@ -255,7 +258,7 @@ def main():
                                 title="Export File from Plentymarkets",
                                 filetypes=[ ("csv files", "*.csv") ])
 
-        plenty_export = check_encoding(sheet)
+        plenty_export = check_encoding(plenty_export)
 
         step += 1
         imageUpload(flatfile=sheet, attributefile=attributefile, exportfile=plenty_export, uploadfolder=upload_folder)

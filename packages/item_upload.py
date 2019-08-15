@@ -7,62 +7,8 @@ from os.path import isfile
 from sys import exit
 from packages import barcode, amazon_data_upload, price_upload, image_upload
 
-
-try:
-    from sortedcontainers import SortedDict
-except ImportError:
-    print("the sortedcontainers module is required to run this program.")
-    raise ImportError
-
 class WrongEncodingException(Exception):
     pass
-
-def check_flatfile(flatfile):
-    try:
-        with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
-            reader = csv.DictReader(item, delimiter=';')
-
-            first_row = [* list(reader)[0] ]
-            if(not( 'feed_product_type' in first_row )):
-                if( 'Marke' in first_row ):
-                    print("Please cut the first two rows from the flatfile for this script\n")
-                    return False
-                else:
-                    print("This file contains the wrong column header\n{0}\n".format(','.join(first_row)))
-                    return False
-            else:
-                return True
-    except Exception as err:
-        print("ERROR @ flatfile checking : {0}".format(err))
-
-def check_encoding(file_dict):
-    try:
-        with open(file_dict['path'], mode='rb') as item:
-            try:
-                raw_data = item.read()
-            except Exception as err:
-                print("ERROR: {0}\n".format(err))
-            file_dict['encoding'] = chardet.detect(raw_data)['encoding']
-            print("chardet data for {0}\n{1}\n".format(file_dict['path'], chardet.detect(raw_data)))
-
-    except Exception as err:
-        print("Error : {0}\n".format(err))
-
-    return file_dict
-
-def get_variationid(exportfile, sku):
-
-    variationid = 0
-    with open(exportfile['path'], mode = 'r', encoding = exportfile['encoding']) as item:
-        reader = csv.DictReader(item, delimiter = ';')
-
-        for row in reader:
-            if(row['VariationNo'] == sku):
-                variationid = row['VariationId']
-        if(not(variationid)):
-            print("No Variation ID found for {0}\n".format(sku))
-
-    return variationid
 
 def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
     # The column headers for the output file as expected from the
@@ -71,11 +17,12 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                     'Length', 'Width',
                     'Height', 'Weight',
                     'Name', 'MainWarehouse',
-                    'Attributes',
+                    'Attributes', 'Position',
                     'ItemOriginCountry', 'ItemTextKeywords',
                     'ItemProducer', 'ItemProducerID',
                     'ItemTextName', 'ItemTextDescription',
                     'ExternalID',
+                    'NetStockPositivVis', 'NetStockNegativInvis',
                     'VariationAvailability', 'Category-IDs',
                     'Standard-Category', 'Standard-Category-Webshop',
                     'Mandant-Active', 'Webshop-Active',
@@ -107,6 +54,7 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
 
     # PACKAGE PROPERTIES
     package_properties = get_properties(flatfile)
+    group_parent = ''
 
     try:
         # FILL DICTIONARY
@@ -119,31 +67,33 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                 try:
                     # SET KEYWORDS
                     keywords = ''
-                    # Item Flags for new products to download the correct export
-                    item_flag = ''
                     if(row['generic_keywords']):
                         keywords = row[ 'generic_keywords' ]
 
                     if(not(keywords)):
-                        raise barcode.EmptyFieldWarning('generic_keywords')
+                        try:
+                            raise barcode.EmptyFieldWarning('generic_keywords')
+                        except Exception:
+                            print("Generic Keywords are empty!")
 
                     # SET ATTRIBUTES
                     attributes = ''
-                    if(row['parent_child'] == 'child'):
-                        attributes = get_attributes(dataset=row, sets=color_size_sets)
-
+                    if(row['parent_child'] == 'parent'):
+                        group_parent = row['item_sku']
+                        position = 0
                     try:
                         values = [
                                     row['parent_sku'], row['item_sku'],
                                     package_properties[ 'length' ] * 10, package_properties[ 'width' ] * 10,
                                     package_properties[ 'height' ] * 10, package_properties[ 'weight' ],
                                     row['item_name'], '104',
-                                    attributes,
+                                    attributes, position,
                                     '62', keywords,
                                     row['brand_name'].upper(), '3',
                                     input_data['name'], row['product_description'],
                                     '',  # externalID
-                                    '3', input_data['categories'],
+                                    '1', '1', # NetStock pos = Vis & neg = Invis
+                                    '2', input_data['categories'],
                                     input_data['categories'][0:2], input_data['categories'][0:2],
                                     'Y', 'Y', # mandant
                                     '', '',   # barcode
@@ -155,13 +105,13 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                                     '', '', '',# producttype & fba amazon
                                     '','','','','','',# prices
                                     '', '', '', #asin
-                                    item_flag # item flag 1 the sign of the item status
+                                    input_data['marking']
                                   ]
 
                     except KeyError:
                         raise KeyError
                         print('Error at the Values')
-                    Data[row['item_sku']] = SortedDict(zip(column_names, values))
+                    Data[row['item_sku']] = collections.OrderedDict(zip(column_names, values))
                 except KeyError as err:
                     print("Error inside parent_child == parent\nline:{0}err:{1}"
                           .format(sys.exc_info[2].tb_lineno, err))
@@ -173,7 +123,6 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                 for row in reader:
                     try:
                         if(row['amazon_sku'] in [*Data]):
-                            Data[row['amazon_sku']]['ItemID'] = row['article_id']
                             Data[row['amazon_sku']]['ExternalID'] = row['full_number']
                     except KeyError as keyerr:
                         print(keyerr)
@@ -310,7 +259,7 @@ def itemPropertyUpload(flatfile, folder):
     Data = {}
     for index, row in enumerate( properties ):
         for prop in property_id:
-            values = [row, property_id[prop], properties[row][prop], 'DE']
+            values = [row, property_id[prop], properties[row][prop], 'DE', 1]
 
             Data[row + prop] = dict(zip(column_names, values))
 
@@ -432,3 +381,76 @@ def search_child(item_list, parent):
             child_dict[item[0]] = item[1]
 
     return child_dict
+
+def check_flatfile(flatfile):
+    try:
+        with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
+            reader = csv.DictReader(item, delimiter=';')
+
+            first_row = [* list(reader)[0] ]
+            if(not( 'feed_product_type' in first_row )):
+                if( 'Marke' in first_row ):
+                    print("Please cut the first two rows from the flatfile for this script\n")
+                    return False
+                else:
+                    print("This file contains the wrong column header\n{0}\n".format(','.join(first_row)))
+                    return False
+            else:
+                return True
+    except Exception as err:
+        print("ERROR @ flatfile checking : {0}".format(err))
+
+def check_encoding(file_dict):
+    try:
+        with open(file_dict['path'], mode='rb') as item:
+            try:
+                raw_data = item.read()
+            except Exception as err:
+                print("ERROR: {0}\n".format(err))
+            file_dict['encoding'] = chardet.detect(raw_data)['encoding']
+            print("chardet data for {0}\n{1}\n".format(file_dict['path'], chardet.detect(raw_data)))
+
+    except Exception as err:
+        print("Error : {0}\n".format(err))
+
+    return file_dict
+
+def get_variationid(exportfile, sku):
+
+    variationid = 0
+    with open(exportfile['path'], mode = 'r', encoding = exportfile['encoding']) as item:
+        reader = csv.DictReader(item, delimiter = ';')
+
+        for row in reader:
+            if('VariationNo' in [*row]):
+                if(row['VariationNo'] == sku):
+                    variationid = row['VariationId']
+            else:
+                try:
+                    if(row[ [*row][1] ] == sku):
+                        for i in range( len([*row] )):
+                            # matches .id .ID _ID _id ID id
+                            if(re.search(r'\bid', [*row][i].lower())):
+                                print("found ID in {0} value: {1}".format([*row][i], row[ [*row][i] ]))
+                                variationid = row[ [*row][i] ]
+                except Exception as err:
+                    print("ERROR @ alternative header reading method in get_variationid: line: {0}, error: {1}"
+                          .format(sys.exc_info()[2].tb_lineno, err))
+                    print("press ENTER to continue...")
+                    input()
+        if(not(variationid)):
+            print("No Variation ID found for {0}\n".format(sku))
+
+    return variationid
+
+def get_attributes(dataset, sets):
+
+    output_string = ''
+    if(len(sets[dataset['parent_sku']]['color']) > 1):
+        output_string = 'color_name:' + dataset['color_name']
+    if(len(sets[dataset['parent_sku']]['size']) > 1):
+        if(not(output_string)):
+            output_string = 'size_name:' + dataset['size_name']
+        else:
+            output_string = output_string + ';size_name:' + dataset['size_name']
+    return output_string

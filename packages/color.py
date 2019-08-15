@@ -66,9 +66,9 @@ def create_attributesync(color_dict, path):
     Data = {}
     values = []
 
-    for row in color_dict:
+    for index, row in enumerate(color_dict):
         try:
-            values = ['4', color_dict[row]['color_name'], color_dict[row]['highest-position'], color_dict[row]['color_name']]
+            values = ['4', color_dict[row]['color_name'], int(float(color_dict[row]['highest-position'])) + int(index + 1), color_dict[row]['color_name']]
         except KeyError as err:
             print(color_dict[row])
             print("ERROR @ attribute sync creation: {0}".format(err))

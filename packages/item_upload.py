@@ -81,6 +81,10 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                     if(row['parent_child'] == 'parent'):
                         group_parent = row['item_sku']
                         position = 0
+                    if(row['parent_child'] == 'child'):
+                        attributes = get_attributes(dataset=row, sets=color_size_sets)
+                        if(group_parent and row['parent_sku'] == group_parent):
+                            position += 1
                     try:
                         values = [
                                     row['parent_sku'], row['item_sku'],

@@ -3,17 +3,19 @@ import sys
 import re
 import chardet
 import collections
-from os.path import isfile
 from sys import exit
-from packages import barcode, amazon_data_upload, price_upload, image_upload
+from packages import barcode, amazon_data_upload, price_upload
+
 
 class WrongEncodingException(Exception):
     pass
 
-def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
+
+def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data, filename):
     # The column headers for the output file as expected from the
     # plentymarkets dataformat
     column_names = ['Parent-SKU', 'SKU',
+                    'isParent',
                     'Length', 'Width',
                     'Height', 'Weight',
                     'Name', 'MainWarehouse',
@@ -38,7 +40,6 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                     'Item-Flag-1'
                     ]
 
-
     # Unpack File and scrap data
     # INPUT
     # --------------------------------------------------------------
@@ -46,6 +47,7 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
     sorted_Data = collections.OrderedDict()
     package_properties = {}
     barcode_data = {}
+    isParent = False
 
     # Get sets of all colors and sizes for each parent
     # to find if there are some with only one attribute value for all childs
@@ -68,7 +70,7 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                     # SET KEYWORDS
                     keywords = ''
                     if(row['generic_keywords']):
-                        keywords = row[ 'generic_keywords' ]
+                        keywords = row['generic_keywords']
 
                     if(not(keywords)):
                         try:
@@ -77,19 +79,29 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                             print("Generic Keywords are empty!")
 
                     # SET ATTRIBUTES
-                    attributes = ''
-                    if(row['parent_child'] == 'parent'):
-                        group_parent = row['item_sku']
-                        position = 0
-                    if(row['parent_child'] == 'child'):
-                        attributes = get_attributes(dataset=row, sets=color_size_sets)
-                        if(group_parent and row['parent_sku'] == group_parent):
-                            position += 1
+                    try:
+                        attributes = ''
+                        if(row['parent_child'] == 'parent'):
+                            isParent = True
+                            group_parent = row['item_sku']
+                            position = 0
+                        if(row['parent_child'] == 'child'):
+                            isParent = False
+                            attributes = get_attributes(dataset=row,
+                                                        sets=color_size_sets)
+                            if(group_parent and row['parent_sku'] == group_parent):
+                                position += 1
+                    except Exception as err:
+                        print("Error @ attribute setting, line:{0}, err:{1}"
+                              .format(sys.exc_info()[2].tb_lineno, err))
                     try:
                         values = [
                                     row['parent_sku'], row['item_sku'],
-                                    package_properties[ 'length' ] * 10, package_properties[ 'width' ] * 10,
-                                    package_properties[ 'height' ] * 10, package_properties[ 'weight' ],
+                                    isParent,
+                                    package_properties['length'] * 10,
+                                    package_properties['width'] * 10,
+                                    package_properties['height'] * 10,
+                                    package_properties['weight'],
                                     row['item_name'], '104',
                                     attributes, position,
                                     '62', keywords,
@@ -115,10 +127,13 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
                     except KeyError:
                         raise KeyError
                         print('Error at the Values')
+                    except Exception as err:
+                        print("Error @ setting values: line:{0}, err:{1}"
+                              .format(sys.exc_info()[2].tb_lineno, err))
                     Data[row['item_sku']] = collections.OrderedDict(zip(column_names, values))
                 except KeyError as err:
-                    print("Error inside parent_child == parent\nline:{0}err:{1}"
-                          .format(sys.exc_info[2].tb_lineno, err))
+                    print("Error reading file\nline:{0}err:{1}"
+                          .format(sys.exc_info()[2].tb_lineno, err))
                     return row['item_sku']
 
             # open the intern number csv to get the item ID
@@ -190,17 +205,20 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data):
         # --------------------------------------------------------------
 
         # Sort the dictionary to make sure that the parents are the first variant of each item
-        print("Sort Products")
         sorted_Data = sort_Products(Data)
 
-        barcode.writeCSV(sorted_Data, "item", column_names, folder)
+        for index, row in enumerate( sorted_Data ):
+            print("DEBUG: sorted_Data index: {0} = {1}"
+                  .format(index, row))
+
+        barcode.writeCSV(sorted_Data, "item", column_names, folder, filename)
     except UnicodeDecodeError as err:
         print("Decode Error at line: {0}, err: {1}".format(sys.exc_info()[2].tb_lineno, err))
         print("press ENTER to continue..")
         input()
         sys.exit()
 
-def itemPropertyUpload(flatfile, folder):
+def itemPropertyUpload(flatfile, folder, filename):
 
     with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';', lineterminator='\n')
@@ -253,10 +271,6 @@ def itemPropertyUpload(flatfile, folder):
                     print("In property Upload: One of the values wasn't found : ", err)
 
                 # Check for empty values
-                #for index, item in enumerate( values ):
-                #    if(not(item)):
-                #        print(row['item_sku'], " has no value on ", property_names[index], " !")
-
                 properties[row['item_sku']] = dict(zip(property_names, values))
 
     column_names = ['SKU', 'ID-property', 'Value', 'Lang', 'Active']
@@ -267,7 +281,8 @@ def itemPropertyUpload(flatfile, folder):
 
             Data[row + prop] = dict(zip(column_names, values))
 
-    barcode.writeCSV(Data, "Item_Merkmale", column_names, folder)
+
+    barcode.writeCSV(Data, "Item_Merkmale", column_names, folder, filename)
 
 def get_properties(flatfile):
 
@@ -303,6 +318,9 @@ def get_properties(flatfile):
                 properties[ 'length' ] = int(float(row['package_length']))
                 properties[ 'width' ] = int(float(row['package_width']))
                 properties[ 'weight' ] = int(float(row['package_weight']))
+            except Exception as err:
+                print("Error @ setting values: line:{0}, err:{1}"
+                        .format(sys.exc_info()[2].tb_lineno, err))
 
             except ValueError as err:
                 print(err)
@@ -310,6 +328,9 @@ def get_properties(flatfile):
                     "and weight\nfrom the children to the parent",
                     "variation in the flatfile.\n")
                 exit()
+            except Exception as err:
+                print("Error @ setting values: line:{0}, err:{1}"
+                        .format(sys.exc_info()[2].tb_lineno, err))
 
         return properties
 
@@ -352,7 +373,6 @@ def find_similar_attr(flatfile):
                     if(row['parent_sku'] == line):
                         Data[row['parent_sku']]['color'].add(row['color_name'])
                         Data[row['parent_sku']]['size'].add(row['size_name'])
-
     return Data
 
 def sort_Products(dataset):
@@ -364,13 +384,12 @@ def sort_Products(dataset):
 
     # Go through the items of the dataset
     for item in item_list:
-        # When there is no entry in 'Parent-SKU' the item has to be a parent
         if(not(item[0] in [* new_dict ])):
-            if(not(item[1]['Parent-SKU'])):
+            if(item[1]['isParent']):
                 # add the parent to the new dict
                 new_dict[item[0]] = item[1]
                 # get all the children and update the itemlist without them
-                child_dict = search_child(item_list, item[0])
+                child_dict = search_child(item_list=item_list, parent=item[0])
                 # add each child to the new dict after the parent
                 for child in child_dict:
                     new_dict[child] = child_dict[child]
@@ -447,14 +466,3 @@ def get_variationid(exportfile, sku):
 
     return variationid
 
-def get_attributes(dataset, sets):
-
-    output_string = ''
-    if(len(sets[dataset['parent_sku']]['color']) > 1):
-        output_string = 'color_name:' + dataset['color_name']
-    if(len(sets[dataset['parent_sku']]['size']) > 1):
-        if(not(output_string)):
-            output_string = 'size_name:' + dataset['size_name']
-        else:
-            output_string = output_string + ';size_name:' + dataset['size_name']
-    return output_string

@@ -229,12 +229,7 @@ class DropdownChooser(tkinter.Frame):
                         'Women.Hoodie' :'68',
                         'Women.Sarong-O' :'69',
                         'Women.Jacken' :'84',
-                        'Accessoires.Taschen':'58',
-                        'Accessoires.Patch':'76',
-                        'Accessoires.Backdrop':'77',
-                        'Accessoires.Kissen':'78',
-                        'Accessoires.Suncatcher':'79',
-                        'Accessoires.Halstuch':'90'
+                        'Unisex.Bags' : '108'
                         }
 
         self.activities = {

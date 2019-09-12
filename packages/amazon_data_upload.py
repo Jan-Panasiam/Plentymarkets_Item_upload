@@ -1,6 +1,5 @@
 import csv
 from os.path import isfile
-import sys
 from packages import barcode
 try:
     from sortedcontainers import SortedDict
@@ -11,20 +10,20 @@ except ImportError:
 
 def amazonSkuUpload(flatfile):
 
-    column_names = [ 'MarketID', 'MarketAccountID',
-                     'SKU', 'ParentSKU' ]
+    column_names = ['MarketID', 'MarketAccountID',
+                    'SKU', 'ParentSKU']
 
     # Define constant values
-    marketid = 104 # Amazon FBA Germany
-    accountid = 0  # bkkasia.germany@gmail.com
+    marketid = 104  # Amazon FBA Germany
+    accountid = 0   # bkkasia.germany@gmail.com
 
     Data = SortedDict()
 
     with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';')
         for row in reader:
-            values = [ marketid, accountid,
-                        row['item_sku'], row['parent_sku'] ]
+            values = [marketid, accountid,
+                      row['item_sku'], row['parent_sku']]
             Data[row['item_sku']] = SortedDict(zip(column_names, values))
 
     return Data
@@ -32,7 +31,9 @@ def amazonSkuUpload(flatfile):
 
 def amazonDataUpload(flatfile):
 
-    column_names = [ 'ItemAmazonProductType', 'ItemAmazonFBA', 'ItemShippingWithAmazonFBA' ]
+    column_names = ['ItemAmazonProductType',
+                    'ItemAmazonFBA',
+                    'ItemShippingWithAmazonFBA']
 
     Data = SortedDict()
 
@@ -40,12 +41,12 @@ def amazonDataUpload(flatfile):
         reader = csv.DictReader(item, delimiter=";")
 
         type_id = {
-            'accessory':28,
-            'shirt':13,
-            'pants':15,
-            'dress':18,
-            'outerwear':21,
-            'bags':27
+            'accessory': 28,
+            'shirt': 13,
+            'pants': 15,
+            'dress': 18,
+            'outerwear': 21,
+            'bags': 27
         }
 
         values = ''
@@ -57,7 +58,12 @@ def amazonDataUpload(flatfile):
                 for key in type_id:
                     if(row['feed_product_type'].lower() == key):
                         product_type = type_id[key]
-            if(not(product_type)):
+            else:
+                print("ERROR @ product type in AmazonData: {0} not in {1}"
+                      .format(row['feed_product_type'],
+                              ",".join([*type_id])))
+
+            if(not(product_type) and not(row['feed_product_type'])):
                 raise barcode.EmptyFieldWarning('product_type')
 
             values = [product_type, '1', '1']
@@ -66,11 +72,13 @@ def amazonDataUpload(flatfile):
 
     return Data
 
-def featureUpload(flatfile, features, folder):
+
+def featureUpload(flatfile, features, folder, filename):
 
     column_names = [
                         'Variation.number', 'VariationEigenschaften.id',
-                        'VariationEigenschaften.cast', 'VariationEigenschaften.linked',
+                        'VariationEigenschaften.cast',
+                        'VariationEigenschaften.linked',
                         'VariationEigenschaften.value'
                    ]
 
@@ -95,4 +103,8 @@ def featureUpload(flatfile, features, folder):
                         print("The feature:\t{0}\twas not found, in the flatfile!\n".format(feature))
 
         if(Data):
-            barcode.writeCSV(dataobject=Data, name="features".upper(), columns=column_names, upload_path=folder)
+            barcode.writeCSV(dataobject=Data,
+                             name="features".upper(),
+                             columns=column_names,
+                             upload_path=folder,
+                             item=filename)

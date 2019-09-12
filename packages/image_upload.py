@@ -28,7 +28,7 @@ def getColorAttributeID(attributefile, product):
     return attributeid
 
 
-def imageUpload(flatfile, attributefile, exportfile, uploadfolder):
+def imageUpload(flatfile, attributefile, exportfile, uploadfolder, filename):
 
     try:
         Data = SortedDict()
@@ -97,5 +97,5 @@ def imageUpload(flatfile, attributefile, exportfile, uploadfolder):
     except Exception as err:
         print("Error @ imageupload line: {0} : {1}".format(sys.exc_info()[2].tb_lineno, err))
 
-    barcode.writeCSV(dataobject=Data, name='Image_', columns=column_names, upload_path=uploadfolder)
+    barcode.writeCSV(dataobject=Data, name='Image_', columns=column_names, upload_path=uploadfolder, item=filename)
     return Data

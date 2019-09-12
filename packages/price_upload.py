@@ -7,7 +7,7 @@ except ImportError:
 
 
 def priceUpload(flatfile):
-    # The column header names
+    # The column header names for the output
     column_names = ['price', 'ebay', 'amazon', 'webshop', 'etsy']
 
     prices = {
@@ -33,12 +33,14 @@ def priceUpload(flatfile):
                 for scndrow in reader:
                     if(row['parent_child'] == 'parent'):
                         if(scndrow['parent_child'] == 'child' and scndrow['standard_price'] and row['item_sku'] == scndrow['parent_sku']):
+                            print("parent without price add:{0} from:{1} to:{2}"
+                                  .format(scndrow['standard_price'],
+                                          scndrow['item_sku'],
+                                          row['item_sku']))
                             standard_price = scndrow['standard_price']
-                            print("reach standard_price set parent standard_price : {0}".format(standard_price))
                             break
                     elif(row['parent_child'] == 'child'):
                         if(scndrow['parent_child'] == 'child' and scndrow['standard_price'] and row['parent_sku'] == scndrow['parent_sku']):
-                            print("reach standard_price set child")
                             standard_price = scndrow['standard_price']
                             break
 
@@ -65,7 +67,6 @@ def priceUpload(flatfile):
             values = [prices['price']['value'], prices['ebay']['value'],
                         prices['amazon']['value'], prices['webshop']['value'],
                         prices['etsy']['value']]
-
             Data[row['item_sku']] = SortedDict(zip(column_names, values))
 
     return Data

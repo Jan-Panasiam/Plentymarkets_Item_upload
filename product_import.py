@@ -63,8 +63,6 @@ def main():
                 }
     # Check if the os is Linux, in that case the initial directory is Documents
     # Unless Documents is not available in which case it is ~
-    initial_directory = '../'
-
     if(platform.system() == 'Linux'):
         if(os.path.exists(path='/home/' + os.getlogin() + '/Documents/')):
             initial_directory = '/home/' + os.getlogin() + '/Documents/'
@@ -138,6 +136,7 @@ def main():
     # END GUI
 
     user_data = cchooser.data
+    specific_name = user_data['name'].strip(' ').strip("'").strip("\"").strip("_").strip("\n").lower()
     # Writing the changes into the config for the next start of the script
     if(cchooser.newpath['upload-path'] and cchooser.newpath['attribute-path']):
         config_update = {'row1':{ 'title': 'upload_folder', 'value': cchooser.newpath['upload-path'] },
@@ -203,32 +202,42 @@ def main():
         step += 1
         try:
             print("\nItem Upload\n")
-            itemUpload(sheet, intern_number, stocklist, attributefile, upload_folder, user_data)
+            itemUpload(flatfile=sheet,
+                       intern=intern_number,
+                       stocklist=stocklist,
+                       attributefile=attributefile,
+                       folder=upload_folder,
+                       input_data=user_data,
+                       filename=specific_name)
         except WrongEncodingException:
             wrongEncodingLog(log_path=log_folder, step_number=step, step_desc=step_name[step], file_name="flatfile")
         except KeyError as kexc:
             keyErrorLog(log_path=log_folder, step_number=step, step_desc=step_name[step], key_name=kexc, file_name=ntpath.basename(sheet))
         except OSError as fexc:
             fileNotFoundLog(log_path=log_folder, step_number=step, step_desc=step_name[step], file_name="intern_numbers")
-        except TypeError:
-            fileNotFoundLog(log_path=log_folder, step_number=step, step_desc=step_name[step], file_name="flatfile")
+        #except TypeError as err:
+            #print("TypeError: {0}sys.exc_info: {1}".format( err, sys.exc_info() ))
+            #fileNotFoundLog(log_path=log_folder, step_number=step, step_desc=step_name[step], file_name="flatfile")
         except UnboundLocalError as uexc:
             unboundLocalLog(log_path=log_folder, step_number=step, step_desc=step_name[step], filename=ntpath.basename(sheet), variable_name=uexc.args)
         except EmptyFieldWarning as eexc:
             emptyFieldWarningLog(log_path=log_folder, step_number=step, step_desc=step_name[step], field_name=eexc.errorargs, file_name=ntpath.basename(sheet))
-        except Exception as exc:
-            print("Item Upload failed!\n")
-            if(exc == 'item_sku'):
-                print("It is very likely that you don't have the proper headers, use the english ones!\n")
-            e = sys.exc_info()
-            print("Error @ FILE: {0}, LINE: {1}\n".format( e[2].tb_frame.f_code.co_filename, e[2].tb_lineno ))
-            for element in e:
-                print(element)
+        #except Exception as exc:
+        #    print("Item Upload failed!\n")
+        #    if(exc == 'item_sku'):
+        #        print("It is very likely that you don't have the proper headers, use the english ones!\n")
+        #    e = sys.exc_info()
+        #    print("Error @ FILE: {0}, LINE: {1}\n".format( e[2].tb_frame.f_code.co_filename, e[2].tb_lineno ))
+        #    for element in e:
+        #        print(element)
 
         try:
             print("Feature Upload")
             step += 1
-            featureUpload(flatfile=sheet, features=features, folder=upload_folder)
+            featureUpload(flatfile=sheet,
+                          features=features,
+                          folder=upload_folder,
+                          filename=specific_name)
         except KeyError as kexc:
             keyErrorLog(log_path=log_folder, step_number=step, step_desc=step_name[step], key_name=kexc, file_name=ntpath.basename(sheet))
         except UnboundLocalError as uexc:
@@ -241,7 +250,9 @@ def main():
         try:
             print("Property Upload")
             step += 1
-            itemPropertyUpload(flatfile=sheet, folder=upload_folder)
+            itemPropertyUpload(flatfile=sheet,
+                               folder=upload_folder,
+                               filename=specific_name)
         except KeyError as kexc:
             keyErrorLog(log_path=log_folder, step_number=step, step_desc=step_name[step], key_name=kexc, file_name=ntpath.basename(sheet))
         except UnboundLocalError as uexc:
@@ -261,7 +272,11 @@ def main():
         plenty_export = check_encoding(plenty_export)
 
         step += 1
-        imageUpload(flatfile=sheet, attributefile=attributefile, exportfile=plenty_export, uploadfolder=upload_folder)
+        imageUpload(flatfile=sheet,
+                    attributefile=attributefile,
+                    exportfile=plenty_export,
+                    uploadfolder=upload_folder,
+                    filename=specific_name)
         del fexc
         # A stop in the script flow to interrupt a console window from closing itself
         print('press ENTER to close the script...')

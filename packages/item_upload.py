@@ -207,10 +207,6 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data, f
         # Sort the dictionary to make sure that the parents are the first variant of each item
         sorted_Data = sort_Products(Data)
 
-        for index, row in enumerate( sorted_Data ):
-            print("DEBUG: sorted_Data index: {0} = {1}"
-                  .format(index, row))
-
         barcode.writeCSV(sorted_Data, "item", column_names, folder, filename)
     except UnicodeDecodeError as err:
         print("Decode Error at line: {0}, err: {1}".format(sys.exc_info()[2].tb_lineno, err))

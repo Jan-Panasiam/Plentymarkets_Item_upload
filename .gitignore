@@ -10,3 +10,6 @@ clean_upload.sh
 build_new_version.sh
 /__pycache__
 /packages/__pycache__/
+/packages/gui/__pycache__/
+Windows_build.txt
+debug-checklist.txt

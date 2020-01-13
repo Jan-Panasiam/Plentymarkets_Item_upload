@@ -48,6 +48,7 @@ def itemUpload(flatfile, intern, stocklist, attributefile, folder, input_data, f
     package_properties = {}
     barcode_data = {}
     isParent = False
+    position = 0
 
     # Get sets of all colors and sizes for each parent
     # to find if there are some with only one attribute value for all childs

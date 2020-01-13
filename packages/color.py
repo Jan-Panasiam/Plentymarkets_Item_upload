@@ -5,7 +5,7 @@ from packages import barcode
 
 def missingColor(flatfile, attributefile):
     # check the attribute export from PlentyMarkets for similar color names
-    #_____________________________
+    # _____________________________
     color_list = set()
     missing_colors = dict()
     # Open the attribute file to get all color names
@@ -75,5 +75,5 @@ def create_attributesync(color_dict, path):
 
         Data[color_dict[row]['color_name']] = dict(zip(column_names, values))
 
-    barcode.writeCSV(dataobject=Data, name="Color_Sync", columns=column_names, upload_path=path)
+    barcode.writeCSV(dataobject=Data, name="Color_Sync", columns=column_names, upload_path=path, item="")
 

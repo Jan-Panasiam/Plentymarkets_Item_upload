@@ -102,8 +102,6 @@ def featureUpload(flatfile, features, folder, filename):
                                     ]
 
                             Data[row[ 'item_sku' ] + feature] = dict(zip(column_names, values))
-                    else:
-                        print("The feature:\t{0}\twas not found, in the flatfile!\n".format(feature))
 
         if(Data):
             barcode.writeCSV(dataobject=Data,

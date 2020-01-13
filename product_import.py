@@ -212,24 +212,26 @@ def main():
         except WrongEncodingException:
             wrongEncodingLog(log_path=log_folder, step_number=step, step_desc=step_name[step], file_name="flatfile")
         except KeyError as kexc:
-            keyErrorLog(log_path=log_folder, step_number=step, step_desc=step_name[step], key_name=kexc, file_name=ntpath.basename(sheet))
+            keyErrorLog(
+                log_path=log_folder, step_number=step,
+                step_desc=step_name[step], key_name=kexc,
+                file_name=ntpath.basename(sheet['path']))
         except OSError as fexc:
-            fileNotFoundLog(log_path=log_folder, step_number=step, step_desc=step_name[step], file_name="intern_numbers")
-        #except TypeError as err:
-            #print("TypeError: {0}sys.exc_info: {1}".format( err, sys.exc_info() ))
-            #fileNotFoundLog(log_path=log_folder, step_number=step, step_desc=step_name[step], file_name="flatfile")
+            fileNotFoundLog(
+                log_path=log_folder,
+                step_number=step, step_desc=step_name[step],
+                file_name="intern_numbers")
         except UnboundLocalError as uexc:
-            unboundLocalLog(log_path=log_folder, step_number=step, step_desc=step_name[step], filename=ntpath.basename(sheet), variable_name=uexc.args)
+            unboundLocalLog(
+                log_path=log_folder, step_number=step,
+                step_desc=step_name[step],
+                filename=ntpath.basename(sheet['path']),
+                variable_name=uexc.args)
         except EmptyFieldWarning as eexc:
-            emptyFieldWarningLog(log_path=log_folder, step_number=step, step_desc=step_name[step], field_name=eexc.errorargs, file_name=ntpath.basename(sheet))
-        #except Exception as exc:
-        #    print("Item Upload failed!\n")
-        #    if(exc == 'item_sku'):
-        #        print("It is very likely that you don't have the proper headers, use the english ones!\n")
-        #    e = sys.exc_info()
-        #    print("Error @ FILE: {0}, LINE: {1}\n".format( e[2].tb_frame.f_code.co_filename, e[2].tb_lineno ))
-        #    for element in e:
-        #        print(element)
+            emptyFieldWarningLog(
+                log_path=log_folder, step_number=step,
+                step_desc=step_name[step], field_name=eexc.errorargs,
+                file_name=ntpath.basename(sheet['path']))
 
         try:
             print("Feature Upload")
@@ -239,11 +241,21 @@ def main():
                           folder=upload_folder,
                           filename=specific_name)
         except KeyError as kexc:
-            keyErrorLog(log_path=log_folder, step_number=step, step_desc=step_name[step], key_name=kexc, file_name=ntpath.basename(sheet))
+            keyErrorLog(
+                log_path=log_folder, step_number=step,
+                step_desc=step_name[step], key_name=kexc,
+                file_name=ntpath.basename(sheet['path']))
         except UnboundLocalError as uexc:
-            unboundLocalLog(log_path=log_folder, step_number=step, step_desc=step_name[step], filename=ntpath.basename(sheet), variable_name=uexc.args)
+            unboundLocalLog(
+                log_path=log_folder, step_number=step,
+                step_desc=step_name[step],
+                filename=ntpath.basename(sheet['path']),
+                variable_name=uexc.args)
         except EmptyFieldWarning as eexc:
-            emptyFieldWarningLog(log_path=log_folder, step_number=step, step_desc=step_name[step], field_name=eexc.errorargs, file_name=ntpath.basename(sheet))
+            emptyFieldWarningLog(
+                log_path=log_folder, step_number=step,
+                step_desc=step_name[step], field_name=eexc.errorargs,
+                file_name=ntpath.basename(sheet['path']))
         except OSError as err:
             print(err)
             print("Missing Data, check if you have\n - a flatfile\n - a intern file table\n - export file from plentymarkets\n - a sheet with the stock numbers!\n")
@@ -254,11 +266,21 @@ def main():
                                folder=upload_folder,
                                filename=specific_name)
         except KeyError as kexc:
-            keyErrorLog(log_path=log_folder, step_number=step, step_desc=step_name[step], key_name=kexc, file_name=ntpath.basename(sheet))
+            keyErrorLog(
+                log_path=log_folder, step_number=step,
+                step_desc=step_name[step], key_name=kexc,
+                file_name=ntpath.basename(sheet['path']))
         except UnboundLocalError as uexc:
-            unboundLocalLog(log_path=log_folder, step_number=step, step_desc=step_name[step], filename=ntpath.basename(sheet), variable_name=uexc.args)
+            unboundLocalLog(
+                log_path=log_folder, step_number=step,
+                step_desc=step_name[step],
+                filename=ntpath.basename(sheet['path']),
+                variable_name=uexc.args)
         except EmptyFieldWarning as eexc:
-            emptyFieldWarningLog(log_path=log_folder, step_number=step, step_desc=step_name[step], field_name=eexc.errorargs, file_name=ntpath.basename(sheet))
+            emptyFieldWarningLog(
+                log_path=log_folder, step_number=step,
+                step_desc=step_name[step], field_name=eexc.errorargs,
+                file_name=ntpath.basename(sheet['path']))
         except OSError as err:
             print(err)
             print("Missing Data, check if you have\n - a flatfile\n - a intern file table\n - export file from plentymarkets\n - a sheet with the stock numbers!\n")

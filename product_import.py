@@ -197,7 +197,9 @@ def main():
 
             stocklist = check_encoding(stocklist)
         except OSError as fexc:
-            fileNotFoundLog(log_path=log_folder, step_number=step, step_desc=step_name[step], file_name=fexc)
+            fileNotFoundLog(
+                log_path=log_folder, step_number=step,
+                step_desc=step_name[step], file_name=fexc)
 
         step += 1
         try:
@@ -210,7 +212,9 @@ def main():
                        input_data=user_data,
                        filename=specific_name)
         except WrongEncodingException:
-            wrongEncodingLog(log_path=log_folder, step_number=step, step_desc=step_name[step], file_name="flatfile")
+            wrongEncodingLog(
+                log_path=log_folder, step_number=step,
+                step_desc=step_name[step], file_name="flatfile")
         except KeyError as kexc:
             keyErrorLog(
                 log_path=log_folder, step_number=step,

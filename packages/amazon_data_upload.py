@@ -46,7 +46,7 @@ def amazonDataUpload(flatfile):
             'pants': 15,
             'dress': 18,
             'outerwear': 21,
-            'bags': 27,
+            'bag': 27,
             'furnitureanddecor': 4,
             'bedandbath': 3,
             'swimwear': 30

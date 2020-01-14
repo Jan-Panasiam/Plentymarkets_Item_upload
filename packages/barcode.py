@@ -53,7 +53,7 @@ def barcode_Upload(flatfile, stocklist):
                 code = ''
                 code = row['external_product_id']
 
-                if(not(code)):
+                if(not(code) and row['parent_sku']):
                     raise EmptyFieldWarning('barcode(EAN)')
                 values = [code, '', row['item_sku'],
                           '1', 'ASIN', '']

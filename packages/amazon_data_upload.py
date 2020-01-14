@@ -46,7 +46,10 @@ def amazonDataUpload(flatfile):
             'pants': 15,
             'dress': 18,
             'outerwear': 21,
-            'bags': 27
+            'bag': 27,
+            'furnitureanddecor': 4,
+            'bedandbath': 3,
+            'swimwear': 30
         }
 
         values = ''
@@ -99,8 +102,6 @@ def featureUpload(flatfile, features, folder, filename):
                                     ]
 
                             Data[row[ 'item_sku' ] + feature] = dict(zip(column_names, values))
-                    else:
-                        print("The feature:\t{0}\twas not found, in the flatfile!\n".format(feature))
 
         if(Data):
             barcode.writeCSV(dataobject=Data,

@@ -221,31 +221,35 @@ def itemPropertyUpload(flatfile, folder, filename):
         reader = csv.DictReader(item, delimiter=';', lineterminator='\n')
 
         # define the names of the property fields within the flatfile
-        property_names = ['bullet_point1', 'bullet_point2'
-                          , 'bullet_point3', 'bullet_point4'
-                          , 'bullet_point5', 'fit_type'
-                          , 'lifestyle', 'batteries_required'
-                          , 'supplier_declared_dg_hz_regulation'
-                          , 'department_name', 'variation_theme'
-                          , 'seasons', 'material_composition'
-                          , 'outer_material_type', 'collar_style'
-                          , 'neck_size', 'pattern_type'
-                          , 'sleeve_type']
+        property_names = ['bullet_point1', 'bullet_point2',
+                          'bullet_point3', 'bullet_point4',
+                          'bullet_point5', 'fit_type',
+                          'lifestyle', 'batteries_required',
+                          'supplier_declared_dg_hz_regulation1',
+                          'department_name', 'variation_theme',
+                          'seasons', 'material_composition',
+                          'outer_material_type', 'collar_style',
+                          'neck_size', 'pattern_type',
+                          'sleeve_type', 'installation_type',
+                          'finish_type', 'seasons1', 'paint_type1',
+                          'theme']
 
         # Assign the Plentymarkets property ID to the property_names
         property_id = dict()
 
-        id_values = ['15', '16'
-                     , '17', '24'
-                     , '19', '20'
-                     , '9', '10'
-                     , '14'
-                     , '13', '12'
-                     , '11', '8'
-                     , '7', '25'
-                     , '26', '28'
-                     , '29']
-
+        use_names = []
+        id_values = ['15', '16',
+                     '17', '24',
+                     '19', '20',
+                     '9', '10',
+                     '14',
+                     '13', '12',
+                     '11', '8',
+                     '7', '25',
+                     '26', '28',
+                     '29', '45',
+                     '46', '47',
+                     '48', '49']
         property_id = dict( zip(property_names, id_values) )
 
         properties = dict()
@@ -253,30 +257,26 @@ def itemPropertyUpload(flatfile, folder, filename):
         for row in reader:
             if(row['parent_child'] == 'parent'):
                 try:
-                    values = [row[property_names[0]], row[property_names[1]]
-                            , row[property_names[2]], row[property_names[3]]
-                            , row[property_names[4]], row[property_names[5]]
-                            , row[property_names[6]], row[property_names[7]]
-                            , row[property_names[8] + '1']
-                            , row[property_names[9]], row[property_names[10]]
-                            , row[property_names[11]], row[property_names[12]]
-                            , row[property_names[13]], row[property_names[14]]
-                            , row[property_names[15]], row[property_names[16]]
-                            , row[property_names[17]]
-                            ]
+                    use_names = [i for i in property_names if i in [*row]]
+                    values = [row[i] for i in use_names]
                 except ValueError as err:
                     print("In property Upload: One of the values wasn't found : ", err)
 
                 # Check for empty values
-                properties[row['item_sku']] = dict(zip(property_names, values))
+                properties[row['item_sku']] = dict(zip(use_names, values))
 
     column_names = ['SKU', 'ID-property', 'Value', 'Lang', 'Active']
     Data = {}
     for index, row in enumerate( properties ):
-        for prop in property_id:
-            values = [row, property_id[prop], properties[row][prop], 'DE', 1]
+        for prop in use_names:
+            try:
+                values = [row, property_id[prop],
+                          properties[row][prop], 'DE', 1]
 
-            Data[row + prop] = dict(zip(column_names, values))
+                Data[row + prop] = dict(zip(column_names, values))
+            except KeyError as kerr:
+                print("ERROR: Key {0} was not found in the flatfile"
+                      .format(kerr))
 
 
     barcode.writeCSV(Data, "Item_Merkmale", column_names, folder, filename)
@@ -335,8 +335,13 @@ def get_attributes(dataset, sets):
 
     output_string = ''
     try:
-        if(len(sets[dataset['parent_sku']]['color']) > 1):
-            output_string = 'color_name:' + dataset['color_name']
+        if(dataset['parent_sku'] in [*sets]):
+            if(len(sets[dataset['parent_sku']]['color']) > 1):
+                output_string = 'color_name:' + dataset['color_name']
+        else:
+            print("{0} not found in {1}".format(
+                dataset['parent_sku'], ','.join([*sets])
+            ))
     except Exception as err:
         print("Error @ adding color to string (get_attributes)\nerr:{0}"
               .format(err))
@@ -360,7 +365,7 @@ def find_similar_attr(flatfile):
 
         for row in reader:
             # If it is a parent create a new dictionary with 2 sets for color and size
-            if(row['parent_child'] == 'parent'):
+            if(row['parent_child'].lower() == 'parent'):
                 color = set()
                 size = set()
                 Data[row['item_sku']] = {'color':color, 'size':size}

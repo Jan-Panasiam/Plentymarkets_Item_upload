@@ -14,7 +14,11 @@ class State(enum.Enum):
     CONFIG_BAD = 4
 
 
-fields = ['upload_folder', 'data_folder', 'attribute_file', 'file_change_date']
+fields = [
+    'upload_folder', 'data_folder',
+    'attribute_file', 'file_change_date',
+    'category_config'
+]
 
 
 def config_open(path, option):
@@ -45,6 +49,7 @@ def config_creation():
             item.write('data_folder=\n')
             item.write('attribute_file=\n')
             item.write('file_change_date=\n')
+            item.write('category_config=\n')
     if(os.path.isfile(configpath)):
         return configpath
     else:
@@ -53,7 +58,8 @@ def config_creation():
 
 def config_read(configpath):
     config = {'upload_folder': '', 'data_folder': '',
-              'attribute_file': '', 'file_change_date': ''}
+              'attribute_file': '', 'file_change_date': '',
+              'category_config': ''}
     rows = config_open(path=configpath, option='r')
 
     for row in rows:
@@ -135,7 +141,8 @@ def get_options(configpath, initialdir):
     options = {'uploadpath': '',
                'datapath': '',
                'attributefile': '',
-               'date': ''}
+               'date': '',
+               'category_config': ''}
 
     # Check the config for mistakes and correct them
     config_state = []
@@ -164,6 +171,11 @@ def get_options(configpath, initialdir):
                                             initialdir=initialdir)
 
         options['date'] = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M")
+
+        options['category_config'] = get_path(
+                                        message='Path for the category config',
+                                        path_type='file',
+                                        initialdir=initialdir)
 
     config_write(configpath=configpath, data=options)
 

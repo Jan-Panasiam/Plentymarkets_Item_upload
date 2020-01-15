@@ -48,13 +48,3 @@ def emptyFieldWarningLog(log_path, step_number, step_desc, field_name, file_name
         emptyFieldLogger.warning("EMPTY FIELD: In the file {3}, the field {2} is empty! At Step {0} : {1}.".format(step_number, step_desc, field_name, file_name))
     except Exception as err:
         print("ERROR @ emptyFieldWarningLog: {0}".format(err))
-
-def noCategoryFileLog(log_path, file_name):
-    try:
-        no_category_logger = function_logger(log_path,
-                                             logging.WARN, logging.WARN)
-        no_category_logger.warning(
-            "NO CATEGORY FILE FOUND: fill or create the file at: {0}"
-                                   .format(filename))
-    except Exception as err:
-        print("ERROR @ noCategoryFileLog: {0}".format(err))

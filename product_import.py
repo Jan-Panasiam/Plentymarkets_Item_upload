@@ -5,13 +5,14 @@ import platform
 import os
 import time
 import ntpath
-from packages.item_upload import itemUpload, WrongEncodingException, check_encoding, check_flatfile, itemPropertyUpload
+from packages.item_upload import itemUpload, WrongEncodingException, checkEncoding, checkFlatfile, itemPropertyUpload
 from packages.barcode import EmptyFieldWarning
 from packages.amazon_data_upload import featureUpload
 from packages.log_files import fileNotFoundLog, keyErrorLog, wrongEncodingLog, unboundLocalLog, emptyFieldWarningLog
 from packages.gui.category_chooser import CategoryChooser
 from packages.config import config_creation, config_read, config_write
 from packages.image_upload import imageUpload
+from packages.category import CategoryConfig
 
 
 def main():
@@ -22,6 +23,7 @@ def main():
     recent_path = ''
     config_path = ''
     attribute_date = ''
+    config = dict()
     sheet = {'path':'', 'encoding':''}
     intern_number = {'path':'', 'encoding':''}
     stocklist = {'path':'', 'encoding':''}
@@ -29,10 +31,14 @@ def main():
     attributefile = {'path':'', 'encoding':''}
     step = int(0)
     fexc = ''
+
+    cat_conf = CategoryConfig()
+
     # Create a list of step names where every name fits to the index of a step number
     step_name = ['environment-creation',
                  'config-creation',
                  'config-reading',
+                 'category-config',
                  'import-flatfile',
                  'GUI',
                  'import-internlist',
@@ -77,15 +83,30 @@ def main():
     step += 1;
     # CONFIG READING
     # Get the Upload and data folder from the config if possible
-    if(config_read(config_path)['upload_folder']):
-        upload_folder = config_read(config_path)['upload_folder']
-    if(config_read(config_path)['data_folder']):
-        recent_path = config_read(config_path)['data_folder']
-    if(config_read(config_path)['attribute_file']):
-        attributefile['path'] = config_read(config_path)['attribute_file']
-        attributefile = check_encoding(attributefile)
-    if(config_read(config_path)['file_change_date']):
-        attribute_date = config_read(config_path)['file_change_date']
+    config = config_read(config_path)
+    if(config['upload_folder']):
+        upload_folder = config['upload_folder']
+    if(config['data_folder']):
+        recent_path = config['data_folder']
+    if(config['attribute_file']):
+        attributefile['path'] = config['attribute_file']
+        attributefile = checkEncoding(attributefile)
+    if(config['file_change_date']):
+        attribute_date = config['file_change_date']
+    if(config['category_config']):
+        cat_conf.path['path'] = config['category_config']
+        cat_conf.path = checkEncoding(cat_conf.path)
+
+    # Category Config
+    if(not(cat_conf.path['path'])):
+        if(not(cat_conf.findConfig(os.path.dirname(
+                                            os.path.abspath(__file__))))):
+            print('no category config found\n')
+            print('Press Enter to continue...')
+            input()
+            sys.exit()
+    cat_conf.readConfig()
+
     if(not(recent_path)):
         recent_path = tkinter.filedialog.askdirectory(initialdir=initial_directory,
                                                       title="Choose a folder from where to upload")
@@ -96,7 +117,7 @@ def main():
         attributefile['path'] = askopenfilename(initialdir=recent_path,
                                                 title="Color Attributes from PlentyMarkets",
                                                 filetypes=[ ("csv files", "*.csv") ])
-        attributefile = check_encoding(attributefile)
+        attributefile = checkEncoding(attributefile)
 
     # Import Flatfile
     step += 1
@@ -104,11 +125,11 @@ def main():
                             title="Amazon Flatfile as .csv",
                             filetypes=[ ("csv files", "*.csv") ])
 
-    sheet = check_encoding(sheet)
+    sheet = checkEncoding(sheet)
 
     # Check if the file was loaded properly and got the correct format
     try:
-        if(not( check_flatfile(sheet) )):
+        if(not( checkFlatfile(sheet) )):
             print('Please fix the flatfile and try again.\n')
             print('Press Enter to continue...')
             input()
@@ -122,13 +143,14 @@ def main():
     step += 1;
     # GUI
     # Ask the user for input inside a gui asking for categories and name
-    cchooser = CategoryChooser(None, upload_folder, sheet, attributefile, attribute_date)
+    cchooser = CategoryChooser(None, cat_conf.id_list, upload_folder, sheet, attributefile,
+                               attribute_date)
     cchooser.title("Choose the category and name")
     LOOP_ACTIVE = True
     while (LOOP_ACTIVE):
         if(cchooser):
             cchooser.update()
-            time.sleep(0.3)
+            time.sleep(0.1)
         if(cchooser.data['name'] and cchooser.data['categories'] and\
            cchooser.data['marking']):
             LOOP_ACTIVE = False
@@ -175,7 +197,6 @@ def main():
 
     if(user_data):
         # Check if there is already a log folder within the upload folder
-        print(upload_folder)
         if( not(os.path.exists(os.path.join(upload_folder, 'log'))) ):
             log_folder = os.path.join(upload_folder, 'log')
             os.makedirs(log_folder)
@@ -187,7 +208,7 @@ def main():
                                 title="The Intern Numbers as .csv",
                                 filetypes=[ ("csv files", "*.csv") ])
 
-        intern_number = check_encoding(intern_number)
+        intern_number = checkEncoding(intern_number)
 
         step += 1;
         try:
@@ -195,7 +216,7 @@ def main():
                                     title="The Stockreport from Amazon as .csv",
                                     filetypes=[ ("csv files", "*.csv") ])
 
-            stocklist = check_encoding(stocklist)
+            stocklist = checkEncoding(stocklist)
         except OSError as fexc:
             fileNotFoundLog(
                 log_path=log_folder, step_number=step,
@@ -295,7 +316,7 @@ def main():
                                 title="Export File from Plentymarkets",
                                 filetypes=[ ("csv files", "*.csv") ])
 
-        plenty_export = check_encoding(plenty_export)
+        plenty_export = checkEncoding(plenty_export)
 
         step += 1
         imageUpload(flatfile=sheet,

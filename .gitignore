@@ -13,3 +13,4 @@ build_new_version.sh
 /packages/gui/__pycache__/
 Windows_build.txt
 debug-checklist.txt
+category

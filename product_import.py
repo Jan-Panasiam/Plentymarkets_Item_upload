@@ -228,7 +228,6 @@ def main():
             itemUpload(flatfile=sheet,
                        intern=intern_number,
                        stocklist=stocklist,
-                       attributefile=attributefile,
                        folder=upload_folder,
                        input_data=user_data,
                        filename=specific_name)

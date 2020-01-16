@@ -14,3 +14,4 @@ build_new_version.sh
 Windows_build.txt
 debug-checklist.txt
 category
+packages/gui/__pycache__/category_chooser.cpython-37.pyc

@@ -49,6 +49,14 @@ except AttributeError:
             print("WARNING:\nline:{0}\t{1}"
                   .format(linenumber, msg))
 
+try:
+    def infoPrint(msg):
+        print(colorama.Fore.LIGHTBLUE_EX)
+        print(f"INFO:{msg}\n")
+        print(colorama.Style.RESET_ALL)
+except AttributeError:
+    def infoPrint(msg):
+        print(f"INFO:{msg}\n")
 
 def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
     column_names = ['Parent-SKU', 'SKU',

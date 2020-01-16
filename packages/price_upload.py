@@ -1,9 +1,7 @@
+import inspect
+from collections import OrderedDict
 from csv import DictReader
-try:
-    from sortedcontainers import SortedDict
-except ImportError:
-    print("the sortedcontainers module is required to run this program.")
-    raise ImportError
+from packages.item_upload import warnPrint, infoPrint
 
 
 def priceUpload(flatfile):
@@ -15,32 +13,43 @@ def priceUpload(flatfile):
         'ebay':{'id':'3', 'value':''},
         'amazon':{'id':'4', 'value':''},
         'webshop':{'id':'5', 'value':''},
-        'etsy':{'id':'6', 'value':''}
+        'etsy':{'id':'6', 'value':''},
+        'cdiscount':{'id':'7', 'value':''}
     }
 
-    # create a Data Dictionary and fill it with the necessary values from the
+    # create a data Dictionary and fill it with the necessary values from the
     # flatfile
-    Data = SortedDict()
+    data = OrderedDict()
     standard_price = 0
     variation_price = 0
+    round_price = 0
+    percent_diff = 0
+    adjust = 0
 
     with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = DictReader(item, delimiter=";")
         for row in reader:
             # Make sure that there is price even at parents
-            if(not( row['standard_price'] )):
-                print("row:{0} doesnt have a price!".format(row['item_sku']))
+            if not row['standard_price']:
+                warnPrint(f"row:{row['item_sku']} doesnt have a price!",
+                          linenumber=inspect.currentframe().f_back.f_lineno,
+                          err='')
                 for scndrow in reader:
-                    if(row['parent_child'] == 'parent'):
-                        if(scndrow['parent_child'] == 'child' and scndrow['standard_price'] and row['item_sku'] == scndrow['parent_sku']):
-                            print("parent without price add:{0} from:{1} to:{2}"
-                                  .format(scndrow['standard_price'],
-                                          scndrow['item_sku'],
-                                          row['item_sku']))
+                    if row['parent_child'] == 'parent':
+                        if scndrow['parent_child'] == 'child' and\
+                                scndrow['standard_price'] and\
+                                row['item_sku'] == scndrow['parent_sku']:
+                            infoPrint(
+                                "parent without price add:{0} from:{1} to:{2}"
+                                .format(scndrow['standard_price'],
+                                        scndrow['item_sku'],
+                                        row['item_sku']))
                             standard_price = scndrow['standard_price']
                             break
-                    elif(row['parent_child'] == 'child'):
-                        if(scndrow['parent_child'] == 'child' and scndrow['standard_price'] and row['parent_sku'] == scndrow['parent_sku']):
+                    elif row['parent_child'] == 'child':
+                        if scndrow['parent_child'] == 'child' and\
+                                scndrow['standard_price'] and\
+                                row['parent_sku'] == scndrow['parent_sku']:
                             standard_price = scndrow['standard_price']
                             break
 
@@ -48,26 +57,34 @@ def priceUpload(flatfile):
         reader = DictReader(item, delimiter=";")
 
         for row in reader:
-            if(row['standard_price']):
+            if row['standard_price']:
                 variation_price = row['standard_price']
             else:
                 variation_price = standard_price
             for price in prices:
-                if(prices[ price ]['id'] == '3'):
-                    # Ebay price calculation
-                    prices[ price ]['value'] = ( int( round( float( variation_price ) - (float( variation_price ) * 0.10) ) ) - 0.05 )
-                if(prices[ price ]['id'] == '5'):
-                    # Webshop price calculation
-                    prices[ price ]['value'] = ( int( round( float( variation_price ) - (float( variation_price ) * 0.16666666) ) ) - 0.05 )
-                if(prices[ price ]['id'] == '6'):
-                    # Etsy price calculation
-                    prices[ price ]['value'] = ( int( round( float( variation_price ) + (float( variation_price ) * 0.1) ) ) - 0.15 )
+                if prices[price]['id'] == '3':
+                    percent_diff = 0.10
+                    adjust = 0.05
+                if prices[price]['id'] == '5':
+                    percent_diff = 0.166666666
+                    adjust = 0.05
+                if prices[price]['id'] == '6':
+                    percent_diff = 0.1
+                    adjust = 0.15
+                if prices[price]['id'] == '7':
+                    percent_diff = 0.2
+                    adjust = 0.05
                 else:
-                    prices[ price ]['value'] = variation_price
+                    percent_diff = 0
+                    adjust = 0
+
+            round_price = round(float(variation_price)+\
+                                (float(variation_price*percent_diff)))
+            prices[price]['value'] = int(round_price)-adjust
+
             values = [prices['price']['value'], prices['ebay']['value'],
-                        prices['amazon']['value'], prices['webshop']['value'],
-                        prices['etsy']['value']]
-            Data[row['item_sku']] = SortedDict(zip(column_names, values))
+                      prices['amazon']['value'], prices['webshop']['value'],
+                      prices['etsy']['value']]
+            data[row['item_sku']] = OrderedDict(zip(column_names, values))
 
-    return Data
-
+    return data

@@ -14,6 +14,7 @@ class MarkingDropdown(tkinter.Frame):
         self.master = master
         self.args = args
         self.kwargs = kwargs
+        self.resultvar = str()
         self.initialize()
 
     def initialize(self):
@@ -31,13 +32,14 @@ class MarkingDropdown(tkinter.Frame):
         self.optionvar.set('marking')
 
         self.dropdown_menu = tkinter.OptionMenu(self, self.optionvar,
-                                                *[*self.options])
+                                                *[list(self.options.keys())])
+                                                #*[list(self.options.keys)])
         self.dropdown_menu.grid(row=1, column=0, sticky="EW", padx=50)
 
         self.optionvar.trace('w', self.changeDropdown)
 
     def changeDropdown(self, *args):
-        if(self.optionvar.get() and not(self.optionvar.get() == 'marking')):
+        if self.optionvar.get() and not self.optionvar.get() == 'marking':
             self.resultvar = self.options[self.optionvar.get()]
 
 
@@ -55,13 +57,13 @@ class LabelBox(tkinter.Frame):
         for num, name in enumerate(self.similar_names):
             rownum = num
             columnnum = 1
-            if(num > 15):
+            if num > 15:
                 rownum = num - 16
                 columnnum = 2
-            if(num > 30):
+            if num > 30:
                 rownum = num - 31
                 columnnum = 3
-            if(num > 45):
+            if num > 45:
                 rownum = num - 46
                 columnnum = 4
 
@@ -97,6 +99,7 @@ class InfoBox(tkinter.Frame):
         self.options = options
         self.optionvar = tkinter.StringVar()
         self.similarcolors = []
+        self.labelbox = 0
         self.initialize()
 
     def initialize(self):
@@ -114,10 +117,10 @@ class InfoBox(tkinter.Frame):
         self.labelbox.grid(row=2, column=1, columnspan=3, sticky="NESW")
 
     def changeDropdown(self, *args):
-        if(self.labelbox.winfo_exists() == 1):
+        if self.labelbox.winfo_exists() == 1:
             self.labelbox.destroy()
         for color in self.colordict:
-            if(self.optionvar.get() == self.colordict[color]['color_name']):
+            if self.optionvar.get() == self.colordict[color]['color_name']:
                 self.similarcolors = self.colordict[color]['similar_names']
         # Label grid with all the similar colors in Plentymarkets
         self.labelbox = LabelBox(self, self.similarcolors)
@@ -160,14 +163,13 @@ class WarningBox(tkinter.Frame):
         self.args = args
         self.kwargs = kwargs
         self.initialize()
-        print('initialized!')
 
     def initialize(self):
         self.grid()
 
-        if(re.search(r'list', str(type(self.colorlist)))):
+        if re.search(r'list', str(type(self.colorlist))):
             self.colorlist_length = len(self.colorlist)
-            self.colorlist_string = self.createColorstring(self.colorlist)
+            self.colorlist_string = self.createColorstring()
         else:
             print("ERROR @ WarningBox: colorlist needs to be a list\n{0}"
                   .format(type(self.colorlist)))
@@ -205,13 +207,13 @@ class WarningBox(tkinter.Frame):
     def destroyRoot(self):
         self.master.master.destroy()
 
-    def createColorstring(self, colorlist):
+    def createColorstring(self):
         colorstring = ''
 
-        if(len(colorlist) > 3):
-            colorstring = ' , '.join(colorlist[0:3]) + '...'
+        if len(self.colorlist) > 3:
+            colorstring = ' , '.join(self.colorlist[0:3]) + '...'
         else:
-            colorstring = ' , '.join(colorlist)
+            colorstring = ' , '.join(self.colorlist)
 
         return colorstring
 
@@ -239,7 +241,8 @@ class DropdownChooser(tkinter.Frame):
         self.menu_header_major.grid(row=0, column=0, sticky='NESW')
 
         self.dropdown_menu = tkinter.OptionMenu(self, self.optionvar,
-                                                *[*self.options])
+                                                *[*list(self.options.keys())])
+                                                #*[list(self.options.keys)])
         self.dropdown_menu.grid(row=1, column=0, sticky="EW", padx=50)
 
         self.optionvar.trace('w', self.changeDropdown)
@@ -258,7 +261,7 @@ class DropdownChooser(tkinter.Frame):
                           text="first entry used as standard category!")
 
     def changeDropdown(self, *args):
-        if(not(self.resultbox.get())):
+        if not self.resultbox.get():
             self. resultbox.insert(tkinter.INSERT,
                                    self.options[self.optionvar.get()])
         else:
@@ -269,7 +272,7 @@ class DropdownChooser(tkinter.Frame):
                                       str(self.options[self.optionvar.get()]))
 
     def addDesc(self, *args):
-        if(len(self.resultvar.get()) > 1):
+        if len(self.resultvar.get()) > 1:
             self.category_info.grid(row=3, columnspan=2, sticky="EW")
         else:
             self.category_info.grid_remove()
@@ -303,13 +306,15 @@ class CategoryChooser(tkinter.Tk):
         self.data = {'name': '', 'categories': '', 'marking': ''}
         self.protocol("WM_WINDOW_DELETE", self.closeApp)
         self.missingcolors = {}
+        self.toplevel_warning = 0
+        self.warningbox = 0
         # Window position properties
         self.window_w = self.winfo_reqwidth()
         self.window_h = self.winfo_reqheight()
         self.screen_w = self.winfo_screenwidth()
         self.screen_h = self.winfo_screenheight()
         # For dual monitor
-        if(self.screen_w/3 > self.screen_h):
+        if self.screen_w/3 > self.screen_h:
             self.positionright = int(self.screen_w/4 - self.window_w)
             self.positiondown = int(self.screen_h/3 - self.window_h)
         # For single screen
@@ -325,7 +330,7 @@ class CategoryChooser(tkinter.Tk):
     def initialize(self):
         self.grid()
 
-        if(self.atrpath['path']):
+        if self.atrpath['path']:
             self.checkColors(self.flatfile, self.atrpath)
 
         self.pathdesc = DescBox(master=self,
@@ -343,14 +348,14 @@ class CategoryChooser(tkinter.Tk):
             tkinter.Button(self, text="Choose a new path",
                            command=lambda:
                            self.getNewPath("Choose a new upload folder",
-                                             'upload'))
+                                           'upload'))
         self.changepathbutton.grid(row=2, column=1, pady=10, padx=10)
 
         self.changeatrbutton =\
             tkinter.Button(self, text="Choose the attribute file",
                            command=lambda:
                            self.getNewPath("Choose a new attribute file",
-                                             'atr'))
+                                           'atr'))
         self.changeatrbutton.grid(row=2, column=2, pady=10, padx=10)
 
         self.dropdesc =\
@@ -379,8 +384,8 @@ class CategoryChooser(tkinter.Tk):
             tkinter.Button(self, text="Accept",
                            command=lambda:
                            self.getInput(self.dropdown.resultbox.get(),
-                                          self.namechooser.get(),
-                                          self.markingchooser.resultvar))
+                                         self.namechooser.get(),
+                                         self.markingchooser.resultvar))
         self.accept.grid(row=9, column=3, pady=10, padx=10)
 
     def getInput(self, categories, name, marking):
@@ -391,11 +396,11 @@ class CategoryChooser(tkinter.Tk):
         self.closeApp()
 
     def getNewPath(self, title, option):
-        if(option == 'upload'):
+        if option == 'upload':
             print("Get the new path of the upload folder.")
             self.newpath['upload-path'] =\
                 tkinter.filedialog.askdirectory(title=title)
-        elif(option == 'atr'):
+        elif option == 'atr':
             print("Get a new attribute file.")
             self.newpath['attribute-path'] =\
                 tkinter.filedialog.askopenfilename(title=title)
@@ -403,7 +408,7 @@ class CategoryChooser(tkinter.Tk):
             self.checkColors(self.flatfile, self.newpath['attribute-path'])
 
     def checkColors(self, flatfile, attributefile):
-        attributefile = item_upload.check_encoding(attributefile)
+        attributefile = item_upload.checkEncoding(attributefile)
         self.missingcolors = clr.missingColor(flatfile, attributefile)
 
         colorlist = []
@@ -411,20 +416,20 @@ class CategoryChooser(tkinter.Tk):
         try:
             for color in self.missingcolors:
                 colorlist.append(self.missingcolors[color]['color_name'])
-            if(len(colorlist) > 0):
-                self.toplevelWarning = tkinter.Toplevel(self)
-                self.toplevelWarning.title("Warning missing Colors")
-                self.toplevelWarning.lift(self)
-                self.toplevelWarning.geometry("+{}+{}"
+            if colorlist:
+                self.toplevel_warning = tkinter.Toplevel(self)
+                self.toplevel_warning.title("Warning missing Colors")
+                self.toplevel_warning.lift(self)
+                self.toplevel_warning.geometry("+{}+{}"
                                               .format(self.positionright,
                                                       self.positiondown))
-                self.warningbox = WarningBox(self.toplevelWarning, colorlist)
+                self.warningbox = WarningBox(self.toplevel_warning, colorlist)
         except Exception as err:
             print("Error @ checkcolor: {0} - line no.: {1}"
                   .format(err, sys.exc_info()[2].tb_lineno))
 
     def closeApp(self):
-        if(self.data['name'] and self.data['categories']):
+        if self.data['name'] and self.data['categories']:
             self.withdraw()
         else:
             tmb.showerror("NO INPUT",

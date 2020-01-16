@@ -1,29 +1,32 @@
 import csv
-from sortedcontainers import SortedDict
 import re
 import sys
+import inspect
+from sortedcontainers import SortedDict
 from packages import item_upload, barcode
+from packages.item_upload import errorPrint, warnPrint
 
 def searchSpecialImage(image):
-    if(re.search(r'( SWATCH|SIZE )', image)):
-        return True
-    else:
-        return False
+    return bool(re.search(r'( SWATCH|SIZE )', image))
 
 def getColorAttributeID(attributefile, product):
 
     attributeid = ''
-    with open(attributefile['path'], mode = 'r', encoding = attributefile['encoding']) as item:
+    with open(attributefile['path'],
+              mode='r', encoding=attributefile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';')
 
         try:
             for row in reader:
-                if(row['AttributeValue.backendName'] == product['color_name']):
+                if row['AttributeValue.backendName'] == product['color_name']:
                     attributeid = row['AttributeValue.id']
-            if(not( attributeid )):
-                print("For SKU : {0}, Color : {1} not found!\n".format(product['item_sku'], product['color_name']))
-        except Exception as err:
-            print("ERROR @ Color ID search: line: {0}, err: {1}".format(sys.exc_info()[2].tb_lineno, err))
+            if not attributeid:
+                warn = f"Color:{product['color_name']} not found in {product['item_sku']}!\n"
+                warnPrint(warn,
+                          inspect.currentframe().f_back.f_lineno)
+        except KeyError as err:
+            errorPrint("key not found in attribute file", err,
+                       sys.exc_info()[2].tb_lineno)
 
     return attributeid
 
@@ -31,16 +34,16 @@ def getColorAttributeID(attributefile, product):
 def imageUpload(flatfile, attributefile, exportfile, uploadfolder, filename):
 
     try:
-        Data = SortedDict()
+        data = SortedDict()
 
         column_names = ['VariationID', 'Multi-URL', 'connect-variation', 'mandant',
                         'listing', 'connect-color']
-        attributeID = ''
+        attribute_id = ''
         variation_id = 0
 
         with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
             reader = csv.DictReader(item, delimiter=';')
-            for index, row in enumerate( reader ):
+            for index, row in enumerate(reader):
                 linkstring = ''
                 imglinks = [
                     row['main_image_url'],
@@ -55,47 +58,52 @@ def imageUpload(flatfile, attributefile, exportfile, uploadfolder, filename):
                 ]
 
                 num = 1
-                variation_id = item_upload.get_variationid(exportfile=exportfile, sku=row['item_sku'])
+                variation_id = item_upload.getVariationId(
+                    exportfile=exportfile, sku=row['item_sku'])
                 try:
-                    if(imglinks[0]):
-                        for img in imglinks:
-                            if(not(searchSpecialImage(img))):
-                                if(not(linkstring)):
-                                    if(img):
-                                        linkstring += img + ';' + str( num )
-                                        num += 1
-                                else:
-                                    if(img):
-                                        linkstring += ',' + img + ';' + str( num )
-                                        num += 1
-                            if(searchSpecialImage(img)):
-                                print("\n{0} is a special image\n".format(img))
-                                if(not(linkstring)):
-                                    if(img):
-                                        linkstring += img + ';' + str( num )
-                                        num += 1
-                                else:
-                                    if(img):
-                                        linkstring += ',' + img + ';' + str( num )
-                                        num += 1
+                    if not imglinks[0]:
+                        break
+                    for img in [i for i in imglinks if i]:
+                        if not searchSpecialImage(img):
+                            if not linkstring:
+                                linkstring += f"{img};{str(num)}"
+                                num += 1
+                                continue
+                            linkstring += f",{img};{str(num)}"
+                            num += 1
+                            continue
+                        print(f"\n{img} is a special image\n")
+                        if not linkstring:
+                            linkstring += f"{img};{str(num)}"
+                            num += 1
+                            continue
+                        linkstring += f",{img};{str(num)}"
+                        num += 1
 
 
                 except Exception as err:
-                    print("Error @ linkstring building line no: {0} : {1}".format(sys.exc_info()[2].tb_lineno, err))
+                    errorPrint("Link string building failed", err,
+                               sys.exc_info()[2].tb_lineno)
 
                 try:
-                    attributeID = getColorAttributeID(attributefile=attributefile, product=row)
+                    attribute_id = getColorAttributeID(
+                        attributefile=attributefile, product=row)
                 except Exception as err:
-                    print("Error @ get Color Attribute ID {0}\n".format(err))
+                    warnPrint(
+                        f"get attribute ID of color {row['color_name']} failed",
+                        linenumber=inspect.currentframe().f_back.f_lineno,
+                        err=err)
 
 
-                values=[variation_id, linkstring, 1, -1,
-                        -1, attributeID]
+                values = [variation_id, linkstring, 1, -1,
+                          -1, attribute_id]
 
-                Data[row['item_sku']] = dict(zip(column_names, values))
+                data[row['item_sku']] = dict(zip(column_names, values))
 
     except Exception as err:
-        print("Error @ imageupload line: {0} : {1}".format(sys.exc_info()[2].tb_lineno, err))
+        errorPrint(f"flatfile read failed on index:{index}",
+                   err, sys.exc_info()[2].tb_lineno)
 
-    barcode.writeCSV(dataobject=Data, name='Image_', columns=column_names, upload_path=uploadfolder, item=filename)
-    return Data
+    barcode.writeCSV(dataobject=data, name='Image_', columns=column_names,
+                     upload_path=uploadfolder, item=filename)
+    return data

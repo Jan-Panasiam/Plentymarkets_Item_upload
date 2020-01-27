@@ -12,8 +12,7 @@
 
 import os
 import sys
-from packages.item_upload import checkEncoding, errorPrint, warnPrint
-from packages.config import get_path
+from packages import item_upload, error, config
 
 class CategoryConfig(object):
     """
@@ -44,21 +43,21 @@ class CategoryConfig(object):
         try:
             self.path['path'] = os.path.join(root, 'category')
         except (ValueError, Exception) as err:
-            errorPrint("Building path failed",
+            error.errorPrint("Building path failed",
                        err, sys.exc_info()[2].tb_lineno)
             return False
 
         if os.path.isfile(self.path['path']):
-            self.path = checkEncoding(self.path)
+            self.path = item_upload.checkEncoding(self.path)
             return True
 
         try:
-            self.path['path'] = get_path(message='category config path',
+            self.path['path'] = config.getPath(message='category config path',
                                          path_type='file',
                                          initialdir=root)
-            self.path = checkEncoding(self.path)
+            self.path = item_upload.checkEncoding(self.path)
         except (ValueError, Exception) as err:
-            errorPrint("searching file failed",
+            error.errorPrint("searching file failed",
                        err, sys.exc_info()[2].tb_lineno)
 
         if not self.path['path']:
@@ -79,7 +78,7 @@ class CategoryConfig(object):
                 self.raw_data =\
                 [row.strip(' ').strip('\n').split(';') for row in config]
             except (ValueError, Exception) as err:
-                errorPrint("raw data read failed",
+                error.errorPrint("raw data read failed",
                            err, sys.exc_info()[2].tb_lineno)
         return len(self.raw_data) > 0
 
@@ -98,7 +97,7 @@ class CategoryConfig(object):
                 try:
                     self.id_list[option[0]] = int(option[1])
                 except ValueError as err:
-                    warnPrint("Integer conversion failed",
+                    error.warnPrint("Integer conversion failed",
                               sys.exc_info()[2].tb_lineno, err)
             else:
                 return False

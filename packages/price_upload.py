@@ -1,7 +1,7 @@
 import inspect
 from collections import OrderedDict
 from csv import DictReader
-from packages.item_upload import warnPrint, infoPrint
+from packages import error
 
 
 def priceUpload(flatfile):
@@ -31,9 +31,10 @@ def priceUpload(flatfile):
         for row in reader:
             # Make sure that there is price even at parents
             if not row['standard_price']:
-                warnPrint(f"row:{row['item_sku']} doesnt have a price!",
-                          linenumber=inspect.currentframe().f_back.f_lineno,
-                          err='')
+                error.warnPrint(
+                    msg=f"row:{row['item_sku']} doesnt have a price!",
+                    linenumber=inspect.currentframe().f_back.f_lineno,
+                    err='')
                 for scndrow in reader:
                     if row['parent_child'] == 'parent':
                         if scndrow['parent_child'] == 'child' and\
@@ -58,9 +59,9 @@ def priceUpload(flatfile):
 
         for row in reader:
             if row['standard_price']:
-                variation_price = row['standard_price']
+                variation_price = float(row['standard_price'])
             else:
-                variation_price = standard_price
+                variation_price = float(standard_price)
             for price in prices:
                 if prices[price]['id'] == '3':
                     percent_diff = 0.10

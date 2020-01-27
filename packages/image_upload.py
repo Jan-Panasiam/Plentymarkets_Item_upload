@@ -3,8 +3,7 @@ import re
 import sys
 import inspect
 from sortedcontainers import SortedDict
-from packages import item_upload, barcode
-from packages.item_upload import errorPrint, warnPrint
+from packages import item_upload, barcode, error
 
 def searchSpecialImage(image):
     return bool(re.search(r'( SWATCH|SIZE )', image))
@@ -21,12 +20,16 @@ def getColorAttributeID(attributefile, product):
                 if row['AttributeValue.backendName'] == product['color_name']:
                     attributeid = row['AttributeValue.id']
             if not attributeid:
-                warn = f"Color:{product['color_name']} not found in {product['item_sku']}!\n"
-                warnPrint(warn,
-                          inspect.currentframe().f_back.f_lineno)
+                warn =\
+                    f"Color{product['color_name']} not in {product['item_sku']}\n"
+                error.warnPrint(
+                    msg=warn,
+                    linenumber=inspect.currentframe().f_back.f_lineno)
         except KeyError as err:
-            errorPrint("key not found in attribute file", err,
-                       sys.exc_info()[2].tb_lineno)
+            error.errorPrint(
+                msg="key not found in attribute file",
+                err=err,
+                linenumber=sys.exc_info()[2].tb_lineno)
 
     return attributeid
 
@@ -82,15 +85,16 @@ def imageUpload(flatfile, attributefile, exportfile, uploadfolder, filename):
 
 
                 except Exception as err:
-                    errorPrint("Link string building failed", err,
-                               sys.exc_info()[2].tb_lineno)
+                    error.errorPrint(msg="Link string building failed",
+                                     err=err,
+                                     linenumber=sys.exc_info()[2].tb_lineno)
 
                 try:
                     attribute_id = getColorAttributeID(
                         attributefile=attributefile, product=row)
                 except Exception as err:
-                    warnPrint(
-                        f"get attribute ID of color {row['color_name']} failed",
+                    error.warnPrint(
+                        msg=f"get attr ID of color {row['color_name']} failed",
                         linenumber=inspect.currentframe().f_back.f_lineno,
                         err=err)
 
@@ -101,8 +105,10 @@ def imageUpload(flatfile, attributefile, exportfile, uploadfolder, filename):
                 data[row['item_sku']] = dict(zip(column_names, values))
 
     except Exception as err:
-        errorPrint(f"flatfile read failed on index:{index}",
-                   err, sys.exc_info()[2].tb_lineno)
+        error.errorPrint(
+            msg=f"flatfile read failed on index:{index}",
+            err=err,
+            linenumber=sys.exc_info()[2].tb_lineno)
 
     barcode.writeCSV(dataobject=data, name='Image_', columns=column_names,
                      upload_path=uploadfolder, item=filename)

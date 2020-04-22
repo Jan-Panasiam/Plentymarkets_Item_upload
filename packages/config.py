@@ -1,182 +1,111 @@
+"""
+    2020-04-22
+    Sebastian Fricke
+    Panasiam
+    License: GPLv3
+
+    Helper functions for reading the configuration data
+"""
+import inspect
 import tkinter
-import tkinter.filedialog
-import os
-import csv
-import enum
-import datetime
+from tkinter.filedialog import askopenfilename
+import configparser
+from packages import error
 
+def assignFeatures(config):
+    """
+        Parameter:
+            config => configparser config object from config.ini
 
-class State(enum.Enum):
-    CONFIG_UPLOAD_EXIST = 0
-    CONFIG_DATA_EXIST = 1
-    CONFIG_ATTR_EXIST = 2
-    CONFIG_NOT_FOUND = 3
-    CONFIG_BAD = 4
+        Get the user-configured Plentymarkets Feature IDs from the config
+        Assign them to a dictionary and return the dictionary
+        Throw a warning for each missing field
+    """
+    features = {}
+    for key, value in config['FEATURES'].items():
+        if key == 'example-feature':
+            msg =\
+                str(f"Fill feature IDs from Plentymarkets into [FEATURES]")
+            error.warnPrint(msg=msg, err='',
+                            linenumber=inspect.currentframe().f_back.f_lineno)
+            return None
+        try:
+            features[key] = int(value)
+        except ValueError as err:
+            msg = str(f"Wrong value in config for => {key} : {value}")
+            error.errorPrint(msg=msg, err=err,
+                             linenumber=inspect.currentframe().f_back.f_lineno)
 
+    for key, value in features.items():
+        if not value:
+            msg = str(f"No Value set in config for [FEATURES]=>{key}")
+            error.warnPrint(msg=msg, err='',
+                            linenumber=inspect.currentframe().f_back.f_lineno)
 
-fields = [
-    'upload_folder', 'data_folder',
-    'attribute_file', 'file_change_date',
-    'category_config'
-]
+    return features
 
+def assignCategory(config):
+    """
+        Parameter:
+            config => configparser config object from config.ini
 
-def config_open(path, option):
-    if(option not in ['r', 'w', 'a']):
-        print("Bad file opening option: [{1}] used with path {0}"
-              .format(path, option))
-        return []
+        Get the user-configured Plentymarkets Category IDs from the config
+        Assign them to a dictionary and return the dictionary
+    """
+    category = {}
 
-    with open(path, mode=option) as item:
-        # remove spaces/newlines, create list of options between ;
-        rows = [row.strip(' ').strip('\n').split(';') for row in item]
-
-    return rows
-
-
-def config_creation():
-    current_path = ''
-    configpath = ''
-
-    root = tkinter.Tk()
-    root.withdraw()
-
-    current_path = os.getcwd()
-    configpath = os.path.join(current_path, 'config.txt')
-    if(not( os.path.isfile(configpath))):
-        with open(configpath, mode='w') as item:
-            item.write('upload_folder=\n')
-            item.write('data_folder=\n')
-            item.write('attribute_file=\n')
-            item.write('file_change_date=\n')
-            item.write('category_config=\n')
-    if(os.path.isfile(configpath)):
-        return configpath
-    else:
+    if not 'CATEGORY' in config.keys():
+        msg = str(f"No categories in config => {config.keys()}")
+        error.errorPrint(msg=msg, err='',
+                         linenumber=inspect.currentframe().f_back.f_lineno)
         return None
+    for key, value in config['CATEGORY'].items():
+        if key == 'example-category':
+            msg =\
+                str(f"Fill category IDs from Plentymarkets into [CATEGORY]")
+            error.warnPrint(msg=msg, err='',
+                            linenumber=inspect.currentframe().f_back.f_lineno)
+            return None
+        try:
+            category[key] = int(value)
+        except ValueError as err:
+            msg = str(f"Wrong value in config for => {key} : {value}")
+            error.errorPrint(msg=msg, err=err,
+                             linenumber=inspect.currentframe().f_back.f_lineno)
 
+    return category
 
-def config_read(configpath):
-    config = {'upload_folder': '', 'data_folder': '',
-              'attribute_file': '', 'file_change_date': '',
-              'category_config': ''}
-    rows = config_open(path=configpath, option='r')
+def createConfig(name):
+    """
+        Parameter:
+            name => name of the file with to be created in the source root
 
-    for row in rows:
-        option = "".join(row[0]).split('=')
+        Create a empty config and ask user for input to fill values
+    """
 
-        for field in fields:
-            if(option[0].strip(' ') == field):
-                config[field] = option[1].strip(' ')
+    input_folder = tkinter.filedialog.askdirectory(
+        initialdir='.',
+        title="Choose a source folder")
+    upload_folder = tkinter.filedialog.askdirectory(
+        initialdir='.',
+        title="Choose a destiniation folder")
+    config = configparser.ConfigParser()
+    config['PATH'] = {
+        'upload_folder':upload_folder,
+        'data_folder':input_folder,
+        'attribute_file':'',
+        'file_change_date': ''
+    }
+    config['CATEGORY'] = {
+        'example-category':'category ID (integer)'
+    }
+    config['FEATURES'] = {
+        'example-feature':'feature ID (integer)'
+    }
+
+    with open('config.ini', 'w') as configfile:
+        config.write(configfile)
+
+    error.infoPrint("Fill out the Category and Feature field of the config")
 
     return config
-
-
-def config_write(configpath, data):
-    with open(configpath, mode='w') as item:
-        writer = csv.DictWriter(item, delimiter='=', lineterminator='\n',
-                                fieldnames=['title', 'value'])
-        try:
-            for row in data:
-                writer.writerow(data[row])
-        except Exception as err:
-            print("Error @ config write: error: {0}"
-                  .format(err))
-
-
-def config_check(path):
-    states = []
-    if(not(path)):
-        return [State.CONFIG_NOT_FOUND]
-
-    rows = config_open(path=path, option='r')
-
-    # Check if all required fields are present
-    for field in fields:
-        # DEBUG TEST NOT FINAL
-        if(field not in rows):
-            print("ERROR: field:{0} not found in {1}"
-                  .format(field, rows))
-            return [State.CONFIG_BAD]
-
-    for row in rows:
-        # Check if a equal sign exists
-        if('=' not in row):
-            print("ERROR: config options have to be split by =, = not found")
-            return [State.CONFIG_BAD]
-
-        # Check if only one equal sign was used
-        elif(row.count('=') > 1):
-            print("ERROR: equal sign can only be used as delimiter!")
-            return [State.CONFIG_BAD]
-
-        # Add each working file/dir from the config to the state list
-        for index, field in enumerate(fields):
-            option = "".join(row[0]).split('=')
-            if(field == 'file_change_date' and option[1]):
-                states.append(index)
-            if(option[0].strip(' ') == field and option[1]):
-                if(field == 'attribute_file'):
-                    if(os.path.isfile(option[1].strip(' '))):
-                        states.append(index)
-                else:
-                    if(os.path.exists(option[1].strip(' '))):
-                        states.append(index)
-
-        return states
-
-
-def get_path(message, path_type, initialdir):
-    path = ''
-    if(path_type == 'dir'):
-        path = tkinter.filedilag.askdirectory(title=message,
-                                              initialdir=initialdir)
-    elif(path_type == 'file'):
-        path = tkinter.filedialog.askopenfilename(title=message,
-                                                  initialdir=initialdir)
-    return path
-
-
-def get_options(configpath, initialdir):
-    options = {'uploadpath': '',
-               'datapath': '',
-               'attributefile': '',
-               'date': '',
-               'category_config': ''}
-
-    # Check the config for mistakes and correct them
-    config_state = []
-    config_state = config_check(path=configpath)
-
-    if(State.CONFIG_NOT_FOUND in config_state):
-        configpath = config_creation()
-
-    elif(State.CONFIG_BAD in config_state):
-        os.remove(configpath)
-        configpath = config_creation
-
-    if(State.CONFIG_UPLOAD_EXIST not in config_state or
-       State.CONFIG_DATA_EXIST not in config_state or
-       State.CONFIG_ATTR_EXIST not in config_state or
-       State.CONFIG_NOT_FOUND in config_state or
-       State.CONFIG_BAD in config_state):
-        options['uploadpath'] = get_path(message='Path for Upload files',
-                                         path_type='dir',
-                                         initialdir=initialdir)
-        options['datapath'] = get_path(message='Path for Input files',
-                                       path_type='dir',
-                                       initialdir=initialdir)
-        options['attributefile'] = get_path(message='Path for attribute file',
-                                            path_type='file',
-                                            initialdir=initialdir)
-
-        options['date'] = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M")
-
-        options['category_config'] = get_path(
-                                        message='Path for the category config',
-                                        path_type='file',
-                                        initialdir=initialdir)
-
-    config_write(configpath=configpath, data=options)
-
-    return options

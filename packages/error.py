@@ -1,5 +1,8 @@
+import sys
 try:
     import colorama
+    if sys.platform.startswith('win'):
+        colorama.init(convert=True)
 except ImportError as err:
     print("colorama module required for enhanced error display")
 

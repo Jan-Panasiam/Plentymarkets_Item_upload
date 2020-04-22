@@ -293,7 +293,7 @@ class DescBox(tkinter.Frame):
 
 
 class CategoryChooser(tkinter.Tk):
-    def __init__(self, master, cat, upath='', flatfile='',
+    def __init__(self, master, categories, upath='', flatfile='',
                  atrpath='', atrdate=''):
         tkinter.Tk.__init__(self, master)
         self.master = master
@@ -301,7 +301,7 @@ class CategoryChooser(tkinter.Tk):
         self.flatfile = flatfile
         self.atrpath = atrpath
         self.atrdate = atrdate
-        self.cat = cat
+        self.cat = categories
         self.newpath = {'upload-path': '', 'attribute-path': ''}
         self.data = {'name': '', 'categories': '', 'marking': ''}
         self.protocol("WM_WINDOW_DELETE", self.closeApp)
@@ -405,7 +405,9 @@ class CategoryChooser(tkinter.Tk):
             self.newpath['attribute-path'] =\
                 tkinter.filedialog.askopenfilename(title=title)
             self.atrdate = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M")
-            self.checkColors(self.flatfile, self.newpath['attribute-path'])
+            new_attr={'path':self.newpath['attribute-path'], 'encoding':''}
+            new_attr = item_upload.checkEncoding(new_attr)
+            self.checkColors(self.flatfile, new_attr)
 
     def checkColors(self, flatfile, attributefile):
         attributefile = item_upload.checkEncoding(attributefile)

@@ -5,7 +5,21 @@ from packages import error
 
 
 def priceUpload(flatfile):
-    # The column header names for the output
+    """
+        Parameter:
+            flatfile [Dictionary] => path and encoding as strings
+                                     of the flatfile
+
+        Description:
+            Take the standard_price field from the flatfile and apply
+            price calculation rules to set the price values for different
+            markets.
+
+        Return:
+            data => Ordered dictionary with of the variation with
+                    'column_names' as fields
+    """
+
     column_names = ['price', 'ebay', 'amazon', 'webshop', 'etsy']
 
     prices = {
@@ -17,8 +31,6 @@ def priceUpload(flatfile):
         'cdiscount':{'id':'7', 'value':''}
     }
 
-    # create a data Dictionary and fill it with the necessary values from the
-    # flatfile
     data = OrderedDict()
     standard_price = 0
     variation_price = 0
@@ -29,7 +41,7 @@ def priceUpload(flatfile):
     with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = DictReader(item, delimiter=";")
         for row in reader:
-            # Make sure that there is price even at parents
+            # Take a price from a variation in case the parent does not own one
             if not row['standard_price']:
                 error.warnPrint(
                     msg=f"row:{row['item_sku']} doesnt have a price!",
@@ -40,7 +52,7 @@ def priceUpload(flatfile):
                         if scndrow['parent_child'] == 'child' and\
                                 scndrow['standard_price'] and\
                                 row['item_sku'] == scndrow['parent_sku']:
-                            infoPrint(
+                            error.infoPrint(
                                 "parent without price add:{0} from:{1} to:{2}"
                                 .format(scndrow['standard_price'],
                                         scndrow['item_sku'],

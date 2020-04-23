@@ -48,7 +48,7 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
     # Get sets of all colors and sizes for each parent
     # to find if there are some with only one attribute value for all childs
     color_size_sets = {}
-    color_size_sets = findSimilarAttr(flatfile)
+    color_size_sets = findSimilarAttr(flatfile, ['size_name'])
 
     package_properties = getProperties(flatfile)
     group_parent = ''
@@ -310,22 +310,41 @@ def getProperties(flatfile):
                     properties['width'] = int(float(row['package_width']))
                     properties['weight'] = int(float(row['package_weight']))
             except ValueError as err:
-                error.errorPrint("Parent has no package measurements", err,
-                           sys.exc_info()[2].tb_lineno)
+                error.errorPrint(
+                    msg="Parent has no package measurements", err=err,
+                    linenumber=sys.exc_info()[2].tb_lineno)
                 sys.exit()
+            except KeyError as err:
+                msg = str(f"getProperties key: {err} not found")
+                error.errorPrint(msg=msg, err='',
+                           linenumber=sys.exc_info()[2].tb_lineno)
             except Exception as err:
-                error.errorPrint("getProperties setting values failed", err,
-                           sys.exc_info()[2].tb_lineno)
+                error.errorPrint(
+                    msg="getProperties setting values failed", err=err,
+                    linenumber=sys.exc_info()[2].tb_lineno)
 
         return properties
 
 def getAttributes(dataset, sets):
+    """
+        Parameter:
+            dataset [Dictionary] => row of the flatfile as dictionary
+            sets [Dictionary] => attribute sets mapped to parent sku's by
+                                 "findSimilarAttr()"
+
+        Description:
+            Build the attribute string of the color and size
+            Elastic Sync upload format:
+                {attr. name}:{value};{attr.2 name}:{value}
+
+        Return:
+            output_string
+    """
 
     output_string = ''
     try:
         if dataset['parent_sku'] in list(sets.keys()):
-            if len(sets[dataset['parent_sku']]['color']) > 1:
-                output_string = 'color_name:' + dataset['color_name']
+            output_string = 'color_name:' + dataset['color_name']
         else:
             print("{0} not found in {1}"
                   .format(dataset['parent_sku'], ','.join(list(sets.keys()))))
@@ -333,7 +352,7 @@ def getAttributes(dataset, sets):
         error.errorPrint("Adding of color attribute failed", err,
                    sys.exc_info()[2].tb_lineno)
     try:
-        if len(sets[dataset['parent_sku']]['size']) > 1:
+        if len(sets[dataset['parent_sku']]['size_name']) > 1:
             if not output_string:
                 output_string = 'size_name:' + dataset['size_name']
             else:
@@ -343,7 +362,21 @@ def getAttributes(dataset, sets):
                    sys.exc_info()[2].tb_lineno)
     return output_string
 
-def findSimilarAttr(flatfile):
+def findSimilarAttr(flatfile, attribute):
+    """
+        Parameter:
+            flatfile [Dictionary] => Dictionary with a path and a
+                                     encoding string
+            attribute [List of Strings] => Names of the columns in the flatfile
+
+        Description:
+            Detect the amount different elements of a attribute within a
+            group of variations of the same parent variation.
+
+        Return:
+            data => Dictionary of parent sku's mapped to
+                    sets of different values
+    """
 
     data = {}
 
@@ -351,17 +384,14 @@ def findSimilarAttr(flatfile):
         reader = csv.DictReader(item, delimiter=";")
 
         for row in reader:
-            # If it is a parent create a new dictionary with 2 sets for color and size
-            if row['parent_child'].lower() == 'parent':
-                color = set()
-                size = set()
-                data[row['item_sku']] = {'color':color, 'size':size}
-            # If it is a child search through the data dictionary for a match
+            p_sku = row['parent_sku']
+            if p_sku and p_sku not in data.keys():
+                data[p_sku] = dict()
+                for attr in attribute:
+                    data[p_sku][attr] = set()
             if row['parent_child'] == 'child':
-                for line in data:
-                    if row['parent_sku'] == line:
-                        data[row['parent_sku']]['color'].add(row['color_name'])
-                        data[row['parent_sku']]['size'].add(row['size_name'])
+                for attr in attribute:
+                    data[p_sku][attr].add(row[attr])
     return data
 
 def sortProducts(dataset):

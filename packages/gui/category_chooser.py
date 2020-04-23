@@ -32,8 +32,7 @@ class MarkingDropdown(tkinter.Frame):
         self.optionvar.set('marking')
 
         self.dropdown_menu = tkinter.OptionMenu(self, self.optionvar,
-                                                *[list(self.options.keys())])
-                                                #*[list(self.options.keys)])
+                                                *list(self.options.keys()))
         self.dropdown_menu.grid(row=1, column=0, sticky="EW", padx=50)
 
         self.optionvar.trace('w', self.changeDropdown)
@@ -241,8 +240,7 @@ class DropdownChooser(tkinter.Frame):
         self.menu_header_major.grid(row=0, column=0, sticky='NESW')
 
         self.dropdown_menu = tkinter.OptionMenu(self, self.optionvar,
-                                                *[*list(self.options.keys())])
-                                                #*[list(self.options.keys)])
+                                                *list(self.options.keys()))
         self.dropdown_menu.grid(row=1, column=0, sticky="EW", padx=50)
 
         self.optionvar.trace('w', self.changeDropdown)

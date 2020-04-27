@@ -16,3 +16,4 @@ debug-checklist.txt
 category
 config.ini
 /packages/gui/__pycache__/
+/tests/__pycache__/

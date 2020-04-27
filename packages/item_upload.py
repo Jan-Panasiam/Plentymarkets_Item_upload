@@ -4,7 +4,8 @@ import re
 import collections
 import inspect
 import chardet
-from packages import barcode, amazon_data_upload, price_upload, error
+import os
+from packages import barcode, amazon_data_upload, price, error
 
 
 class WrongEncodingException(Exception):
@@ -32,9 +33,7 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                     'market-active-amafbager', 'marketid', 'accountid',
                     'amazon_sku', 'amazon_parentsku',
                     'amazon-producttype', 'fba-enabled', 'fba-shipping',
-                    'price-price', 'ebay-price', 'amazon-price',
-                    'webshop-price', 'etsy-price', 'cdiscount-price',
-                    'ASIN-countrycode', 'ASIN-type', 'ASIN-value',
+                    'price', 'ASIN-countrycode', 'ASIN-type', 'ASIN-value',
                     'Item-Flag-1'
                     ]
 
@@ -44,6 +43,7 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
     barcode_data = {}
     is_parent = False
     position = 0
+    item_price = 0
 
     # Get sets of all colors and sizes for each parent
     # to find if there are some with only one attribute value for all childs
@@ -69,6 +69,20 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                         except Exception:
                             error.warnPrint("Generic Keywords are empty!",
                                       inspect.currentframe().f_back.f_lineno)
+
+                    item_price = row['standard_price']
+                    if not item_price and row['parent_child'] == 'parent':
+                        item_price=price.find_price(flatfile, row['item_sku'])
+                        if item_price == -1:
+                            if os.name == 'nt':
+                                print("press ENTER to continue..")
+                                input()
+                            exit(1)
+                    if item_price == '':
+                        error.warnPrint(
+                            msg=str(f"{row['item_sku']}, has no price"), err='',
+                            linenumber=inspect.currentframe().f_back.f_lineno)
+
 
                     try:
                         attributes = ''
@@ -110,7 +124,7 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                             '', '',   # market & accout id amazonsku
                             '', '',   # sku & parentsku amazonsku
                             '', '', '', # producttype & fba amazon
-                            '', '', '', '', '', '', # prices
+                            item_price, # prices
                             '', '', '', #asin
                             input_data['marking']
                         ]
@@ -182,21 +196,6 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                     error.errorPrint("Amazondata part for "+row, err,
                                sys.exc_info()[2].tb_lineno)
 
-            # Include the price
-            price_data = price_upload.priceUpload(flatfile)
-
-            for row in price_data:
-                try:
-                    if row in list(data.keys()):
-                        data[row]['price-price'] = price_data[row]['price']
-                        data[row]['ebay-price'] = price_data[row]['ebay']
-                        data[row]['amazon-price'] = price_data[row]['amazon']
-                        data[row]['webshop-price'] = price_data[row]['webshop']
-                        data[row]['etsy-price'] = price_data[row]['etsy']
-                except Exception as err:
-                    error.errorPrint("Price part for "+row, err,
-                               sys.exc_info()[2].tb_lineno)
-
         # Sort the dictionary to make sure that the parents are the first variant of each item
         sorted_data = sortProducts(data)
 
@@ -204,9 +203,10 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
     except UnicodeDecodeError as err:
         error.errorPrint("decoding problem", err,
                    sys.exc_info()[2].tb_lineno)
-        print("press ENTER to continue..")
-        input()
-        sys.exit()
+        if os.name == 'nt':
+            print("press ENTER to continue..")
+            input()
+        exit(1)
 
 def itemPropertyUpload(flatfile, folder, filename):
 
@@ -494,8 +494,10 @@ def getVariationId(exportfile, sku):
             except Exception as err:
                 error.errorPrint("Looking for irregularities in getVariationId",
                            err, sys.exc_info()[2].tb_lineno)
-                print("press ENTER to continue...")
-                input()
+                if os.name == 'nt':
+                    print("press ENTER to continue...")
+                    input()
+                exit(1)
         if not variationid:
             error.warnPrint(msg="No Variation ID found for "+sku,
                       linenumber=inspect.currentframe().f_back.f_lineno)

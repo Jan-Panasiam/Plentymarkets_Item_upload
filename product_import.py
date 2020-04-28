@@ -42,6 +42,9 @@ def main():
     step = 0
     fexc = ''
 
+    root = tkinter.Tk()
+    root.withdraw()
+
     # Create a list of step names where every name fits
     # to the index of a step number
     step_name = ['environment-creation',
@@ -278,8 +281,10 @@ def main():
                     filename=specific_name)
         del fexc
         # A stop in the script flow to interrupt a console window from closing itself
-        print('press ENTER to close the script...')
-        input()
+        if os.name == 'nt':
+            print('press ENTER to close the script...')
+            input()
+        root.destroy()
     else:
         print("Choose a category and a name.\n")
 if __name__ == '__main__':

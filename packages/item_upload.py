@@ -5,6 +5,8 @@ import collections
 import inspect
 import chardet
 import os
+import pandas
+import xlrd
 from packages import barcode, amazon_data_upload, price, error
 
 
@@ -115,7 +117,8 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                             '',  # externalID
                             '1', '1', # NetStock pos = Vis & neg = Invis
                             '2', input_data['categories'],
-                            input_data['categories'][0:3], input_data['categories'][0:3],
+                            input_data['categories'][0:3],
+                            input_data['categories'][0:3],
                             'Y', 'Y', # mandant
                             '', '',   # barcode
                             'Y', 'Y', # marketconnection
@@ -137,24 +140,17 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                     except Exception as err:
                         error.errorPrint("itemUpload: setting values failed", err,
                                    sys.exc_info()[2].tb_lineno)
-                    data[row['item_sku']] = collections.OrderedDict(zip(column_names, values))
+
+                    data[row['item_sku']] =\
+                        collections.OrderedDict(zip(column_names, values))
                 except KeyError as err:
                     error.errorPrint("Reading file failed", err,
                                sys.exc_info()[2].tb_lineno)
                     return row['item_sku']
 
-            # open the intern number csv to get the item ID
-            with open(intern['path'], mode='r', encoding=intern['encoding']) as item:
-                reader = csv.DictReader(item, delimiter=";")
-                for row in reader:
-                    try:
-                        if row['amazon_sku'] in list(data.keys()):
-                            data[row['amazon_sku']]['ExternalID'] = row['full_number']
-                    except KeyError as keyerr:
-                        error.warnPrint("key was not found in intern number list",
-                                  sys.exc_info()[2].tb_lineno, keyerr)
+            # open the intern number xlsx to get the external id
+            get_externalid(dataset=data, numberlist=intern)
 
-            # Include the barcodes & asin
             barcode_data = barcode.barcode_Upload(flatfile, stocklist)
 
             for row in barcode_data:
@@ -183,7 +179,6 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                     error.errorPrint("SKU part for "+row, err,
                                sys.exc_info()[2].tb_lineno)
 
-            # Include the amazonsku
             ama_data = amazon_data_upload.amazonDataUpload(flatfile)
 
             for row in ama_data:
@@ -470,36 +465,88 @@ def checkEncoding(file_dict):
 
     return file_dict
 
-def getVariationId(exportfile, sku):
+def get_variation_id(exportfile, sku):
+    """
+        Parameter:
+            exportfile [String] => Url of the plentymarkets export
+                                   from the config
+            sku [String] => Sku from the flatfile for matching
 
-    variationid = 0
-    with open(exportfile['path'], mode='r',
-              encoding=exportfile['encoding']) as item:
-        reader = csv.DictReader(item, delimiter=';')
+        Description:
+            Check if the export has the correct header and retrieve
+            the Variation ID of the matching SKU
 
-        for row in reader:
-            if 'VariationNo' in list(row.keys()):
-                if row['VariationNo'] == sku:
-                    variationid = row['VariationId']
-                continue
-            try:
-                if row[list(row.keys())[1]] == sku:
-                    for i in range(len(list(row.keys()))):
-                        # matches .id .ID _ID _id ID id
-                        if re.search(r'\bid', [*row][i].lower()):
-                            print("found ID in {0} value: {1}"
-                                  .format(list(row.keys())[i],
-                                          row[list(row.keys())[i]]))
-                            variationid = row[list(row.keys())[i]]
-            except Exception as err:
-                error.errorPrint("Looking for irregularities in getVariationId",
-                           err, sys.exc_info()[2].tb_lineno)
-                if os.name == 'nt':
-                    print("press ENTER to continue...")
-                    input()
-                exit(1)
-        if not variationid:
-            error.warnPrint(msg="No Variation ID found for "+sku,
-                      linenumber=inspect.currentframe().f_back.f_lineno)
+        Return:
+            [String] => The variation number
+            0 => Failed to retrieve value
+    """
+    exp = pandas.read_csv(exportfile,
+                          sep=';')
 
-    return variationid
+    if not len(exp.index):
+        error.warnPrint(
+            msg='exp is empty, skip variation ID', err='',
+            linenumber=inspect.currentframe().f_back.f_lineno)
+        return 0
+
+    if(not len(exp.columns[exp.columns.str.contains(pat='Variation.id')]) or
+       not len(exp.columns[exp.columns.str.contains(pat='Variation.number')])):
+        error.warnPrint(
+            msg="Exportfile requires fields 'Variation.id'&'Variation.number'",
+            err='', linenumber=inspect.currentframe().f_back.f_lineno)
+        return 0
+
+    variation = exp[exp['Variation.number'] == sku]
+    if not len(variation.index):
+        error.warnPrint(
+            msg=str(f"{sku} not found in Plentymarkets export"),
+            err='', linenumber=inspect.currentframe().f_back.f_lineno)
+        return 0
+
+    return variation['Variation.id'].values.max()
+
+def get_externalid(dataset, numberlist):
+    """
+        Parameter:
+            dataset [Ordered Dict] => data set for the item upload
+            numberlist [Dictionary] => dictionary containing path and encoding
+                                       of the intern number list
+                                       with the external id and sku
+
+        Description:
+            Open the xlsx file and retrieve the full_number field for every
+            amazon_sku field that matches to a variation within the dataset
+    """
+    if not numberlist:
+        error.warnPrint(
+            msg='No intern number list given, skip external id', err='',
+            linenumber=inspect.currentframe().f_back.f_lineno)
+        return
+
+    try:
+        extern_id = pandas.read_excel(numberlist['path'])
+    except xlrd.biffh.XLRDError as err:
+        error.errorPrint(
+            msg=str(f"..{intern['path'][-30:]} requires type [.xlsx]"),
+            err=err, linenumber=sys.exc_info()[2].tb_lineno)
+        if os.name == 'nt':
+            print("press ENTER to continue..")
+            input()
+        exit(1)
+
+    if extern_id.empty:
+        error.warnPrint(
+            msg='Internumber list is empty, skip extern_ids', err='',
+            linenumber=inspect.currentframe().f_back.f_lineno)
+
+    for key in dataset.keys():
+        if extern_id[extern_id['amazon_sku'] == key].shape[0] > 1:
+            error.warnPrint(
+                msg=str(f"multiple entries: {key} in intern numbers"),
+                err='', linenumber=inspect.currentframe().f_back.f_lineno)
+        exid = extern_id[extern_id['amazon_sku'] == key]['full_number']
+        if len(exid.index) == 0:
+            error.warnPrint(
+                msg=str(f"{key} was not found in intern number list"),
+                err='', linenumber=inspect.currentframe().f_back.f_lineno)
+        dataset[key]['ExternalID'] = exid.values.max()

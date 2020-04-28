@@ -94,7 +94,9 @@ def createConfig(name):
         'upload_folder':upload_folder,
         'data_folder':input_folder,
         'attribute_file':'',
-        'file_change_date': ''
+        'file_change_date': '',
+        'internnumbers': '',
+        'export_plentymarkets': ''
     }
     config['CATEGORY'] = {
         'example-category':'category ID (integer)'

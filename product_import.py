@@ -23,6 +23,7 @@ from packages.log_files import (
 from packages.gui.category_chooser import CategoryChooser
 from packages.image_upload import imageUpload
 from packages.config import assignFeatures, assignCategory, createConfig
+from packages.error import warnPrint
 
 
 def main():
@@ -37,10 +38,10 @@ def main():
     sheet = {'path':'', 'encoding':''}
     intern_number = {'path':'', 'encoding':''}
     stocklist = {'path':'', 'encoding':''}
-    plenty_export = {'path':'', 'encoding':''}
+    plenty_export = ''
     attributefile = {'path':'', 'encoding':''}
+    internnumber = {'path':'', 'encoding':''}
     step = 0
-    fexc = ''
 
     # Create a list of step names where every name fits
     # to the index of a step number
@@ -49,12 +50,10 @@ def main():
                  'category-config',
                  'import-flatfile',
                  'GUI',
-                 'import-internlist',
                  'import-stocklist',
                  'item-upload',
                  'feature_upload',
                  'property_upload',
-                 'import-exportfile',
                  'image-upload'
                  ]
 
@@ -69,6 +68,13 @@ def main():
     input_folder = config['PATH']['data_folder']
     attribute_date = config['PATH']['file_change_date']
     attributefile['path'] = config['PATH']['attribute_file']
+    internnumber['path'] = config['PATH']['internnumbers']
+    plenty_export = config['PATH']['export_plentymarkets']
+
+    if not plenty_export:
+        msg = "No export URL found, enter URL @ config:'export_plentymarkets'"
+        warnPrint(msg=msg, err='',
+                  linenumber=inspect.currentframe().f_back.f_lineno)
 
     # Initial start or invalid attribute file
     if(not(attributefile['path']) or
@@ -84,8 +90,23 @@ def main():
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
 
+    # Initial start or invalid intern number file
+    if(not(internnumber['path']) or
+       not os.path.exists(internnumber['path'])):
+        internnumber['path'] = askopenfilename(
+            initialdir=input_folder, title="Intern number list",
+            filetypes=[ ("xlsx files", "*.xlsx") ])
+        internnumber = checkEncoding(internnumber)
+        config['PATH']['intern_number'] = internnumber['path']
+
+        with open('config.ini', 'w') as configfile:
+            config.write(configfile)
+
     if not attributefile['encoding']:
         attributefile = checkEncoding(attributefile)
+    if not internnumber['encoding']:
+        internnumber = checkEncoding(internnumber)
+
     features = assignFeatures(config=config)
     if not features:
         exit(1)
@@ -156,13 +177,6 @@ def main():
         elif( os.path.exists(os.path.join(upload_folder, 'log')) ):
             log_folder = os.path.join(upload_folder, 'log')
 
-        step += 1
-        intern_number['path'] = askopenfilename(initialdir=input_folder,
-                                title="The Intern Numbers as .csv",
-                                filetypes=[ ("csv files", "*.csv") ])
-
-        intern_number = checkEncoding(intern_number)
-
         step += 1;
         try:
             stocklist['path'] = askopenfilename(initialdir=input_folder,
@@ -179,7 +193,7 @@ def main():
         try:
             print("\nItem Upload\n")
             itemUpload(flatfile=sheet,
-                       intern=intern_number,
+                       intern=internnumber,
                        stocklist=stocklist,
                        folder=upload_folder,
                        input_data=user_data,
@@ -260,15 +274,7 @@ def main():
                 file_name=ntpath.basename(sheet['path']))
         except OSError as err:
             print(err)
-            print("Missing Data, check if you have\n - a flatfile\n - a intern file table\n - export file from plentymarkets\n - a sheet with the stock numbers!\n")
-
-        # IMPORT Export FIlE
-        step += 1
-        plenty_export['path'] = askopenfilename(initialdir=input_folder,
-                                title="Export File from Plentymarkets",
-                                filetypes=[ ("csv files", "*.csv") ])
-
-        plenty_export = checkEncoding(plenty_export)
+            print("Missing Data, check if you have\n - a flatfile\n - a sheet with the stock numbers!\n")
 
         step += 1
         imageUpload(flatfile=sheet,
@@ -276,7 +282,6 @@ def main():
                     exportfile=plenty_export,
                     uploadfolder=upload_folder,
                     filename=specific_name)
-        del fexc
         # A stop in the script flow to interrupt a console window from closing itself
         print('press ENTER to close the script...')
         input()

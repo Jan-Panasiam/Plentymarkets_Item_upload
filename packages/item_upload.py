@@ -22,15 +22,10 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                     'ItemOriginCountry', 'ItemTextKeywords',
                     'ItemProducer', 'ItemProducerID',
                     'ItemTextName', 'ItemTextDescription',
-                    'ExternalID',
-                    'NetStockPositivVis', 'NetStockNegativInvis',
-                    'VariationAvailability', 'Category-IDs',
+                    'ExternalID', 'Category-IDs',
                     'Standard-Category', 'Standard-Category-Webshop',
-                    'Mandant-Active', 'Webshop-Active',
                     'EAN_Barcode', 'FNSKU_Barcode',
-                    'market-active-shop', 'market-active-ebay',
-                    'market-active-ebayger', 'market-active-amafba',
-                    'market-active-amafbager', 'marketid', 'accountid',
+                    'marketid', 'accountid',
                     'amazon_sku', 'amazon_parentsku',
                     'amazon-producttype', 'fba-enabled', 'fba-shipping',
                     'price', 'ASIN-countrycode', 'ASIN-type', 'ASIN-value',
@@ -113,14 +108,9 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                             row['brand_name'].upper(), '3',
                             input_data['name'], row['product_description'],
                             '',  # externalID
-                            '1', '1', # NetStock pos = Vis & neg = Invis
-                            '2', input_data['categories'],
+                            input_data['categories'],
                             input_data['categories'][0:3], input_data['categories'][0:3],
-                            'Y', 'Y', # mandant
                             '', '',   # barcode
-                            'Y', 'Y', # marketconnection
-                            'Y', 'Y', # marketconnection
-                            'Y', # marketconnection
                             '', '',   # market & accout id amazonsku
                             '', '',   # sku & parentsku amazonsku
                             '', '', '', # producttype & fba amazon

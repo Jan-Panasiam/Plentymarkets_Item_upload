@@ -7,7 +7,7 @@ import chardet
 import os
 import pandas
 import xlrd
-from packages import barcode, amazon_data_upload, price, error
+from packages import barcode, amazon, price, error
 
 
 class WrongEncodingException(Exception):
@@ -19,22 +19,15 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                     'is_parent',
                     'Length', 'Width',
                     'Height', 'Weight',
-                    'Name', 'MainWarehouse',
-                    'Attributes', 'Position',
-                    'ItemOriginCountry', 'ItemTextKeywords',
-                    'ItemProducer', 'ItemProducerID',
+                    'Name', 'Attributes', 'Position',
+                    'ItemTextKeywords',
                     'ItemTextName', 'ItemTextDescription',
-                    'ExternalID',
-                    'NetStockPositivVis', 'NetStockNegativInvis',
-                    'VariationAvailability', 'Category-IDs',
+                    'ExternalID', 'Category-IDs',
                     'Standard-Category', 'Standard-Category-Webshop',
-                    'Mandant-Active', 'Webshop-Active',
                     'EAN_Barcode', 'FNSKU_Barcode',
-                    'market-active-shop', 'market-active-ebay',
-                    'market-active-ebayger', 'market-active-amafba',
-                    'market-active-amafbager', 'marketid', 'accountid',
+                    'marketid', 'accountid',
                     'amazon_sku', 'amazon_parentsku',
-                    'amazon-producttype', 'fba-enabled', 'fba-shipping',
+                    'amazon-producttype',
                     'price', 'ASIN-countrycode', 'ASIN-type', 'ASIN-value',
                     'Item-Flag-1'
                     ]
@@ -111,22 +104,19 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                             package_properties['weight'],
                             row['item_name'], '104',
                             attributes, position,
-                            '62', keywords,
-                            row['brand_name'].upper(), '3',
+                            keywords,
                             input_data['name'], row['product_description'],
                             '',  # externalID
-                            '1', '1', # NetStock pos = Vis & neg = Invis
-                            '2', input_data['categories'],
+                            input_data['categories'],
                             input_data['categories'][0:3],
                             input_data['categories'][0:3],
-                            'Y', 'Y', # mandant
+                            input_data['categories'],
+                            input_data['categories'][0:3], input_data['categories'][0:3],
                             '', '',   # barcode
-                            'Y', 'Y', # marketconnection
-                            'Y', 'Y', # marketconnection
-                            'Y', # marketconnection
                             '', '',   # market & accout id amazonsku
                             '', '',   # sku & parentsku amazonsku
-                            '', '', '', # producttype & fba amazon
+                            amazon.get_producttype_id(source=flatfile,
+                                                      sku=row['item_sku']),
                             item_price, # prices
                             '', '', '', #asin
                             input_data['marking']
@@ -166,7 +156,7 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                                sys.exc_info()[2].tb_lineno)
 
             # Include the amazonsku
-            sku_data = amazon_data_upload.amazonSkuUpload(flatfile)
+            sku_data = amazon.amazonSkuUpload(flatfile)
 
             for row in sku_data:
                 try:
@@ -177,18 +167,6 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                         data[row]['amazon_parentsku'] = sku_data[row]['ParentSKU']
                 except Exception as err:
                     error.errorPrint("SKU part for "+row, err,
-                               sys.exc_info()[2].tb_lineno)
-
-            ama_data = amazon_data_upload.amazonDataUpload(flatfile)
-
-            for row in ama_data:
-                try:
-                    if row in list(data.keys()):
-                        data[row]['amazon-producttype'] = ama_data[row]['ItemAmazonProductType']
-                        data[row]['fba-enabled'] = ama_data[row]['ItemAmazonFBA']
-                        data[row]['fba-shipping'] = ama_data[row]['ItemShippingWithAmazonFBA']
-                except Exception as err:
-                    error.errorPrint("Amazondata part for "+row, err,
                                sys.exc_info()[2].tb_lineno)
 
         # Sort the dictionary to make sure that the parents are the first variant of each item

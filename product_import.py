@@ -1,12 +1,12 @@
-import tkinter
-from tkinter.filedialog import askopenfilename
-import sys
-import platform
-import os
 import time
 import ntpath
 import re
 import datetime
+import tkinter
+from tkinter.filedialog import askopenfilename
+import os
+import sys
+import platform
 try:
     import configparser
 except ImportError:
@@ -16,7 +16,7 @@ from packages.item_upload import (
     itemUpload, WrongEncodingException, checkEncoding,
     checkFlatfile, itemPropertyUpload)
 from packages.barcode import EmptyFieldWarning
-from packages.amazon_data_upload import featureUpload
+from packages.amazon import featureUpload
 from packages.log_files import (
     fileNotFoundLog, keyErrorLog, wrongEncodingLog,
     unboundLocalLog, emptyFieldWarningLog)
@@ -42,6 +42,9 @@ def main():
     attributefile = {'path':'', 'encoding':''}
     internnumber = {'path':'', 'encoding':''}
     step = 0
+
+    root = tkinter.Tk()
+    root.withdraw()
 
     # Create a list of step names where every name fits
     # to the index of a step number
@@ -283,8 +286,10 @@ def main():
                     uploadfolder=upload_folder,
                     filename=specific_name)
         # A stop in the script flow to interrupt a console window from closing itself
-        print('press ENTER to close the script...')
-        input()
+        if os.name == 'nt':
+            print('press ENTER to close the script...')
+            input()
+        root.destroy()
     else:
         print("Choose a category and a name.\n")
 if __name__ == '__main__':

@@ -1,4 +1,5 @@
 import csv
+import pandas
 from os.path import isfile
 from packages import barcode
 try:
@@ -29,52 +30,61 @@ def amazonSkuUpload(flatfile):
     return Data
 
 
-def amazonDataUpload(flatfile):
+def get_producttype_id(source, sku):
+    """
+        Parameter:
+            source [Dictionary] => dictionary of the flatfile
+                                   with path and encoding
+            sku [String]    =>     String of the product sku
 
-    column_names = ['ItemAmazonProductType',
-                    'ItemAmazonFBA',
-                    'ItemShippingWithAmazonFBA']
+        Description:
+            Search for a matching term in mapping list of valid
+            amazon producttype names and their ID.
 
-    Data = SortedDict()
+        Return:
+            [Integer]
+            value from type_id on success
+            0 on failure
+    """
+    type_id = {
+        'accessory': 28,
+        'shirt': 13,
+        'pants': 15,
+        'dress': 18,
+        'outerwear': 21,
+        'bag': 27,
+        'furnitureanddecor': 4,
+        'bedandbath': 3,
+        'swimwear': 30
+    }
 
-    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
-        reader = csv.DictReader(item, delimiter=";")
+    df = pandas.read_csv(source['path'],
+                         sep=';',
+                         encoding=source['encoding'])
 
-        type_id = {
-            'accessory': 28,
-            'shirt': 13,
-            'pants': 15,
-            'dress': 18,
-            'outerwear': 21,
-            'bag': 27,
-            'furnitureanddecor': 4,
-            'bedandbath': 3,
-            'swimwear': 30
-        }
+    sku_df = df[df['item_sku'] == sku]
+    if len(sku_df.index) == 0:
+        error.warnPrint(msg=str(f"{sku} not found in flatfile"), err='',
+                        linenumber=inspect.currentframe().f_back.f_lineno)
+        return 0
 
-        values = ''
-        product_type = ''
+    if sku_df.filter(like='product_type', axis=1).empty:
+        msg=str("wrong header: ..{0} requires a product_type column"
+                .format(source['path'][-21:]))
+        error.warnPrint(
+            msg=msg, err='',
+            linenumber=inspect.currentframe().f_back.f_lineno)
+        return 0
 
-        for row in reader:
-            # go through the variations until the values are filled
-            if(row['feed_product_type'].lower() in [*type_id]):
-                for key in type_id:
-                    if(row['feed_product_type'].lower() == key):
-                        product_type = type_id[key]
-            else:
-                print("ERROR @ product type in AmazonData: {0} not in {1}"
-                      .format(row['feed_product_type'],
-                              ",".join([*type_id])))
+    value = sku_df.filter(like='product_type', axis=1)\
+        .to_string(na_rep='', index=False, header=False)\
+        .lower().strip(' ')
 
-            if(not(product_type) and not(row['feed_product_type'])):
-                raise barcode.EmptyFieldWarning('product_type')
+    if not value:
+        return 0
 
-            values = [product_type, '1', '1']
-
-            Data[row['item_sku']] = SortedDict(zip(column_names, values))
-
-    return Data
-
+    if value in type_id.keys():
+        return type_id[value]
 
 def featureUpload(flatfile, features, folder, filename):
 

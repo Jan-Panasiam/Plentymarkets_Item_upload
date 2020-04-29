@@ -1,0 +1,9 @@
+/.git
+/__pycache__
+/pacakages/__pycache__
+/packages/gui/__pycache__
+/Input_files
+/Upload
+/log
+/Linux-Version
+/Windows-Version

@@ -36,11 +36,11 @@ def main():
     features = {}
     category_id = {}
     sheet = {'path':'', 'encoding':''}
-    intern_number = {'path':'', 'encoding':''}
     stocklist = {'path':'', 'encoding':''}
-    plenty_export = ''
     attributefile = {'path':'', 'encoding':''}
     internnumber = {'path':'', 'encoding':''}
+    intern_number = ''
+    plenty_export = ''
     step = 0
 
     root = tkinter.Tk()
@@ -71,7 +71,7 @@ def main():
     input_folder = config['PATH']['data_folder']
     attribute_date = config['PATH']['file_change_date']
     attributefile['path'] = config['PATH']['attribute_file']
-    internnumber['path'] = config['PATH']['internnumbers']
+    internnumber = config['PATH']['internnumbers']
     plenty_export = config['PATH']['export_plentymarkets']
 
     if not plenty_export:
@@ -94,21 +94,18 @@ def main():
             config.write(configfile)
 
     # Initial start or invalid intern number file
-    if(not(internnumber['path']) or
-       not os.path.exists(internnumber['path'])):
-        internnumber['path'] = askopenfilename(
+    if(not(internnumber) or
+       not os.path.exists(internnumber)):
+        internnumber = askopenfilename(
             initialdir=input_folder, title="Intern number list",
             filetypes=[ ("xlsx files", "*.xlsx") ])
-        internnumber = checkEncoding(internnumber)
-        config['PATH']['intern_number'] = internnumber['path']
+        config['PATH']['intern_number'] = internnumber
 
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
 
     if not attributefile['encoding']:
         attributefile = checkEncoding(attributefile)
-    if not internnumber['encoding']:
-        internnumber = checkEncoding(internnumber)
 
     features = assignFeatures(config=config)
     if not features:
@@ -252,7 +249,7 @@ def main():
                 file_name=ntpath.basename(sheet['path']))
         except OSError as err:
             print(err)
-            print("Missing Data, check if you have\n - a flatfile\n - a intern file table\n - export file from plentymarkets\n - a sheet with the stock numbers!\n")
+            print("Missing Data, need:\n* flatfile\n* stock numbers!\n")
         try:
             print("Property Upload")
             step += 1
@@ -279,6 +276,8 @@ def main():
             print(err)
             print("Missing Data, check if you have\n - a flatfile\n - a sheet with the stock numbers!\n")
 
+        print('press ENTER to after the upload was successful')
+        input()
         step += 1
         imageUpload(flatfile=sheet,
                     attributefile=attributefile,

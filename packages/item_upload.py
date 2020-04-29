@@ -480,10 +480,10 @@ def get_externalid(dataset, numberlist):
         return
 
     try:
-        extern_id = pandas.read_excel(numberlist['path'])
+        extern_id = pandas.read_excel(numberlist)
     except xlrd.biffh.XLRDError as err:
         error.errorPrint(
-            msg=str(f"..{numberlist['path'][-30:]} requires type [.xlsx]"),
+            msg=str(f"..{numberlist[-30:]} requires type [.xlsx]"),
             err=err, linenumber=sys.exc_info()[2].tb_lineno)
         if os.name == 'nt':
             print("press ENTER to continue..")

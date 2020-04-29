@@ -1,12 +1,12 @@
-import tkinter
-from tkinter.filedialog import askopenfilename
-import sys
-import platform
-import os
 import time
 import ntpath
 import re
 import datetime
+import tkinter
+from tkinter.filedialog import askopenfilename
+import os
+import sys
+import platform
 try:
     import configparser
 except ImportError:
@@ -16,7 +16,7 @@ from packages.item_upload import (
     itemUpload, WrongEncodingException, checkEncoding,
     checkFlatfile, itemPropertyUpload)
 from packages.barcode import EmptyFieldWarning
-from packages.amazon_data_upload import featureUpload
+from packages.amazon import featureUpload
 from packages.log_files import (
     fileNotFoundLog, keyErrorLog, wrongEncodingLog,
     unboundLocalLog, emptyFieldWarningLog)

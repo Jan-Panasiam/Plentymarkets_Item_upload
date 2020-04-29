@@ -5,7 +5,7 @@ import collections
 import inspect
 import chardet
 import os
-from packages import barcode, amazon_data_upload, price, error
+from packages import barcode, amazon, price, error
 
 
 class WrongEncodingException(Exception):
@@ -27,7 +27,7 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                     'EAN_Barcode', 'FNSKU_Barcode',
                     'marketid', 'accountid',
                     'amazon_sku', 'amazon_parentsku',
-                    'amazon-producttype', 'fba-enabled', 'fba-shipping',
+                    'amazon-producttype',
                     'price', 'ASIN-countrycode', 'ASIN-type', 'ASIN-value',
                     'Item-Flag-1'
                     ]
@@ -113,7 +113,8 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                             '', '',   # barcode
                             '', '',   # market & accout id amazonsku
                             '', '',   # sku & parentsku amazonsku
-                            '', '', '', # producttype & fba amazon
+                            amazon.get_producttype_id(source=flatfile,
+                                                      sku=row['item_sku']),
                             item_price, # prices
                             '', '', '', #asin
                             input_data['marking']
@@ -160,7 +161,7 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                                sys.exc_info()[2].tb_lineno)
 
             # Include the amazonsku
-            sku_data = amazon_data_upload.amazonSkuUpload(flatfile)
+            sku_data = amazon.amazonSkuUpload(flatfile)
 
             for row in sku_data:
                 try:
@@ -171,19 +172,6 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                         data[row]['amazon_parentsku'] = sku_data[row]['ParentSKU']
                 except Exception as err:
                     error.errorPrint("SKU part for "+row, err,
-                               sys.exc_info()[2].tb_lineno)
-
-            # Include the amazonsku
-            ama_data = amazon_data_upload.amazonDataUpload(flatfile)
-
-            for row in ama_data:
-                try:
-                    if row in list(data.keys()):
-                        data[row]['amazon-producttype'] = ama_data[row]['ItemAmazonProductType']
-                        data[row]['fba-enabled'] = ama_data[row]['ItemAmazonFBA']
-                        data[row]['fba-shipping'] = ama_data[row]['ItemShippingWithAmazonFBA']
-                except Exception as err:
-                    error.errorPrint("Amazondata part for "+row, err,
                                sys.exc_info()[2].tb_lineno)
 
         # Sort the dictionary to make sure that the parents are the first variant of each item

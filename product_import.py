@@ -7,6 +7,7 @@ from tkinter.filedialog import askopenfilename
 import os
 import sys
 import platform
+import inspect
 try:
     import configparser
 except ImportError:
@@ -276,7 +277,7 @@ def main():
             print(err)
             print("Missing Data, check if you have\n - a flatfile\n - a sheet with the stock numbers!\n")
 
-        print('press ENTER to after the upload was successful')
+        print('press ENTER,after the upload was successful')
         input()
         step += 1
         imageUpload(flatfile=sheet,

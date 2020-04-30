@@ -32,20 +32,18 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                     ]
 
     data = dict()
+    package_properties = dict()
+    color_size_sets = dict()
+    barcode_data = dict()
     sorted_data = collections.OrderedDict()
-    package_properties = {}
-    barcode_data = {}
-    is_parent = False
+    group_parent = ''
     position = 0
     item_price = 0
+    is_parent = False
 
-    # Get sets of all colors and sizes for each parent
-    # to find if there are some with only one attribute value for all childs
-    color_size_sets = {}
     color_size_sets = findSimilarAttr(flatfile, ['size_name'])
 
-    package_properties = getProperties(flatfile)
-    group_parent = ''
+    package_properties = get_properties(flatfile)
 
     with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=";")
@@ -63,77 +61,76 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                         msg="Generic Keywords are empty!", err='',
                         linenumber=inspect.currentframe().f_back.f_lineno)
 
-                item_price = row['standard_price']
-                if not item_price and row['parent_child'] == 'parent':
-                    item_price = price.find_price(flatfile, row['item_sku'])
-                    if item_price == -1:
-                        if os.name == 'nt':
-                            print("press ENTER to continue..")
-                            input()
-                        sys.exit(1)
-                if item_price == '':
-                    error.warnPrint(
-                        msg=str(f"{row['item_sku']},has no price"), err='',
-                        linenumber=inspect.currentframe().f_back.f_lineno)
+            item_price = row['standard_price']
+            if not item_price and row['parent_child'] == 'parent':
+                item_price = price.find_price(flatfile, row['item_sku'])
+                if item_price == -1:
+                    if os.name == 'nt':
+                        print("press ENTER to continue..")
+                        input()
+                    sys.exit(1)
+            if item_price == '':
+                error.warnPrint(
+                    msg=str(f"{row['item_sku']},has no price"), err='',
+                    linenumber=inspect.currentframe().f_back.f_lineno)
 
 
-                try:
-                    attributes = ''
-                    if row['parent_child'] == 'parent':
-                        is_parent = True
-                        group_parent = row['item_sku']
-                        position = 0
-                    if row['parent_child'] == 'child':
-                        is_parent = False
-                        attributes = getAttributes(dataset=row,
-                                                   sets=color_size_sets)
-                        if(group_parent and row['parent_sku'] == group_parent):
-                            position += 1
-                except Exception as err:
-                    error.warnPrint(msg="Attribute setting failed", err=err,
+            try:
+                attributes = ''
+                if row['parent_child'] == 'parent':
+                    is_parent = True
+                    group_parent = row['item_sku']
+                    position = 0
+                if row['parent_child'] == 'child':
+                    is_parent = False
+                    attributes = getAttributes(dataset=row,
+                                                sets=color_size_sets)
+                    if(group_parent and row['parent_sku'] == group_parent):
+                        position += 1
+            except Exception as err:
+                error.warnPrint(msg="Attribute setting failed", err=err,
+                                linenumber=sys.exc_info()[2].tb_lineno)
+            try:
+                values = [
+                    row['parent_sku'], row['item_sku'],
+                    is_parent,
+                    package_properties['length'] * 10,
+                    package_properties['width'] * 10,
+                    package_properties['height'] * 10,
+                    package_properties['weight'],
+                    row['item_name'], '104',
+                    attributes, position,
+                    keywords,
+                    input_data['name'], row['product_description'],
+                    '',  # externalID
+                    input_data['categories'],
+                    input_data['categories'][0:3],
+                    input_data['categories'][0:3],
+                    input_data['categories'],
+                    input_data['categories'][0:3], input_data['categories'][0:3],
+                    '', '',   # barcode
+                    '', '',   # market & accout id amazonsku
+                    '', '',   # sku & parentsku amazonsku
+                    amazon.get_producttype_id(source=flatfile,
+                                                sku=row['item_sku']),
+                    item_price, # prices
+                    '', '', '', #asin
+                    input_data['marking']
+                ]
+
+            except KeyError as kerr:
+                error.warnPrint(
+                    msg='column name not found in flatfile',
+                    err=kerr,
+                    linenumber=inspect.currentframe().f_back.f_lineno)
+                raise KeyError
+            except Exception as err:
+                error.errorPrint(msg="setting values failed", err=err,
                                     linenumber=sys.exc_info()[2].tb_lineno)
-                try:
-                    values = [
-                        row['parent_sku'], row['item_sku'],
-                        is_parent,
-                        package_properties['length'] * 10,
-                        package_properties['width'] * 10,
-                        package_properties['height'] * 10,
-                        package_properties['weight'],
-                        row['item_name'], '104',
-                        attributes, position,
-                        keywords,
-                        input_data['name'], row['product_description'],
-                        '',  # externalID
-                        input_data['categories'],
-                        input_data['categories'][0:3],
-                        input_data['categories'][0:3],
-                        input_data['categories'],
-                        input_data['categories'][0:3], input_data['categories'][0:3],
-                        '', '',   # barcode
-                        '', '',   # market & accout id amazonsku
-                        '', '',   # sku & parentsku amazonsku
-                        amazon.get_producttype_id(source=flatfile,
-                                                  sku=row['item_sku']),
-                        item_price, # prices
-                        '', '', '', #asin
-                        input_data['marking']
-                    ]
 
-                except KeyError as kerr:
-                    error.warnPrint(
-                        msg='column name not found in flatfile',
-                        err=kerr,
-                        linenumber=inspect.currentframe().f_back.f_lineno)
-                    raise KeyError
-                except Exception as err:
-                    error.errorPrint(msg="setting values failed", err=err,
-                                     linenumber=sys.exc_info()[2].tb_lineno)
+            data[row['item_sku']] =\
+                collections.OrderedDict(zip(column_names, values))
 
-                data[row['item_sku']] =\
-                    collections.OrderedDict(zip(column_names, values))
-
-            # open the intern number xlsx to get the external id
             get_externalid(dataset=data, numberlist=intern)
 
             barcode_data = barcode.barcode_Upload(flatfile, stocklist)
@@ -151,7 +148,6 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                         msg=str(f"Barcode part for {row}"), err=err,
                         linenumber=sys.exc_info()[2].tb_lineno)
 
-            # Include the amazonsku
             sku_data = amazon.amazonSkuUpload(flatfile)
 
             for row in sku_data:
@@ -166,7 +162,6 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                         msg=str(f"SKU part for {row}"), err=err,
                         linenumber=sys.exc_info()[2].tb_lineno)
 
-        # Sort the dictionary to make sure that the parents are the first variant of each item
         sorted_data = sortProducts(data)
 
         barcode.writeCSV(sorted_data, "item", column_names, folder, filename)
@@ -236,7 +231,7 @@ def itemPropertyUpload(flatfile, folder, filename):
 
     barcode.writeCSV(data, "Item_Merkmale", column_names, folder, filename)
 
-def getProperties(flatfile):
+def get_properties(flatfile):
 
     properties = {'length':0,
                   'width':0,
@@ -275,7 +270,7 @@ def getProperties(flatfile):
                     linenumber=sys.exc_info()[2].tb_lineno)
                 sys.exit()
             except KeyError as err:
-                msg = str(f"getProperties key: {err} not found")
+                msg = str(f"get_properties key: {err} not found")
                 error.errorPrint(msg=msg, err='',
                                  linenumber=sys.exc_info()[2].tb_lineno)
 

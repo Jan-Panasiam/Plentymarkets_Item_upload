@@ -92,6 +92,12 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                                 linenumber=sys.exc_info()[2].tb_lineno)
 
             standard_cat = get_standard_category(cat=input_data['categories'])
+            if not standard_cat:
+                msg = "Standard category not set ")
+                msg += str(f"from [{input_data['categories']}]")
+                error.warnPrint(
+                    msg=msg, err=err,
+                    linenumber=inspect.currentframe().f_back.f_lineno)
 
             try:
                 values = [

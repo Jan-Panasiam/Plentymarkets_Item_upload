@@ -156,7 +156,7 @@ def main():
             cchooser.destroy()
 
     user_data = cchooser.data
-    specific_name = re.sub(r'[(){}<>\\/"\'\\ \\n]', '', user_data['name'])
+    specific_name = re.sub(r'[(){}<>\\/"\'\\ ]', '', user_data['name'])
 
     if(cchooser.newpath['upload-path'] != '' and
        cchooser.newpath['upload-path'] != upload_folder):

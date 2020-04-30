@@ -98,14 +98,11 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                     package_properties['width'] * 10,
                     package_properties['height'] * 10,
                     package_properties['weight'],
-                    row['item_name'], '104',
+                    row['item_name'],
                     attributes, position,
                     keywords,
                     input_data['name'], row['product_description'],
                     '',  # externalID
-                    input_data['categories'],
-                    input_data['categories'][0:3],
-                    input_data['categories'][0:3],
                     input_data['categories'],
                     input_data['categories'][0:3], input_data['categories'][0:3],
                     '', '',   # barcode

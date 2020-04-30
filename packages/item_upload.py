@@ -90,6 +90,9 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
             except Exception as err:
                 error.warnPrint(msg="Attribute setting failed", err=err,
                                 linenumber=sys.exc_info()[2].tb_lineno)
+
+            standard_cat = get_standard_category(cat=input_data['categories'])
+
             try:
                 values = [
                     row['parent_sku'], row['item_sku'],
@@ -104,7 +107,7 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                     input_data['name'], row['product_description'],
                     '',  # externalID
                     input_data['categories'],
-                    input_data['categories'][0:3], input_data['categories'][0:3],
+                    standard_cat, standard_cat,
                     '', '',   # barcode
                     '', '',   # market & accout id amazonsku
                     '', '',   # sku & parentsku amazonsku
@@ -498,3 +501,27 @@ def get_externalid(dataset, numberlist):
                 msg=str(f"{key} was not found in intern number list"),
                 err='', linenumber=inspect.currentframe().f_back.f_lineno)
         dataset[key]['ExternalID'] = exid.values.max()
+
+
+def get_standard_category(cat):
+    """
+        Parameter:
+            cat [String] => String representation of category ids
+                            separated by ','
+
+        Description:
+            Get the first entry from a list of category ids, with a maximum
+            length of 3 digits.
+
+        Return:
+            [INT] integer representation of the category ID
+    """
+    if not cat:
+        return 0
+    value = cat[0:3].strip(',')
+    try:
+        cat_id = int(value)
+    except ValueError:
+        return 0
+
+    return cat_id

@@ -30,7 +30,8 @@ def find_price(flatfile, parent):
 
     df = pandas.read_csv(flatfile['path'],
                          encoding=flatfile['encoding'],
-                         sep=';')
+                         sep=';',
+                         dtype={'parent_sku':str, 'item_sku':str})
 
     if df.empty:
         error.errorPrint(

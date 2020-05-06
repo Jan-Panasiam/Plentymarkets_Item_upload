@@ -1,7 +1,8 @@
 import csv
 import pandas
+import inspect
 from os.path import isfile
-from packages import barcode
+from packages import barcode, error
 try:
     from sortedcontainers import SortedDict
 except ImportError:
@@ -61,7 +62,8 @@ def get_producttype_id(source, sku):
 
     df = pandas.read_csv(source['path'],
                          sep=';',
-                         encoding=source['encoding'])
+                         encoding=source['encoding'],
+                         dtype={'item_sku':str, 'parent_sku':str})
 
     sku_df = df[df['item_sku'] == sku]
     if len(sku_df.index) == 0:
@@ -86,6 +88,8 @@ def get_producttype_id(source, sku):
 
     if value in type_id.keys():
         return type_id[value]
+    else:
+        return 0
 
 def featureUpload(flatfile, features, folder, filename):
 

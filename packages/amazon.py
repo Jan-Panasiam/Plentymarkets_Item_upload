@@ -55,6 +55,7 @@ def get_producttype_id(source, sku):
         'bag': 27,
         'furnitureanddecor': 4,
         'bedandbath': 3,
+        'skirt': 123,
         'swimwear': 30
     }
 

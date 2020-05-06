@@ -506,6 +506,7 @@ def get_externalid(dataset, numberlist):
             error.warnPrint(
                 msg=str(f"{key} was not found in intern number list"),
                 err='', linenumber=inspect.currentframe().f_back.f_lineno)
+            continue
         dataset[key]['ExternalID'] = exid.values.max()
 
 

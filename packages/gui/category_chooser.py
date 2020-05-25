@@ -409,7 +409,7 @@ class CategoryChooser(tkinter.Tk):
 
     def checkColors(self, flatfile, attributefile):
         attributefile = item_upload.checkEncoding(attributefile)
-        self.missingcolors = clr.missingColor(flatfile, attributefile)
+        self.missingcolors = clr.missing_color(flatfile, attributefile)
 
         colorlist = []
 

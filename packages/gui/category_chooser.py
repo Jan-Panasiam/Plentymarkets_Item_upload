@@ -301,7 +301,7 @@ class CategoryChooser(tkinter.Tk):
         self.atrdate = atrdate
         self.cat = categories
         self.newpath = {'upload-path': '', 'attribute-path': ''}
-        self.data = {'name': '', 'categories': '', 'marking': ''}
+        self.data = {'name': '', 'categories': '', 'webshopname': ''}
         self.protocol("WM_WINDOW_DELETE", self.closeApp)
         self.missingcolors = {}
         self.toplevel_warning = 0
@@ -364,32 +364,34 @@ class CategoryChooser(tkinter.Tk):
         self.dropdown = DropdownChooser(master=self)
         self.dropdown.grid(row=4, column=1, columnspan=2)
 
-        self.namedesc = DescBox(master=self,
-                                desctext="Choose a name for the product")
+        self.namedesc = DescBox(
+            master=self,
+            desctext="Choose a name for the product (Name 1 - intern)")
         self.namedesc.grid(row=5, columnspan=3, pady=10, padx=10)
 
         self.namechooser = tkinter.Entry(self, width=50, bg="white")
         self.namechooser.grid(row=6, columnspan=3, pady=10, padx=10)
 
-        self.markingdesc = DescBox(master=self,
-                                   desctext="Choose a marking for the product")
-        self.markingdesc.grid(row=7, columnspan=3, pady=10, padx=10)
+        self.webshopname_desc = DescBox(
+            master=self,
+            desctext="Choose the display name for the webshop (Name 3)")
+        self.webshopname_desc.grid(row=7, columnspan=3, pady=10, padx=10)
 
-        self.markingchooser = MarkingDropdown(master=self)
-        self.markingchooser.grid(row=8, columnspan=3, pady=10, padx=10)
+        self.webshopname = tkinter.Entry(self, width=50, bg="white")
+        self.webshopname.grid(row=8, columnspan=3, pady=10, padx=10)
 
         self.accept =\
             tkinter.Button(self, text="Accept",
                            command=lambda:
                            self.getInput(self.dropdown.resultbox.get(),
                                          self.namechooser.get(),
-                                         self.markingchooser.resultvar))
+                                         self.webshopname.get()))
         self.accept.grid(row=9, column=3, pady=10, padx=10)
 
-    def getInput(self, categories, name, marking):
+    def getInput(self, categories, name, webshopname):
         self.data['name'] = name
         self.data['categories'] = categories
-        self.data['marking'] = marking
+        self.data['webshopname'] = webshopname
         # Close the gui after accepting the input to stop the mainloop
         self.closeApp()
 

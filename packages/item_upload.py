@@ -1,4 +1,5 @@
 import csv
+from decimal import Decimal, InvalidOperation
 import sys
 import collections
 import inspect
@@ -6,6 +7,8 @@ import os
 import chardet
 import pandas
 import xlrd
+
+from loguru import logger
 from packages import barcode, amazon, price, error
 
 
@@ -20,15 +23,14 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                     'Height', 'Weight',
                     'Name', 'Attributes', 'Position',
                     'ItemTextKeywords',
-                    'ItemTextName', 'ItemTextDescription',
+                    'ItemTextName', 'ItemTextName3', 'ItemTextDescription',
                     'ExternalID', 'Category-IDs',
                     'Standard-Category', 'Standard-Category-Webshop',
                     'EAN_Barcode', 'FNSKU_Barcode',
                     'marketid', 'accountid',
                     'amazon_sku', 'amazon_parentsku',
                     'amazon-producttype',
-                    'price', 'ASIN-countrycode', 'ASIN-type', 'ASIN-value',
-                    'Item-Flag-1'
+                    'price', 'ASIN-countrycode', 'ASIN-type', 'ASIN-value'
                     ]
 
     data = dict()
@@ -42,8 +44,6 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
     is_parent = False
 
     color_size_sets = findSimilarAttr(flatfile, ['size_name'])
-
-    package_properties = get_properties(flatfile)
 
     with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=";")
@@ -100,17 +100,39 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                     linenumber=inspect.currentframe().f_back.f_lineno)
 
             try:
+                p_height = Decimal(row['package_height'])
+                p_length = Decimal(row['package_length'])
+                p_width = Decimal(row['package_width'])
+                p_weight = Decimal(row['package_weight'])
+            except InvalidOperation:
+                logger.warning("Invalid package measurements on Variation: "
+                               f"{row['item_sku']}\n"
+                               f"Height:{row['package_height']}, "
+                               f"Length:{row['package_length']},\n"
+                               f"Width:{row['package_width']}, "
+                               f"Weight:{row['package_weight']}")
+                p_height = 0
+                p_length = 0
+                p_width = 0
+                p_weight = 0
+            except KeyError:
+                logger.warning("Flatfile doesn't contain package measurement "
+                               "columns\nDefault to 0 for height, length, "
+                               "width and weight")
+                p_height = 0
+                p_length = 0
+                p_width = 0
+                p_weight = 0
+            try:
                 values = [
                     row['parent_sku'], row['item_sku'],
                     is_parent,
-                    package_properties['length'] * 10,
-                    package_properties['width'] * 10,
-                    package_properties['height'] * 10,
-                    package_properties['weight'],
+                    p_length, p_width, p_height, p_weight,
                     row['item_name'],
                     attributes, position,
                     keywords,
-                    input_data['name'], row['product_description'],
+                    input_data['name'], input_data['webshopname'],
+                    row['product_description'],
                     '',  # externalID
                     input_data['categories'],
                     standard_cat, standard_cat,
@@ -120,8 +142,7 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                     amazon.get_producttype_id(source=flatfile,
                                                 sku=row['item_sku']),
                     item_price, # prices
-                    '', '', '', #asin
-                    input_data['marking']
+                    '', '', '' #asin
                 ]
 
             except KeyError as kerr:
@@ -133,6 +154,7 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
             except Exception as err:
                 error.errorPrint(msg="setting values failed", err=err,
                                     linenumber=sys.exc_info()[2].tb_lineno)
+                continue
 
             data[row['item_sku']] =\
                 collections.OrderedDict(zip(column_names, values))
@@ -236,51 +258,6 @@ def itemPropertyUpload(flatfile, folder, filename):
 
 
     barcode.writeCSV(data, "Item_Merkmale", column_names, folder, filename)
-
-def get_properties(flatfile):
-
-    properties = {'length':0,
-                  'width':0,
-                  'height':0,
-                  'weight':0,
-                  }
-
-    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
-        reader = csv.DictReader(item, delimiter=";")
-
-        # Get the package properties from one of the childs or parent
-        for row in reader:
-            try:
-                try:
-                    if(row['package_height'] and row['package_length'] and
-                       row['package_width'] and row['package_weight'] and
-                       not properties['height']):
-
-                        properties['height'] = int(row['package_height'])
-                        properties['length'] = int(row['package_length'])
-                        properties['width'] = int(row['package_width'])
-                        properties['weight'] = int(row['package_weight'])
-                    elif properties['height']:
-                        break
-
-                # if the number is a floating point number it has to be
-                # transformed into a float first befor the integer conversion
-                except ValueError as err:
-                    properties['height'] = int(float(row['package_height']))
-                    properties['length'] = int(float(row['package_length']))
-                    properties['width'] = int(float(row['package_width']))
-                    properties['weight'] = int(float(row['package_weight']))
-            except ValueError as err:
-                error.errorPrint(
-                    msg="Parent has no package measurements", err=err,
-                    linenumber=sys.exc_info()[2].tb_lineno)
-                sys.exit()
-            except KeyError as err:
-                msg = str(f"get_properties key: {err} not found")
-                error.errorPrint(msg=msg, err='',
-                                 linenumber=sys.exc_info()[2].tb_lineno)
-
-        return properties
 
 def getAttributes(dataset, sets):
     """

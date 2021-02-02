@@ -10,7 +10,8 @@ import inspect
 import tkinter
 from tkinter.filedialog import askopenfilename
 import configparser
-from packages import error
+
+from loguru import logger
 
 def assignFeatures(config):
     """
@@ -24,23 +25,17 @@ def assignFeatures(config):
     features = {}
     for key, value in config['FEATURES'].items():
         if key == 'example-feature':
-            msg =\
-                str(f"Fill feature IDs from Plentymarkets into [FEATURES]")
-            error.warnPrint(msg=msg, err='',
-                            linenumber=inspect.currentframe().f_back.f_lineno)
+            logger.warning("Fill feature IDs from Plentymarkets into "
+                           "[FEATURES]")
             return None
         try:
             features[key] = int(value)
         except ValueError as err:
-            msg = str(f"Wrong value in config for => {key} : {value}")
-            error.errorPrint(msg=msg, err=err,
-                             linenumber=inspect.currentframe().f_back.f_lineno)
+            logger.error(f"Wrong value in config for => {key} : {value}")
 
     for key, value in features.items():
         if not value:
-            msg = str(f"No Value set in config for [FEATURES]=>{key}")
-            error.warnPrint(msg=msg, err='',
-                            linenumber=inspect.currentframe().f_back.f_lineno)
+            logger.warning(f"No Value set in config for [FEATURES]=>{key}")
 
     return features
 
@@ -55,30 +50,24 @@ def assignCategory(config):
     category = {}
 
     if not 'CATEGORY' in config.keys():
-        msg = str(f"No categories in config => {config.keys()}")
-        error.errorPrint(msg=msg, err='',
-                         linenumber=inspect.currentframe().f_back.f_lineno)
+        logger.error(f"No categories in config => {config.keys()}")
         return None
     for key, value in config['CATEGORY'].items():
         if key == 'example-category':
-            msg =\
-                str(f"Fill category IDs from Plentymarkets into [CATEGORY]")
-            error.warnPrint(msg=msg, err='',
-                            linenumber=inspect.currentframe().f_back.f_lineno)
+            logger.warning("Fill category IDs from Plentymarkets into "
+                           "[CATEGORY]")
             return None
         try:
             category[key] = int(value)
         except ValueError as err:
-            msg = str(f"Wrong value in config for => {key} : {value}")
-            error.errorPrint(msg=msg, err=err,
-                             linenumber=inspect.currentframe().f_back.f_lineno)
+            logger.error(f"Wrong value in config for => {key} : {value}")
 
     return category
 
-def createConfig(name):
+def createConfig(path: str):
     """
         Parameter:
-            name => name of the file with to be created in the source root
+            path            [str]       -       Path to the config file
 
         Create a empty config and ask user for input to fill values
     """
@@ -105,9 +94,9 @@ def createConfig(name):
         'example-feature':'feature ID (integer)'
     }
 
-    with open('config.ini', 'w') as configfile:
+    with open(path, 'w') as configfile:
         config.write(configfile)
 
-    error.infoPrint("Fill out the Category and Feature field of the config")
+    logger.info("Fill out the Category and Feature field of the config")
 
     return config

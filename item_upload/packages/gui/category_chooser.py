@@ -4,8 +4,8 @@ import datetime
 import re
 import sys
 from tkinter import messagebox as tmb
-from packages import color as clr
-from packages import item_upload
+from item_upload.packages import color as clr
+from item_upload.packages import item_upload
 
 
 class MarkingDropdown(tkinter.Frame):

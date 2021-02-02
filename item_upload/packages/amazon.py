@@ -2,12 +2,10 @@ import csv
 import pandas
 import inspect
 from os.path import isfile
-from packages import barcode, error
-try:
-    from sortedcontainers import SortedDict
-except ImportError:
-    print("the sortedcontainers module is required to run this program.")
-    raise ImportError
+
+from loguru import logger
+
+from item_upload.packages import barcode
 
 
 def amazonSkuUpload(flatfile):
@@ -19,14 +17,14 @@ def amazonSkuUpload(flatfile):
     marketid = 104  # Amazon FBA Germany
     accountid = 0   # bkkasia.germany@gmail.com
 
-    Data = SortedDict()
+    Data = dict()
 
     with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';')
         for row in reader:
             values = [marketid, accountid,
                       row['item_sku'], row['parent_sku']]
-            Data[row['item_sku']] = SortedDict(zip(column_names, values))
+            Data[row['item_sku']] = dict(zip(column_names, values))
 
     return Data
 
@@ -67,16 +65,12 @@ def get_producttype_id(source, sku):
 
     sku_df = df[df['item_sku'] == sku]
     if len(sku_df.index) == 0:
-        error.warnPrint(msg=str(f"{sku} not found in flatfile"), err='',
-                        linenumber=inspect.currentframe().f_back.f_lineno)
+        logger.warning(f"{sku} not found in flatfile")
         return 0
 
     if sku_df.filter(like='product_type', axis=1).empty:
-        msg=str("wrong header: ..{0} requires a product_type column"
-                .format(source['path'][-21:]))
-        error.warnPrint(
-            msg=msg, err='',
-            linenumber=inspect.currentframe().f_back.f_lineno)
+        logger.warning("wrong header: ..{0} requires a product_type column"
+                       .format(source['path'][-21:]))
         return 0
 
     value = sku_df.filter(like='product_type', axis=1)\

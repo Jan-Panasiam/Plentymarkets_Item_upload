@@ -9,7 +9,9 @@
 import csv
 import re
 import sys
-from packages import barcode, error
+from item_upload.packages import barcode
+
+from loguru import logger
 
 
 def missing_color(flatfile, attributefile):
@@ -43,8 +45,7 @@ def missing_color(flatfile, attributefile):
                     highest_number = int(row['AttributeValue.position'])
                 color_list.add(row['AttributeValue.backendName'])
             except KeyError as err:
-                error.errorPrint(msg="invalid attribute file", err=err,
-                                 linenumber=sys.exc_info()[2].tb_lineno)
+                logger.error("invalid attribute file")
 
     missing_colors_columns = ['color_name', 'similar_names',
                               'highest-position']
@@ -76,8 +77,7 @@ def missing_color(flatfile, attributefile):
                         missing_colors[color]['similar_names'].append(
                             row['AttributeValue.backendName'])
                 except KeyError as err:
-                    error.errorPrint(msg="invalid attribute file", err=err,
-                                     linenumber=sys.exc_info()[2].tb_lineno)
+                    logger.error("invalid attribute file")
 
     return missing_colors
 

@@ -56,7 +56,7 @@ def barcode_Upload(flatfile, stocklist):
                 if(not(code) and row['parent_sku']):
                     raise EmptyFieldWarning('barcode(EAN)')
                 values = [code, '', row['item_sku'],
-                          '1', 'ASIN', '']
+                          '0', 'ASIN', '']
 
                 Data[row['item_sku']] = dict(zip(column_names, values))
 

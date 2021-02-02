@@ -8,7 +8,8 @@
 
 import inspect
 import pandas
-from packages import error
+
+from loguru import logger
 
 
 def find_price(flatfile, parent):
@@ -34,23 +35,17 @@ def find_price(flatfile, parent):
                          dtype={'parent_sku':str, 'item_sku':str})
 
     if df.empty:
-        error.errorPrint(
-            msg=str(f"Couldn't read {flatfile['path']}"), err='',
-            linenumber=inspect.currentframe().f_back.f_lineno)
+        logger.error(f"Couldn't read {flatfile['path']}")
         return -1
 
     variation = df[df['parent_sku'] == parent]
     if variation.empty:
-        error.errorPrint(
-            msg=str(f"No variation for {parent} in {flatfile['path']}"),
-            err='', linenumber=inspect.currentframe().f_back.f_lineno)
+        logger.error(f"No variation for {parent} in {flatfile['path']}")
         return -1
 
     with_price = variation['standard_price'].notnull()
     if variation[with_price].empty:
-        error.warnPrint(
-            msg=str(f"No variation of {parent} has a price"), err='',
-            linenumber=inspect.currentframe().f_back.f_lineno)
+        logger.warning(f"No variation of {parent} has a price")
         return 0
 
 

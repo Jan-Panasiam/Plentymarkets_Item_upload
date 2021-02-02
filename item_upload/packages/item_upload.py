@@ -6,10 +6,9 @@ import inspect
 import os
 import chardet
 import pandas
-import xlrd
 
 from loguru import logger
-from packages import barcode, amazon, price, error
+from item_upload.packages import barcode, amazon, price
 
 
 class WrongEncodingException(Exception):
@@ -17,21 +16,22 @@ class WrongEncodingException(Exception):
 
 
 def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
-    column_names = ['Parent-SKU', 'SKU',
-                    'is_parent',
-                    'Length', 'Width',
-                    'Height', 'Weight',
-                    'Name', 'Attributes', 'Position',
-                    'ItemTextKeywords',
-                    'ItemTextName', 'ItemTextName3', 'ItemTextDescription',
-                    'ExternalID', 'Category-IDs',
-                    'Standard-Category', 'Standard-Category-Webshop',
-                    'EAN_Barcode', 'FNSKU_Barcode',
-                    'marketid', 'accountid',
-                    'amazon_sku', 'amazon_parentsku',
-                    'amazon-producttype',
-                    'price', 'ASIN-countrycode', 'ASIN-type', 'ASIN-value'
-                    ]
+    column_names = [
+        'Parent-SKU', 'SKU',
+        'is_parent',
+        'Length', 'Width',
+        'Height', 'Weight',
+        'Name', 'Attributes', 'Position',
+        'ItemTextKeywords',
+        'ItemTextName', 'ItemTextName3', 'ItemTextDescription',
+        'ExternalID', 'Category-IDs',
+        'Standard-Category', 'Standard-Category-Webshop',
+        'EAN_Barcode', 'FNSKU_Barcode',
+        'marketid', 'accountid',
+        'amazon_sku', 'amazon_parentsku',
+        'amazon-producttype',
+        'price', 'ASIN-countrycode', 'ASIN-type', 'ASIN-value'
+    ]
 
     data = dict()
     package_properties = dict()
@@ -57,9 +57,7 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                 try:
                     raise barcode.EmptyFieldWarning('generic_keywords')
                 except Exception:
-                    error.warnPrint(
-                        msg="Generic Keywords are empty!", err='',
-                        linenumber=inspect.currentframe().f_back.f_lineno)
+                    logger.warning("Generic Keywords are empty!")
 
             item_price = row['standard_price']
             if not item_price and row['parent_child'] == 'parent':
@@ -70,9 +68,7 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                         input()
                     sys.exit(1)
             if item_price == '':
-                error.warnPrint(
-                    msg=str(f"{row['item_sku']},has no price"), err='',
-                    linenumber=inspect.currentframe().f_back.f_lineno)
+                logger.warning(f"{row['item_sku']},has no price")
 
 
             try:
@@ -88,16 +84,12 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                     if(group_parent and row['parent_sku'] == group_parent):
                         position += 1
             except Exception as err:
-                error.warnPrint(msg="Attribute setting failed", err=err,
-                                linenumber=sys.exc_info()[2].tb_lineno)
+                logger.warning("Attribute setting failed")
 
             standard_cat = get_standard_category(cat=input_data['categories'])
             if not standard_cat:
-                msg = "Standard category not set "
-                msg += str(f"from [{input_data['categories']}]")
-                error.warnPrint(
-                    msg=msg, err=err,
-                    linenumber=inspect.currentframe().f_back.f_lineno)
+                logger.warning("Standard category not set from "
+                               f"[{input_data['categories']}]")
 
             try:
                 p_height = Decimal(row['package_height'])
@@ -146,20 +138,14 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                 ]
 
             except KeyError as kerr:
-                error.warnPrint(
-                    msg='column name not found in flatfile',
-                    err=kerr,
-                    linenumber=inspect.currentframe().f_back.f_lineno)
+                logger.warning("column name not found in flatfile")
                 raise KeyError
             except Exception as err:
-                error.errorPrint(msg="setting values failed", err=err,
-                                    linenumber=sys.exc_info()[2].tb_lineno)
+                logger.error("setting values failed")
                 continue
 
             data[row['item_sku']] =\
                 collections.OrderedDict(zip(column_names, values))
-
-            get_externalid(dataset=data, numberlist=intern)
 
             barcode_data = barcode.barcode_Upload(flatfile, stocklist)
 
@@ -172,9 +158,7 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                         data[row]['ASIN-type'] = barcode_data[row]['ASIN-type']
                         data[row]['ASIN-value'] = barcode_data[row]['ASIN-value']
                 except Exception as err:
-                    error.errorPrint(
-                        msg=str(f"Barcode part for {row}"), err=err,
-                        linenumber=sys.exc_info()[2].tb_lineno)
+                    logger.error(f"Barcode part for {row}")
 
             sku_data = amazon.amazonSkuUpload(flatfile)
 
@@ -186,13 +170,13 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
                         data[row]['amazon_sku'] = sku_data[row]['SKU']
                         data[row]['amazon_parentsku'] = sku_data[row]['ParentSKU']
                 except Exception as err:
-                    error.errorPrint(
-                        msg=str(f"SKU part for {row}"), err=err,
-                        linenumber=sys.exc_info()[2].tb_lineno)
+                    logger.error(f"SKU part for {row}")
 
         sorted_data = sortProducts(data)
+        get_externalid(dataset=data, numberlist=intern)
 
         barcode.writeCSV(sorted_data, "item", column_names, folder, filename)
+
 
 def itemPropertyUpload(flatfile, folder, filename):
 
@@ -252,9 +236,7 @@ def itemPropertyUpload(flatfile, folder, filename):
 
                 data[row + prop] = dict(zip(column_names, values))
             except KeyError as kerr:
-                error.errorPrint(
-                    msg="Key was not found in the flatfile", err=kerr,
-                    linenumber=sys.exc_info()[2].tb_lineno)
+                logger.error("Key was not found in the flatfile")
 
 
     barcode.writeCSV(data, "Item_Merkmale", column_names, folder, filename)
@@ -283,9 +265,7 @@ def getAttributes(dataset, sets):
             print("{0} not found in {1}"
                   .format(dataset['parent_sku'], ','.join(list(sets.keys()))))
     except Exception as err:
-        error.errorPrint(
-            msg="Adding color attribute failed", err=err,
-            linenumber=sys.exc_info()[2].tb_lineno)
+        logger.error("Adding color attribute failed")
     try:
         if len(sets[dataset['parent_sku']]['size_name']) > 1:
             if not output_string:
@@ -293,9 +273,7 @@ def getAttributes(dataset, sets):
             else:
                 output_string = output_string + ';size_name:' + dataset['size_name']
     except Exception as err:
-        error.errorPrint(
-            msg="Adding of size attribute failed", err=err,
-            linenumber=sys.exc_info()[2].tb_lineno)
+        logger.error("Adding of size attribute failed")
     return output_string
 
 def findSimilarAttr(flatfile, attribute):
@@ -365,22 +343,14 @@ def checkFlatfile(flatfile):
 
         first_row = [*list(reader)[0]]
         if len(first_row) == 1:
-            error.errorPrint(
-                msg='False delimiter detected',
-                err="Wrong delimiter, use ';'",
-                linenumber=inspect.currentframe().f_back.f_lineno)
+            logger.error("False delimiter detected")
             return False
 
         if not 'feed_product_type' in first_row:
             if 'Marke' in first_row:
-                error.errorPrint(
-                    msg="Remove the first 2 rows of the amazon flatfile",
-                    err='',
-                    linenumber=inspect.currentframe().f_back.f_lineno)
+                logger.error("Remove the first 2 rows of the amazon flatfile")
                 return False
-            error.errorPrint(
-                msg="Wrong header line", err='',
-                linenumber=inspect.currentframe().f_back.f_lineno)
+            logger.error("Wrong header line")
             return False
         return True
 
@@ -390,12 +360,8 @@ def checkEncoding(file_dict):
             raw_data = item.read()
         except Exception as err:
             print("ERROR: {0}\n".format(err))
-            error.errorPrint(
-                msg="check Encoding reading failed", err=err,
-                linenumber=sys.exc_info()[2].tb_lineno)
+            logger.error("check Encoding reading failed")
         file_dict['encoding'] = chardet.detect(raw_data)['encoding']
-        print("chardet data for {0}\n{1}\n"
-              .format(file_dict['path'], chardet.detect(raw_data)))
 
     return file_dict
 
@@ -418,23 +384,18 @@ def get_variation_id(exportfile, sku):
                           sep=';')
 
     if len(exp.index) == 0:
-        error.warnPrint(
-            msg='exp is empty, skip variation ID', err='',
-            linenumber=inspect.currentframe().f_back.f_lineno)
+        logger.warning("exp is empty, skip variation ID")
         return 0
 
     if(len(exp.columns[exp.columns.str.contains(pat='Variation.id')]) == 0 or
        len(exp.columns[exp.columns.str.contains(pat='Variation.number')]) == 0):
-        error.warnPrint(
-            msg="Exportfile requires fields 'Variation.id'&'Variation.number'",
-            err='', linenumber=inspect.currentframe().f_back.f_lineno)
+        logger.warning("Exportfile requires fields 'Variation.id'&'"
+                       "Variation.number'")
         return 0
 
     variation = exp[exp['Variation.number'] == sku]
     if len(variation.index) == 0:
-        error.warnPrint(
-            msg=str(f"{sku} not found in Plentymarkets export"),
-            err='', linenumber=inspect.currentframe().f_back.f_lineno)
+        logger.warning(f"{sku} not found in Plentymarkets export")
         return 0
 
     return variation['Variation.id'].values.max()
@@ -452,37 +413,27 @@ def get_externalid(dataset, numberlist):
             amazon_sku field that matches to a variation within the dataset
     """
     if not numberlist:
-        error.warnPrint(
-            msg='No intern number list given, skip external id', err='',
-            linenumber=inspect.currentframe().f_back.f_lineno)
+        logger.warning("No intern number list given, skip external id")
         return
 
     try:
         extern_id = pandas.read_excel(numberlist)
-    except xlrd.biffh.XLRDError as err:
-        error.errorPrint(
-            msg=str(f"..{numberlist[-30:]} requires type [.xlsx]"),
-            err=err, linenumber=sys.exc_info()[2].tb_lineno)
+    except Exception as err:
+        logger.error(f"Error reading intern number list {err} @ {numberlist}")
         if os.name == 'nt':
             print("press ENTER to continue..")
             input()
         sys.exit(1)
 
     if extern_id.empty:
-        error.warnPrint(
-            msg='Internumber list is empty, skip extern_ids', err='',
-            linenumber=inspect.currentframe().f_back.f_lineno)
+        logger.warning("Internumber list is empty, skip extern_ids")
 
     for key in dataset.keys():
         if extern_id[extern_id['amazon_sku'] == key].shape[0] > 1:
-            error.warnPrint(
-                msg=str(f"multiple entries: {key} in intern numbers"),
-                err='', linenumber=inspect.currentframe().f_back.f_lineno)
+            logger.warning(f"multiple entries: {key} in intern numbers")
         exid = extern_id[extern_id['amazon_sku'] == key]['full_number']
         if len(exid.index) == 0:
-            error.warnPrint(
-                msg=str(f"{key} was not found in intern number list"),
-                err='', linenumber=inspect.currentframe().f_back.f_lineno)
+            logger.warning(f"{key} was not found in intern number list")
             continue
         dataset[key]['ExternalID'] = exid.values.max()
 

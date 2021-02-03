@@ -1,21 +1,48 @@
+import chardet
+import collections
 import csv
 from decimal import Decimal, InvalidOperation
-import sys
-import collections
 import inspect
+import numpy as np
 import os
-import chardet
 import pandas
+import sys
 
 from loguru import logger
 from item_upload.packages import barcode, amazon, price
 
 
+# Fixed constants
+ACCOUNT_ID = 0
+MARKET_ID = 104
+
+# Mappings for Amazon Flatfile columns
+TYPE_FIELD = 'feed_product_type'
+SKU_FIELD = 'item_sku'
+EAN_FIELD = 'external_product_id'
+NAME_FIELD = 'item_name'
+PRICE_FIELD = 'standard_price'
+COLOR_FIELD = 'color_name'
+SIZE_FIELD = 'size_name'
+PSKU_FIELD = 'parent_sku'
+RELATION_FIELD = 'parent_child'
+DESC_FIELD = 'product_description'
+KEYWORD_FIELD = 'generic_keywords'
+LENGTH_FIELD = 'package_length'
+WIDTH_FIELD = 'package_width'
+HEIGHT_FIELD = 'package_height'
+WEIGHT_FIELD = 'package_weight'
+
+# Mappings for the Amazon stock report list
+STOCK_SKU = 'MASTER'
+STOCK_FNSKU = 'fnsku'
+STOCK_ASIN = 'asin'
+
 class WrongEncodingException(Exception):
     pass
 
 
-def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
+def itemUpload(flatfile, intern, stocklist, input_data, filename):
     column_names = [
         'Parent-SKU', 'SKU',
         'is_parent',
@@ -43,139 +70,84 @@ def itemUpload(flatfile, intern, stocklist, folder, input_data, filename):
     item_price = 0
     is_parent = False
 
-    color_size_sets = findSimilarAttr(flatfile, ['size_name'])
+    color_size_sets = findSimilarAttr(flatfile, [SIZE_FIELD])
+    standard_cat = get_standard_category(cat=input_data['categories'])
 
-    with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
-        reader = csv.DictReader(item, delimiter=";")
+    df = pandas.read_csv(flatfile['path'], encoding=flatfile['encoding'],
+                         sep=';', dtype=str, na_values='')
+    stock = pandas.read_csv(stocklist['path'],
+                                encoding=stocklist['encoding'],
+                                sep=';', dtype=str, na_values='')
 
-        for row in reader:
-            keywords = ''
-            if row['generic_keywords']:
-                keywords = row['generic_keywords']
+    result_df = pandas.DataFrame(columns=column_names)
 
-            if not keywords:
-                try:
-                    raise barcode.EmptyFieldWarning('generic_keywords')
-                except Exception:
-                    logger.warning("Generic Keywords are empty!")
+    target_keys = [
+        'SKU', 'Parent-SKU', 'Length', 'Width', 'Height',
+         'Weight', 'Name', 'ItemTextDescription', 'EAN_Barcode',
+         'ItemTextKeywords', 'amazon_sku', 'amazon_parentsku', 'price'
+    ]
+    source_keys = [
+        SKU_FIELD, PSKU_FIELD, LENGTH_FIELD, WIDTH_FIELD, HEIGHT_FIELD,
+         WEIGHT_FIELD, NAME_FIELD, DESC_FIELD, EAN_FIELD,
+         KEYWORD_FIELD, SKU_FIELD, PSKU_FIELD, PRICE_FIELD
+    ]
+    key_combi = zip(source_keys,target_keys)
+    for s_key, t_key in key_combi:
+        result_df[t_key] = df[s_key]
 
-            item_price = row['standard_price']
-            if not item_price and row['parent_child'] == 'parent':
-                item_price = price.find_price(flatfile, row['item_sku'])
-                if item_price == -1:
-                    if os.name == 'nt':
-                        print("press ENTER to continue..")
-                        input()
-                    sys.exit(1)
-            if item_price == '':
-                logger.warning(f"{row['item_sku']},has no price")
+    result_df['is_parent'] = df[RELATION_FIELD].apply(
+        lambda x: False if x == 'child' else True)
 
 
-            try:
-                attributes = ''
-                if row['parent_child'] == 'parent':
-                    is_parent = True
-                    group_parent = row['item_sku']
-                    position = 0
-                if row['parent_child'] == 'child':
-                    is_parent = False
-                    attributes = getAttributes(dataset=row,
-                                                sets=color_size_sets)
-                    if(group_parent and row['parent_sku'] == group_parent):
-                        position += 1
-            except Exception as err:
-                logger.warning("Attribute setting failed")
+    result_df['Attributes'] = df.apply(
+        lambda x: getAttributes(parent=x[PSKU_FIELD], color=x[COLOR_FIELD],
+                                size=x[SIZE_FIELD], sets=color_size_sets),
+        axis=1)
 
-            standard_cat = get_standard_category(cat=input_data['categories'])
-            if not standard_cat:
-                logger.warning("Standard category not set from "
-                               f"[{input_data['categories']}]")
+    missing_keywords = np.where(result_df['ItemTextKeywords'] == '',
+                                result_df['SKU'], 'N')
+    missing_keywords = missing_keywords[~(missing_keywords == 'N')]
+    if missing_keywords:
+        logger.warning("The following SKUs do not have keywords:\n"
+                       f"{missing_keywords}")
 
-            try:
-                p_height = Decimal(row['package_height'])
-                p_length = Decimal(row['package_length'])
-                p_width = Decimal(row['package_width'])
-                p_weight = Decimal(row['package_weight'])
-            except InvalidOperation:
-                logger.warning("Invalid package measurements on Variation: "
-                               f"{row['item_sku']}\n"
-                               f"Height:{row['package_height']}, "
-                               f"Length:{row['package_length']},\n"
-                               f"Width:{row['package_width']}, "
-                               f"Weight:{row['package_weight']}")
-                p_height = 0
-                p_length = 0
-                p_width = 0
-                p_weight = 0
-            except KeyError:
-                logger.warning("Flatfile doesn't contain package measurement "
-                               "columns\nDefault to 0 for height, length, "
-                               "width and weight")
-                p_height = 0
-                p_length = 0
-                p_width = 0
-                p_weight = 0
-            try:
-                values = [
-                    row['parent_sku'], row['item_sku'],
-                    is_parent,
-                    p_length, p_width, p_height, p_weight,
-                    row['item_name'],
-                    attributes, position,
-                    keywords,
-                    input_data['name'], input_data['webshopname'],
-                    row['product_description'],
-                    '',  # externalID
-                    input_data['categories'],
-                    standard_cat, standard_cat,
-                    '', '',   # barcode
-                    '', '',   # market & accout id amazonsku
-                    '', '',   # sku & parentsku amazonsku
-                    amazon.get_producttype_id(source=flatfile,
-                                                sku=row['item_sku']),
-                    item_price, # prices
-                    '', '', '' #asin
-                ]
 
-            except KeyError as kerr:
-                logger.warning("column name not found in flatfile")
-                raise KeyError
-            except Exception as err:
-                logger.error("setting values failed")
-                continue
+    result_df['ItemTextName'] = input_data['name']
+    result_df['ItemTextName3'] = input_data['webshopname']
+    result_df['ExternalID'] = fetch_external_identifier_numbers(
+        data=result_df['SKU'], numberlist=intern)
+    result_df['Category-IDs'] = input_data['categories']
+    result_df['Standard-Category'] = standard_cat
+    result_df['Standard-Category-Webshop'] = standard_cat
+    result_df['amazon-producttype'] = df[TYPE_FIELD].apply(
+        lambda x: get_producttype_id(product_type=x))
+    result_df['ASIN-countrycode'] = '0'
+    result_df['ASIN-type'] = 'ASIN'
+    result_df['ASIN-value'] = result_df['SKU'].apply(
+        lambda x: get_asin(sku=x, source=stock))
+    result_df['FNSKU_Barcode'] = result_df['SKU'].apply(
+        lambda x: get_fnsku(sku=x, source=stock))
+    result_df['marketid'] = MARKET_ID
+    result_df['accountid'] = ACCOUNT_ID
 
-            data[row['item_sku']] =\
-                collections.OrderedDict(zip(column_names, values))
 
-            barcode_data = barcode.barcode_Upload(flatfile, stocklist)
+    # Assign prices to the parent rows
+    new_index = []
+    parent = df[df[RELATION_FIELD] == 'parent']
+    for parent_entry in parent.itertuples():
+        parent_sku = getattr(parent_entry, SKU_FIELD)
+        childs = df[PSKU_FIELD] == parent_sku
+        any_price = df[childs][PRICE_FIELD].max()
+        result_df.loc[parent_entry.Index, 'price'] = any_price
+        # Adjust the postions
+        new_index.append(parent_entry.Index)
+        new_index += df[childs].index.tolist()
 
-            for row in barcode_data:
-                try:
-                    if row in list(data.keys()):
-                        data[row]['EAN_Barcode'] = barcode_data[row]['EAN_Barcode']
-                        data[row]['FNSKU_Barcode'] = barcode_data[row]['FNSKU_Barcode']
-                        data[row]['ASIN-countrycode'] = barcode_data[row]['ASIN-countrycode']
-                        data[row]['ASIN-type'] = barcode_data[row]['ASIN-type']
-                        data[row]['ASIN-value'] = barcode_data[row]['ASIN-value']
-                except Exception as err:
-                    logger.error(f"Barcode part for {row}")
+    result_df = result_df.reindex(new_index)
+    result_df.reset_index(inplace=True, drop=True)
+    result_df['Position'] = result_df.index
 
-            sku_data = amazon.amazonSkuUpload(flatfile)
-
-            for row in sku_data:
-                try:
-                    if row in list(data.keys()):
-                        data[row]['marketid'] = sku_data[row]['MarketID']
-                        data[row]['accountid'] = sku_data[row]['MarketAccountID']
-                        data[row]['amazon_sku'] = sku_data[row]['SKU']
-                        data[row]['amazon_parentsku'] = sku_data[row]['ParentSKU']
-                except Exception as err:
-                    logger.error(f"SKU part for {row}")
-
-        sorted_data = sortProducts(data)
-        get_externalid(dataset=data, numberlist=intern)
-
-        barcode.writeCSV(sorted_data, "item", column_names, folder, filename)
+    result_df.to_csv(filename, sep=';', index=False)
 
 
 def itemPropertyUpload(flatfile, folder, filename):
@@ -218,13 +190,13 @@ def itemPropertyUpload(flatfile, folder, filename):
         properties = dict()
 
         for row in reader:
-            if row['parent_child'] == 'parent':
+            if row[RELATION_FIELD] == 'parent':
                 use_names =\
                     [i for i in property_names if i in list(row.keys())]
                 values = [row[i] for i in use_names]
 
                 # Check for empty values
-                properties[row['item_sku']] = dict(zip(use_names, values))
+                properties[row[SKU_FIELD]] = dict(zip(use_names, values))
 
     column_names = ['SKU', 'ID-property', 'Value', 'Lang', 'Active']
     data = {}
@@ -241,7 +213,8 @@ def itemPropertyUpload(flatfile, folder, filename):
 
     barcode.writeCSV(data, "Item_Merkmale", column_names, folder, filename)
 
-def getAttributes(dataset, sets):
+
+def getAttributes(parent: str, color: str, size: str, sets: dict) -> str:
     """
         Parameter:
             dataset [Dictionary] => row of the flatfile as dictionary
@@ -259,22 +232,75 @@ def getAttributes(dataset, sets):
 
     output_string = ''
     try:
-        if dataset['parent_sku'] in list(sets.keys()):
-            output_string = 'color_name:' + dataset['color_name']
+        if parent in list(sets.keys()):
+            output_string = 'color_name:' + color
         else:
             print("{0} not found in {1}"
-                  .format(dataset['parent_sku'], ','.join(list(sets.keys()))))
+                  .format(parent, ','.join(list(sets.keys()))))
     except Exception as err:
         logger.error("Adding color attribute failed")
     try:
-        if len(sets[dataset['parent_sku']]['size_name']) > 1:
+        if len(sets[parent][SIZE_FIELD]) > 1:
             if not output_string:
-                output_string = 'size_name:' + dataset['size_name']
+                output_string = 'size_name:' + size
             else:
-                output_string = output_string + ';size_name:' + dataset['size_name']
+                output_string = output_string + ';size_name:' + size
     except Exception as err:
-        logger.error("Adding of size attribute failed")
+        logger.error(f"Adding of size attribute failed, error: {err}")
     return output_string
+
+
+def get_producttype_id(product_type: str) -> str:
+    """
+        Parameter:
+            product_type    [str]   -   product type value for a given row
+
+        Description:
+            Search for a matching term in mapping list of valid
+            amazon producttype names and their ID.
+
+        Return:
+            [str]
+            value from type_id on success
+            empty string on failure
+    """
+    type_id = {
+        'accessory': '28',
+        'shirt': '13',
+        'pants': '15',
+        'dress': '18',
+        'outerwear': '21',
+        'bag': '27',
+        'furnitureanddecor': '4',
+        'bedandbath': '3',
+        'skirt': '123',
+        'swimwear': '30'
+    }
+
+    if not product_type:
+        return ''
+
+    if product_type in type_id.keys():
+        return type_id[product_type]
+    else:
+        return ''
+
+
+def get_asin(sku: str, source: pandas.DataFrame) -> str:
+    sku_match = source[STOCK_SKU] == sku
+    entry = source[sku_match]
+    if len(entry.index) == 0:
+        return ''
+    return entry[STOCK_ASIN].tolist()[0]
+
+
+def get_fnsku(sku: str, source: pandas.DataFrame) -> str:
+    sku_match = source[STOCK_SKU] == sku
+    entry = source[sku_match]
+    if len(entry.index) == 0:
+        return ''
+    return entry[STOCK_FNSKU].tolist()[0]
+
 
 def findSimilarAttr(flatfile, attribute):
     """
@@ -298,44 +324,15 @@ def findSimilarAttr(flatfile, attribute):
         reader = csv.DictReader(item, delimiter=";")
 
         for row in reader:
-            p_sku = row['parent_sku']
+            p_sku = row[PSKU_FIELD]
             if p_sku and p_sku not in data.keys():
                 data[p_sku] = dict()
                 for attr in attribute:
                     data[p_sku][attr] = set()
-            if row['parent_child'] == 'child':
+            if row[RELATION_FIELD] == 'child':
                 for attr in attribute:
                     data[p_sku][attr].add(row[attr])
     return data
-
-def sortProducts(dataset):
-    item_list = dataset.items()
-    new_dict = collections.OrderedDict()
-    # parent_dict = collections.OrderedDict()
-    child_dict = collections.OrderedDict()
-
-    # Go through the items of the dataset
-    for item in item_list:
-        if not item[0] in list(new_dict.keys()):
-            if item[1]['is_parent']:
-                # add the parent to the new dict
-                new_dict[item[0]] = item[1]
-                # get all the children and update the itemlist without them
-                child_dict = searchChild(item_list=item_list, parent=item[0])
-                # add each child to the new dict after the parent
-                for child in child_dict:
-                    new_dict[child] = child_dict[child]
-
-    return new_dict
-
-def searchChild(item_list, parent):
-    child_dict = collections.OrderedDict()
-
-    for item in item_list:
-        if item[1]['Parent-SKU'] == parent:
-            child_dict[item[0]] = item[1]
-
-    return child_dict
 
 def checkFlatfile(flatfile):
     with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
@@ -346,7 +343,7 @@ def checkFlatfile(flatfile):
             logger.error("False delimiter detected")
             return False
 
-        if not 'feed_product_type' in first_row:
+        if not TYPE_FIELD in first_row:
             if 'Marke' in first_row:
                 logger.error("Remove the first 2 rows of the amazon flatfile")
                 return False
@@ -365,77 +362,48 @@ def checkEncoding(file_dict):
 
     return file_dict
 
-def get_variation_id(exportfile, sku):
+def get_externalid(sku: str, source: pandas.DataFrame) -> str:
+    sku_match = source['amazon_sku'] == sku
+    entry = source[sku_match]
+    if len(entry.index) == 0:
+        return ''
+    if source[sku_match].shape[0] > 1:
+        logger.warning(f"multiple entries: {key} in intern numbers")
+    return source[sku_match]['full_number'].tolist()[0]
+
+
+def fetch_external_identifier_numbers(data: pandas.Series,
+                                      numberlist: dict) -> pandas.Series:
     """
-        Parameter:
-            exportfile [String] => Url of the plentymarkets export
-                                   from the config
-            sku [String] => Sku from the flatfile for matching
+    Open the xlsx file and retrieve the full_number field for every
+    amazon_sku field that matches to a variation within the dataset
 
-        Description:
-            Check if the export has the correct header and retrieve
-            the Variation ID of the matching SKU
+    Parameter:
+        data        [pandas Series] => List of SKUs to find
+        numberlist  [Dictionary]    => dictionary containing path and
+                                    encoding of the intern number list
+                                    with the external id and sku
 
-        Return:
-            [String] => The variation number
-            0 => Failed to retrieve value
-    """
-    exp = pandas.read_csv(exportfile,
-                          sep=';')
-
-    if len(exp.index) == 0:
-        logger.warning("exp is empty, skip variation ID")
-        return 0
-
-    if(len(exp.columns[exp.columns.str.contains(pat='Variation.id')]) == 0 or
-       len(exp.columns[exp.columns.str.contains(pat='Variation.number')]) == 0):
-        logger.warning("Exportfile requires fields 'Variation.id'&'"
-                       "Variation.number'")
-        return 0
-
-    variation = exp[exp['Variation.number'] == sku]
-    if len(variation.index) == 0:
-        logger.warning(f"{sku} not found in Plentymarkets export")
-        return 0
-
-    return variation['Variation.id'].values.max()
-
-def get_externalid(dataset, numberlist):
-    """
-        Parameter:
-            dataset [Ordered Dict] => data set for the item upload
-            numberlist [Dictionary] => dictionary containing path and encoding
-                                       of the intern number list
-                                       with the external id and sku
-
-        Description:
-            Open the xlsx file and retrieve the full_number field for every
-            amazon_sku field that matches to a variation within the dataset
+    Return:
+                    [pandas Series] => List of additional identifier numbers
     """
     if not numberlist:
         logger.warning("No intern number list given, skip external id")
-        return
+        return pandas.Series()
 
     try:
         extern_id = pandas.read_excel(numberlist)
     except Exception as err:
         logger.error(f"Error reading intern number list {err} @ {numberlist}")
-        if os.name == 'nt':
-            print("press ENTER to continue..")
-            input()
         sys.exit(1)
 
     if extern_id.empty:
         logger.warning("Internumber list is empty, skip extern_ids")
+        return pandas.Series()
 
-    for key in dataset.keys():
-        if extern_id[extern_id['amazon_sku'] == key].shape[0] > 1:
-            logger.warning(f"multiple entries: {key} in intern numbers")
-        exid = extern_id[extern_id['amazon_sku'] == key]['full_number']
-        if len(exid.index) == 0:
-            logger.warning(f"{key} was not found in intern number list")
-            continue
-        dataset[key]['ExternalID'] = exid.values.max()
+    extern_numbers = data.apply(
+        lambda x: get_externalid(sku=x, source=extern_id))
+    return extern_numbers
 
 
 def get_standard_category(cat):

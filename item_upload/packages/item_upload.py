@@ -3,6 +3,7 @@ import collections
 import csv
 from decimal import Decimal, InvalidOperation
 import inspect
+import math
 import numpy as np
 import os
 import pandas
@@ -133,6 +134,7 @@ def itemUpload(flatfile, intern, stocklist, input_data, filename):
 
     # Assign prices to the parent rows
     new_index = []
+    position = []
     parent = df[df[RELATION_FIELD] == 'parent']
     for parent_entry in parent.itertuples():
         parent_sku = getattr(parent_entry, SKU_FIELD)
@@ -142,12 +144,15 @@ def itemUpload(flatfile, intern, stocklist, input_data, filename):
         # Adjust the postions
         new_index.append(parent_entry.Index)
         new_index += df[childs].index.tolist()
+        position.append(0)
+        position += [i+1 for i, a in enumerate(df[childs].index.tolist())]
 
     result_df = result_df.reindex(new_index)
     result_df.reset_index(inplace=True, drop=True)
-    result_df['Position'] = result_df.index
+    result_df['Position'] = position
 
     result_df.to_csv(filename, sep=';', index=False)
+    logger.info(f"Upload file successfully created under {filename}.")
 
 
 def itemPropertyUpload(flatfile, folder, filename):
@@ -229,6 +234,8 @@ def getAttributes(parent: str, color: str, size: str, sets: dict) -> str:
         Return:
             output_string
     """
+    if isinstance(parent, float) and math.isnan(parent):
+        return ''
 
     output_string = ''
     try:

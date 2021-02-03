@@ -1,3 +1,4 @@
+import argparse
 import time
 import ntpath
 import re
@@ -45,6 +46,27 @@ if not os.path.exists(CONFIG_PATH):
     open(CONFIG_PATH, 'a').close()
 
 
+def setup_argparser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--name1', '--n1', required=False,
+                        help='ItemTextName field number 1 in Plentymarkets',
+                        dest='name1')
+    parser.add_argument('--name3', '--n3', required=False,
+                        help='ItemTextName field number 3 in Plentymarkets',
+                        dest='name3')
+    parser.add_argument('--Categories', '-c', required=False,
+                        help='Comma-separated list of Plentymarkets category '
+                        'IDs, the first ID is assigned as standard category.',
+                        dest='categories')
+    parser.add_argument('--flatfile', '-f', required=False,
+                        help='Filepath to the Amazon Flatfile.',
+                        dest='flatfile')
+    parser.add_argument('--stockfile', required=False,
+                        help='Filepath to the Amazon stock-report file.',
+                        dest='stockfile')
+    return parser.parse_args()
+
+
 def main():
 
     #define variable used throughout the script
@@ -66,6 +88,8 @@ def main():
 
     config = configparser.ConfigParser()
     config.read(CONFIG_PATH)
+
+    args = setup_argparser()
 
     if not config.sections:
         config = createConfig(name=CONFIG_PATH)
@@ -121,9 +145,12 @@ def main():
             initialdir='.',
             title="Choose a folder from where to upload")
 
-    sheet['path'] = askopenfilename(initialdir=input_folder,
-                            title="Amazon Flatfile as .csv",
-                            filetypes=[ ("csv files", "*.csv") ])
+    if not args.flatfile:
+        sheet['path'] = askopenfilename(initialdir=input_folder,
+                                title="Amazon Flatfile as .csv",
+                                filetypes=[ ("csv files", "*.csv") ])
+    else:
+        sheet['path'] = args.flatfile
 
     sheet = checkEncoding(sheet)
 
@@ -139,59 +166,65 @@ def main():
         input()
         sys.exit()
 
-    cchooser = CategoryChooser(master=None, categories=category_id,
-                               upath=upload_folder, flatfile=sheet,
-                               atrpath=attributefile, atrdate=attribute_date)
-    cchooser.title("Choose the category and name")
-    LOOP_ACTIVE = True
-    while (LOOP_ACTIVE):
-        if(cchooser):
-            cchooser.update()
-            time.sleep(0.1)
-        if(cchooser.data['name'] and cchooser.data['categories']):
-            LOOP_ACTIVE = False
-            cchooser.destroy()
+    if not (args.name1 and args.name3 and args.categories):
+        cchooser = CategoryChooser(master=None, categories=category_id,
+                                   upath=upload_folder, flatfile=sheet,
+                                   atrpath=attributefile,
+                                   atrdate=attribute_date)
+        cchooser.title("Choose the category and name")
+        LOOP_ACTIVE = True
+        while (LOOP_ACTIVE):
+            if(cchooser):
+                cchooser.update()
+                time.sleep(0.1)
+            if(cchooser.data['name'] and cchooser.data['categories']):
+                LOOP_ACTIVE = False
+                cchooser.destroy()
 
-    user_data = cchooser.data
+        user_data = cchooser.data
+
+        if(cchooser.newpath['upload-path'] != '' and
+                cchooser.newpath['upload-path'] != upload_folder):
+            config['PATH']['upload_folder'] = cchooser.newpath['upload-path']
+            upload_folder = cchooser.newpath['upload-path']
+        if(cchooser.newpath['attribute-path'] != '' and
+                cchooser.newpath['attribute-path'] != attributefile['path']):
+            config['PATH']['attribute_file'] =\
+                cchooser.newpath['attribute-path']
+            config['PATH']['file_change_date'] = cchooser.atrdate
+            attributefile['path'] = cchooser.newpath['attribute-path']
+        with open(CONFIG_PATH, 'w') as configfile:
+            config.write(configfile)
+
+    else:
+        user_data = {'name': args.name1, 'categories': args.categories,
+                     'webshopname': args.name3}
     specific_name = re.sub(r'[(){}<>\\/"\'\\ ]', '', user_data['name'])
-
-    if(cchooser.newpath['upload-path'] != '' and
-       cchooser.newpath['upload-path'] != upload_folder):
-        config['PATH']['upload_folder'] = cchooser.newpath['upload-path']
-        upload_folder = cchooser.newpath['upload-path']
-    if(cchooser.newpath['attribute-path'] != '' and
-       cchooser.newpath['attribute-path'] != attributefile['path']):
-        config['PATH']['attribute_file'] = cchooser.newpath['attribute-path']
-        config['PATH']['file_change_date'] = cchooser.atrdate
-        attributefile['path'] = cchooser.newpath['attribute-path']
-    with open(CONFIG_PATH, 'w') as configfile:
-        config.write(configfile)
-
-    import pdb; pdb.set_trace()
 
     if(user_data):
         # Check if there is already a log folder within the upload folder
-        try:
-            stocklist['path'] = askopenfilename(initialdir=input_folder,
-                                    title="The Stockreport from Amazon as .csv",
-                                    filetypes=[ ("csv files", "*.csv") ])
-
-            stocklist = checkEncoding(stocklist)
-        except OSError as fexc:
-            logger.warning("Stock report file not found at {stocklist['path']}")
+        if not args.stockfile:
+            try:
+                stocklist['path'] = askopenfilename(
+                    initialdir=input_folder,
+                    title="The Stockreport from Amazon as .csv",
+                    filetypes=[ ("csv files", "*.csv") ])
+            except OSError as fexc:
+                logger.warning("Stock report file not found at {stocklist['path']}")
+        else:
+            stocklist['path'] = args.stockfile
+        stocklist = checkEncoding(stocklist)
 
         try:
             logger.info("\nItem Upload\n")
             itemUpload(flatfile=sheet,
                        intern=internnumber,
                        stocklist=stocklist,
-                       folder=upload_folder,
                        input_data=user_data,
-                       filename=specific_name)
+                       filename=os.path.join(upload_folder,
+                                             str(f"item_{specific_name}.csv")))
         except WrongEncodingException:
             logger.warning("Invalid encoding in Flatfile {sheet}")
-        except OSError as fexc:
-            logger.warning("Flatfile not found at {sheet}")
 
         logger.info("Feature Upload")
         featureUpload(flatfile=sheet,

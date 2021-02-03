@@ -29,62 +29,6 @@ def amazonSkuUpload(flatfile):
     return Data
 
 
-def get_producttype_id(source, sku):
-    """
-        Parameter:
-            source [Dictionary] => dictionary of the flatfile
-                                   with path and encoding
-            sku [String]    =>     String of the product sku
-
-        Description:
-            Search for a matching term in mapping list of valid
-            amazon producttype names and their ID.
-
-        Return:
-            [Integer]
-            value from type_id on success
-            0 on failure
-    """
-    type_id = {
-        'accessory': 28,
-        'shirt': 13,
-        'pants': 15,
-        'dress': 18,
-        'outerwear': 21,
-        'bag': 27,
-        'furnitureanddecor': 4,
-        'bedandbath': 3,
-        'skirt': 123,
-        'swimwear': 30
-    }
-
-    df = pandas.read_csv(source['path'],
-                         sep=';',
-                         encoding=source['encoding'],
-                         dtype={'item_sku':str, 'parent_sku':str})
-
-    sku_df = df[df['item_sku'] == sku]
-    if len(sku_df.index) == 0:
-        logger.warning(f"{sku} not found in flatfile")
-        return 0
-
-    if sku_df.filter(like='product_type', axis=1).empty:
-        logger.warning("wrong header: ..{0} requires a product_type column"
-                       .format(source['path'][-21:]))
-        return 0
-
-    value = sku_df.filter(like='product_type', axis=1)\
-        .to_string(na_rep='', index=False, header=False)\
-        .lower().strip(' ')
-
-    if not value:
-        return 0
-
-    if value in type_id.keys():
-        return type_id[value]
-    else:
-        return 0
-
 def featureUpload(flatfile, features, folder, filename):
 
     column_names = [

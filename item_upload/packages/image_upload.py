@@ -1,5 +1,6 @@
 import csv
 import re
+import pandas
 import sys
 import inspect
 from item_upload.packages import item_upload, barcode
@@ -8,6 +9,43 @@ from loguru import logger
 
 def searchSpecialImage(image):
     return bool(re.search(r'( SWATCH|SIZE )', image))
+
+
+def get_variation_id(exportfile, sku):
+    """
+        Parameter:
+            exportfile [String] => Url of the plentymarkets export
+                                   from the config
+            sku [String] => Sku from the flatfile for matching
+
+        Description:
+            Check if the export has the correct header and retrieve
+            the Variation ID of the matching SKU
+
+        Return:
+            [String] => The variation number
+            0 => Failed to retrieve value
+    """
+    exp = pandas.read_csv(exportfile,
+                          sep=';')
+
+    if len(exp.index) == 0:
+        logger.warning("exp is empty, skip variation ID")
+        return 0
+
+    if(len(exp.columns[exp.columns.str.contains(pat='Variation.id')]) == 0 or
+       len(exp.columns[exp.columns.str.contains(pat='Variation.number')]) == 0):
+        logger.warning("Exportfile requires fields 'Variation.id'&'"
+                       "Variation.number'")
+        return 0
+
+    variation = exp[exp['Variation.number'] == sku]
+    if len(variation.index) == 0:
+        logger.warning(f"{sku} not found in Plentymarkets export")
+        return 0
+
+    return variation['Variation.id'].values.max()
+
 
 def getColorAttributeID(attributefile, product):
 
@@ -55,7 +93,7 @@ def imageUpload(flatfile, attributefile, exportfile, uploadfolder, filename):
             ]
 
             num = 1
-            variation_id = item_upload.get_variation_id(
+            variation_id = get_variation_id(
                 exportfile=exportfile, sku=row['item_sku'])
             try:
                 if not imglinks[0]:

@@ -8,12 +8,11 @@ main.py
 config.txt
 clean_upload.sh
 build_new_version.sh
-/__pycache__
-/packages/__pycache__/
-/packages/gui/__pycache__/
 Windows_build.txt
 debug-checklist.txt
 category
 config.ini
-/packages/gui/__pycache__/
 /tests/__pycache__/
+/dist
+/item_upload/__pycache__/
+/item_upload/packages/__pycache__/

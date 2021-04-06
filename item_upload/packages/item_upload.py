@@ -131,7 +131,6 @@ def itemUpload(flatfile, intern, stocklist, input_data, filename):
     result_df['marketid'] = MARKET_ID
     result_df['accountid'] = ACCOUNT_ID
 
-
     # Assign prices to the parent rows
     new_index = []
     position = []

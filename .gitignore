@@ -16,3 +16,7 @@ config.ini
 /dist
 /item_upload/__pycache__/
 /item_upload/packages/__pycache__/
+
+#custom
+config.ini
+.ignore

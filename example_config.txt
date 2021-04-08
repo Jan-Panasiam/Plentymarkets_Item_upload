@@ -1,4 +1,0 @@
-upload_folder=C:/Users/bkkas/Dropbox/Scripts/Item_Upload/Upload
-data_folder=C:/Users/bkkas/Dropbox/Scripts/Item_Upload/Input_files
-attribute_file=C:/Users/bkkas/Dropbox/Scripts/Item_Upload/Input_files/attribute-270619.csv
-file_change_date=

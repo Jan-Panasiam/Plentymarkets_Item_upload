@@ -8,6 +8,7 @@ import numpy as np
 import os
 import pandas
 import sys
+from tkinter import messagebox
 
 from loguru import logger
 from item_upload.packages import barcode, amazon, price
@@ -150,7 +151,7 @@ def itemUpload(flatfile, intern, stocklist, input_data, filename):
     result_df.reset_index(inplace=True, drop=True)
     result_df['Position'] = position
 
-    result_df.to_csv(filename, sep=';', index=False)
+    write_csv_with_permission_check(result_df, filename)
     logger.info(f"Upload file successfully created under {filename}.")
 
 
@@ -367,6 +368,31 @@ def checkEncoding(file_dict):
         file_dict['encoding'] = chardet.detect(raw_data)['encoding']
 
     return file_dict
+
+
+def write_csv_with_permission_check(dataframe, filepath) -> None:
+    """
+    This file is trying to solve a PermissionError on Windows while accessing
+    open files. To not run into this problem, we check if there is any process
+    accessing the file, if there is we give the user an error message, asking
+    him the to close the process. Then the function starts checking again if
+    there is still another process accessing the file
+
+    Parameters:
+        dataframe           [dataframe]     -   the dataframe we got from
+                                                pandas to edit a file
+        filepath            [string]        -   destination path of the file
+                                                to be created
+    """
+    while(1):
+        try:
+            dataframe.to_csv(filepath, sep=';', index=False)
+            break
+        except PermissionError:
+            messagebox.showerror('File is still open',
+                                 str(f"Please close the file {filepath} "
+                                     "before continuing!"))
+            continue
 
 def get_externalid(sku: str, source: pandas.DataFrame) -> str:
     sku_match = source['amazon_sku'] == sku

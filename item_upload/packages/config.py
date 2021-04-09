@@ -13,7 +13,7 @@ import configparser
 
 from loguru import logger
 
-def assignFeatures(config):
+def assign_features(config):
     """
         Parameter:
             config => configparser config object from config.ini
@@ -39,7 +39,7 @@ def assignFeatures(config):
 
     return features
 
-def assignCategory(config):
+def assign_category(config):
     """
         Parameter:
             config => configparser config object from config.ini
@@ -64,7 +64,7 @@ def assignCategory(config):
 
     return category
 
-def createConfig(path: str):
+def create_config(path: str):
     """
         Parameter:
             path            [str]       -       Path to the config file

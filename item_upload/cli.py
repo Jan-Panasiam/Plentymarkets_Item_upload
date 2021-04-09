@@ -22,7 +22,7 @@ from item_upload.packages.amazon import featureUpload
 from item_upload.packages.gui.category_chooser import CategoryChooser
 from item_upload.packages.image_upload import imageUpload
 from item_upload.packages.config import (
-    assignFeatures, assignCategory, createConfig
+    assign_features, assign_category, create_config
 )
 
 
@@ -92,7 +92,7 @@ def main():
     args = setup_argparser()
 
     if not config.sections:
-        config = createConfig(name=CONFIG_PATH)
+        config = create_config(name=CONFIG_PATH)
 
     upload_folder = config['PATH']['upload_folder']
     input_folder = config['PATH']['data_folder']
@@ -133,10 +133,10 @@ def main():
     if not attributefile['encoding']:
         attributefile = check_encoding(attributefile)
 
-    features = assignFeatures(config=config)
+    features = assign_features(config=config)
     if not features:
         exit(1)
-    category_id = assignCategory(config=config)
+    category_id = assign_category(config=config)
     if not category_id:
         exit(1)
 

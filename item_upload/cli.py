@@ -15,8 +15,8 @@ import configparser
 from loguru import logger
 
 from item_upload.packages.item_upload import (
-    itemUpload, WrongEncodingException, checkEncoding,
-    checkFlatfile, itemPropertyUpload)
+    item_upload, WrongEncodingException, check_encoding,
+    check_flatfile, item_property_upload)
 from item_upload.packages.barcode import EmptyFieldWarning
 from item_upload.packages.amazon import featureUpload
 from item_upload.packages.gui.category_chooser import CategoryChooser
@@ -111,7 +111,7 @@ def main():
         attributefile['path'] = askopenfilename(initialdir=input_folder,
                                                 title="Color Attributes from PlentyMarkets",
                                                 filetypes=[ ("csv files", "*.csv") ])
-        attributefile = checkEncoding(attributefile)
+        attributefile = check_encoding(attributefile)
         config['PATH']['attribute_file'] = attributefile['path']
         config['PATH']['file_change_date'] =\
             datetime.datetime.now().strftime('%d.%m.%Y-%H:%M')
@@ -131,7 +131,7 @@ def main():
             config.write(configfile)
 
     if not attributefile['encoding']:
-        attributefile = checkEncoding(attributefile)
+        attributefile = check_encoding(attributefile)
 
     features = assignFeatures(config=config)
     if not features:
@@ -152,10 +152,10 @@ def main():
     else:
         sheet['path'] = args.flatfile
 
-    sheet = checkEncoding(sheet)
+    sheet = check_encoding(sheet)
 
     try:
-        if(not( checkFlatfile(sheet) )):
+        if(not( check_flatfile(sheet) )):
             logger.error('Please fix the flatfile and try again.')
             logger.info('Press Enter to continue...')
             input()
@@ -213,16 +213,16 @@ def main():
                 logger.warning("Stock report file not found at {stocklist['path']}")
         else:
             stocklist['path'] = args.stockfile
-        stocklist = checkEncoding(stocklist)
+        stocklist = check_encoding(stocklist)
 
         try:
             logger.info("\nItem Upload\n")
-            itemUpload(flatfile=sheet,
-                       intern=internnumber,
-                       stocklist=stocklist,
-                       input_data=user_data,
-                       filename=os.path.join(upload_folder,
-                                             str(f"item_{specific_name}.csv")))
+            item_upload(flatfile=sheet,
+                        intern=internnumber,
+                        stocklist=stocklist,
+                        input_data=user_data,
+                        filename=os.path.join(upload_folder,
+                                              str(f"item_{specific_name}.csv")))
         except WrongEncodingException:
             logger.warning("Invalid encoding in Flatfile {sheet}")
 
@@ -232,9 +232,9 @@ def main():
                       folder=upload_folder,
                       filename=specific_name)
         logger.info("Property Upload")
-        itemPropertyUpload(flatfile=sheet,
-                           folder=upload_folder,
-                           filename=specific_name)
+        item_property_upload(flatfile=sheet,
+                             folder=upload_folder,
+                             filename=specific_name)
 
         logger.info('press ENTER,after the upload was successful')
         input()

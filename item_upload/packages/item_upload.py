@@ -44,7 +44,7 @@ class WrongEncodingException(Exception):
     pass
 
 
-def itemUpload(flatfile, intern, stocklist, input_data, filename):
+def item_upload(flatfile, intern, stocklist, input_data, filename):
     column_names = [
         'Parent-SKU', 'SKU',
         'is_parent',
@@ -72,10 +72,10 @@ def itemUpload(flatfile, intern, stocklist, input_data, filename):
     item_price = 0
     is_parent = False
 
-    color_size_sets = findSimilarAttr(flatfile, [SIZE_FIELD])
+    color_size_sets = find_similar_attr(flatfile, [SIZE_FIELD])
     standard_cat = get_standard_category(cat=input_data['categories'])
 
-    df = pandas.read_csv(flatfile['path'], encoding=flatfile['encoding'],
+            logger.error(f"Wrong value(flatfile['path'], encoding=flatfile['encoding'],
                          sep=';', dtype=str, na_values='')
     stock = pandas.read_csv(stocklist['path'],
                                 encoding=stocklist['encoding'],
@@ -102,7 +102,7 @@ def itemUpload(flatfile, intern, stocklist, input_data, filename):
 
 
     result_df['Attributes'] = df.apply(
-        lambda x: getAttributes(parent=x[PSKU_FIELD], color=x[COLOR_FIELD],
+        lambda x: get_attributes(parent=x[PSKU_FIELD], color=x[COLOR_FIELD],
                                 size=x[SIZE_FIELD], sets=color_size_sets),
         axis=1)
 
@@ -155,7 +155,7 @@ def itemUpload(flatfile, intern, stocklist, input_data, filename):
     logger.info(f"Upload file successfully created under {filename}.")
 
 
-def itemPropertyUpload(flatfile, folder, filename):
+def item_property_upload(flatfile, folder, filename):
 
     with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';', lineterminator='\n')
@@ -219,12 +219,12 @@ def itemPropertyUpload(flatfile, folder, filename):
     barcode.writeCSV(data, "Item_Merkmale", column_names, folder, filename)
 
 
-def getAttributes(parent: str, color: str, size: str, sets: dict) -> str:
+def get_attributes(parent: str, color: str, size: str, sets: dict) -> str:
     """
         Parameter:
             dataset [Dictionary] => row of the flatfile as dictionary
             sets [Dictionary] => attribute sets mapped to parent sku's by
-                                 "findSimilarAttr()"
+                                 "find_similar_attr()"
 
         Description:
             Build the attribute string of the color and size
@@ -309,7 +309,7 @@ def get_fnsku(sku: str, source: pandas.DataFrame) -> str:
     return entry[STOCK_FNSKU].tolist()[0]
 
 
-def findSimilarAttr(flatfile, attribute):
+def find_similar_attr(flatfile, attribute):
     """
         Parameter:
             flatfile [Dictionary] => Dictionary with a path and a
@@ -341,7 +341,7 @@ def findSimilarAttr(flatfile, attribute):
                     data[p_sku][attr].add(row[attr])
     return data
 
-def checkFlatfile(flatfile):
+def check_flatfile(flatfile):
     with open(flatfile['path'], mode='r', encoding=flatfile['encoding']) as item:
         reader = csv.DictReader(item, delimiter=';')
 
@@ -358,7 +358,7 @@ def checkFlatfile(flatfile):
             return False
         return True
 
-def checkEncoding(file_dict):
+def check_encoding(file_dict):
     with open(file_dict['path'], mode='rb') as item:
         try:
             raw_data = item.read()

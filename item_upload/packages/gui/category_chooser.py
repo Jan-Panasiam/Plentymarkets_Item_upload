@@ -406,11 +406,11 @@ class CategoryChooser(tkinter.Tk):
                 tkinter.filedialog.askopenfilename(title=title)
             self.atrdate = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M")
             new_attr={'path':self.newpath['attribute-path'], 'encoding':''}
-            new_attr = item_upload.checkEncoding(new_attr)
+            new_attr = item_upload.check_encoding(new_attr)
             self.checkColors(self.flatfile, new_attr)
 
     def checkColors(self, flatfile, attributefile):
-        attributefile = item_upload.checkEncoding(attributefile)
+        attributefile = item_upload.check_encoding(attributefile)
         self.missingcolors = clr.missing_color(flatfile, attributefile)
 
         colorlist = []

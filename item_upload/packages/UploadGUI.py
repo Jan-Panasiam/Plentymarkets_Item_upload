@@ -4,7 +4,7 @@ import re
 from os.path import isfile
 
 
-class ItemUpload():
+class item_upload():
     def helloWorld(name="Greg"):
         print("Hello ", name)
 

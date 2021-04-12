@@ -45,7 +45,7 @@ Make sure to prepare your PlentyMarkets Account you need the following list of d
             ItemMarking2: IMPORT 									[26]
 		}
 	- Variation Upload:
-	Erstellung der Variationen, diese werden dem im Itemupload hochgeladenen parent zugewiesen.
+	Erstellung der Variationen, diese werden dem im item_upload hochgeladenen parent zugewiesen.
 		{
 			[Typ: Variation]
 		 	ItemID: IMPORT
